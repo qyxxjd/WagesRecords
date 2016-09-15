@@ -10,7 +10,7 @@ ext {
             compileSdkVersion: 24,
             buildToolsVersion: "24.0.2",
             applicationId    : "cn.qy.util.activity",
-            minSdkVersion    : 14,
+            minSdkVersion    : 16,
             targetSdkVersion : 24,
             versionCode      : 20,
             versionName      : "4.2.0"
@@ -63,6 +63,8 @@ ext {
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
     materialSpinner = "com.jaredrummler:material-spinner:1.1.0"
     fab = "com.melnykov:floatingactionbutton:1.3.0"
+    //日期选择控件
+    pickerView = "com.bigkoo:pickerview:2.1.1"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
     pgyer = "com.pgyersdk:sdk:2.4.2"
