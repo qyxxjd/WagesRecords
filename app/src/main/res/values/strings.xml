@@ -1,4 +1,41 @@
 <resources>
-    <string name="app_name">WagesRecords</string>
+    <string name="app_name">记工资pro</string>
     <string name="action_settings">Settings</string>
+
+    <string name="add">添加</string>
+    <string name="update">更新</string>
+    <string name="update.dialog.title">版本更新</string>
+    <string name="no.update">当前已是最新版本</string>
+    <string name="modify">修改</string>
+    <string name="delete">删除</string>
+    <string name="delete.success">删除成功</string>
+    <string name="delete.fail">删除失败</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+
+    <string name="network.error">网络异常,请检查网络连接</string>
+
+    <string name="about.update">检查更新</string>
+    <string name="about.feedback">问题反馈</string>
+    <string name="about.author">联系作者</string>
+    <string name="about.share">应用分享</string>
+    <string name="about.thanks">感恩鸣谢</string>
+
+    <string name="thanks.detail">
+        感谢以下开源库和作者，排名不分先后：\n
+        RxJava \n
+        RxAndroid \n
+        Sqlbrite \n
+        Dagger2 \n
+        BottomBar \n
+        LeakCanary \n
+        BlockCanary \n
+        Butterknife \n
+        CircleImageView \n
+        MaterialDialog \n
+        MaterialSpinner \n
+        MaterialEditText \n
+        FloatingActionButton \n
+    </string>
+
 </resources>
