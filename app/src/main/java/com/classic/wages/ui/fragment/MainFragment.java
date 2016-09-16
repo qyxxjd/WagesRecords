@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
-import butterknife.OnClick;
 import cn.qy.util.activity.R;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.wages.app.AppBaseFragment;
-import com.melnykov.fab.FloatingActionButton;
 
 /**
  *
@@ -23,7 +21,6 @@ public class MainFragment extends AppBaseFragment implements
         CommonRecyclerAdapter.OnItemLongClickListener {
 
     @BindView(R.id.main_recycler_view) RecyclerView         mRecyclerView;
-    @BindView(R.id.main_fab)           FloatingActionButton mFab;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -37,9 +34,6 @@ public class MainFragment extends AppBaseFragment implements
     public void initView(View parentView, Bundle savedInstanceState) {
         //((CarApplication) activity.getApplicationContext()).getAppComponent().inject(this);
         super.initView(parentView, savedInstanceState);
-    }
-
-    @OnClick(R.id.main_fab) public void onFabClick() {
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
@@ -61,5 +55,9 @@ public class MainFragment extends AppBaseFragment implements
         //                                        }
         //                                    })
         //                                    .show();
+    }
+
+    @Override public void onCalculationRulesChange(int rules) {
+
     }
 }

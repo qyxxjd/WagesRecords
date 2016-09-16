@@ -6,12 +6,20 @@
     android:layout_height="match_parent"
     >
 
-  <ImageView
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/list_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+  <com.melnykov.fab.FloatingActionButton
+      android:id="@+id/list_fab"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:scaleType="center"
-      android:src="@drawable/ic_qq_qrcode"
-      android:layout_gravity="bottom|right"
-      android:layout_margin="@dimen/activity_horizontal_margin"
+      android:layout_gravity="bottom|end"
+      android:layout_marginBottom="72dp"
+      android:layout_marginRight="@dimen/fab_margin"
+      android:src="@drawable/ic_add"
+      app:fab_colorNormal="@color/colorAccent"
       />
 </FrameLayout>

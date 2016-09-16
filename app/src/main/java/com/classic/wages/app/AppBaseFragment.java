@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import butterknife.ButterKnife;
 import com.classic.core.fragment.BaseFragment;
+import com.classic.wages.ui.interfaces.ICalculationRules;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-public abstract class AppBaseFragment extends BaseFragment {
+public abstract class AppBaseFragment extends BaseFragment implements ICalculationRules {
     protected Context               mAppContext;
     private   CompositeSubscription mCompositeSubscription;
 
@@ -30,4 +31,6 @@ public abstract class AppBaseFragment extends BaseFragment {
         }
         mCompositeSubscription.add(subscription);
     }
+
+    @Override public void onCalculationRulesChange(int rules) { }
 }

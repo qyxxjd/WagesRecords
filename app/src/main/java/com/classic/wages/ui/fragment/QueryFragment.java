@@ -20,4 +20,8 @@ public class QueryFragment extends AppBaseFragment {
     @Override public int getLayoutResId() {
         return R.layout.fragment_query;
     }
+
+    @Override public void onCalculationRulesChange(int rules) {
+
+    }
 }

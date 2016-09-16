@@ -20,4 +20,5 @@ public class SettingFragment extends AppBaseFragment {
     @Override public int getLayoutResId() {
         return R.layout.fragment_setting;
     }
+
 }

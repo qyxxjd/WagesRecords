@@ -20,4 +20,8 @@ public class ListFragment extends AppBaseFragment {
     @Override public int getLayoutResId() {
         return R.layout.fragment_list;
     }
+
+    @Override public void onCalculationRulesChange(int rules) {
+
+    }
 }
