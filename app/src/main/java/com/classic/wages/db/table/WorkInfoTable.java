@@ -1,39 +1,54 @@
 package com.classic.wages.db.table;
 
+import java.util.ArrayList;
+
 /**
  * @author 续写经典
  * @date 2013/11/26
  */
-public class WorkInfoTable {
-    public static final String TABLENAME           = "t_workinfo";
-    public static final String COLUMN_ID           = "id";
-    public static final String COLUMN_STARTINGTIME = "startingTime";
-    public static final String COLUMN_ENDTIME      = "endTime";
-    public static final String COLUMN_CREATETIME   = "createTime";
-    public static final String COLUMN_WEEK         = "week";
-    public static final String COLUMN_MULTIPLE     = "multiple";
-    public static final String COLUMN_FORMATTIME   = "formatTime";
+public class WorkInfoTable implements IBasicColumn {
+    public static final String TABLE_NAME           = "t_workinfo";
+    public static final String COLUMN_STARTING_TIME = "startingTime";
+    public static final String COLUMN_END_TIME      = "endTime";
+    public static final String COLUMN_FORMAT_TIME   = "formatTime";
 
-    public static String getTableSql() {
+    public static String createTableSql() {
         final StringBuilder sb = new StringBuilder("create table if not exists ");
-        sb.append(TABLENAME)
+        sb.append(TABLE_NAME)
           .append(" ( ")
           .append(COLUMN_ID)
           .append(" integer Primary Key AUTOINCREMENT, ")
-          .append(COLUMN_STARTINGTIME)
+          .append(COLUMN_STARTING_TIME)
           .append(" integer not null, ")
-          .append(COLUMN_ENDTIME)
+          .append(COLUMN_END_TIME)
           .append(" integer not null, ")
-          .append(COLUMN_CREATETIME)
+          .append(COLUMN_FORMAT_TIME)
+          .append(" datetime, ")
+          .append(COLUMN_CREATE_TIME)
           .append(" integer not null, ")
           .append(COLUMN_WEEK)
           .append(" integer, ")
           .append(COLUMN_MULTIPLE)
           .append(" float, ")
-          .append(COLUMN_FORMATTIME)
-          .append(" datetime ")
+          .append(COLUMN_SUBSIDY)
+          .append(" float, ")
+          .append(COLUMN_BONUS)
+          .append(" float, ")
+          .append(COLUMN_DEDUCTIONS)
+          .append(" float, ")
+          .append(COLUMN_REMARK)
+          .append(" text ")
           .append(")");
 
         return sb.toString();
+    }
+
+    public static ArrayList<String> getUpdateSql3(){
+        ArrayList<String> sqlArray = new ArrayList<>();
+        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_SUBSIDY+" float");
+        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_BONUS+" float");
+        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_DEDUCTIONS+" float");
+        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_REMARK+" text");
+        return sqlArray;
     }
 }

@@ -1,8 +1,6 @@
 package com.classic.wages.entity;
 
-import com.classic.core.utils.DateUtil;
 import com.classic.wages.utils.Util;
-import java.io.Serializable;
 
 /**
  * 工作信息
@@ -10,33 +8,11 @@ import java.io.Serializable;
  * @author 续写经典
  * @date 2013/11/26
  */
-public class WorkInfo implements Serializable {
+public class WorkInfo extends BasicInfo {
 
-    private long   id;
     private long   startingTime;
     private long   endTime;
-    private long   createTime;
-    private int    week;
-    private float  multiple;
-    private String formatTime;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    /** 创建时间 */
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    /** 创建时间 */
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
+    private String formatTime; //用于sql日期函数查询
 
     /** 工作结束时间 */
     public long getEndTime() {
@@ -48,16 +24,6 @@ public class WorkInfo implements Serializable {
         this.endTime = endTime;
     }
 
-    /** 多倍工资(如：节假日双倍、三倍) */
-    public float getMultiple() {
-        return multiple;
-    }
-
-    /** 多倍工资(如：节假日双倍、三倍) */
-    public void setMultiple(float multiple) {
-        this.multiple = multiple;
-    }
-
     /** 工作开始时间 */
     public long getStartingTime() {
         return startingTime;
@@ -66,16 +32,6 @@ public class WorkInfo implements Serializable {
     /** 工作开始时间 */
     public void setStartingTime(long startingTime) {
         this.startingTime = startingTime;
-    }
-
-    /** 周几 */
-    public int getWeek() {
-        return week;
-    }
-
-    /** 周几 */
-    public void setWeek(int week) {
-        this.week = week;
     }
 
     public String getFormatTime() {
@@ -89,29 +45,29 @@ public class WorkInfo implements Serializable {
     public WorkInfo() {}
 
     public WorkInfo(long startingTime, long endTime) {
-        this.startingTime = startingTime;
-        this.endTime = endTime;
-        this.createTime = System.currentTimeMillis();
-        this.week = Util.getDayOfWeek(startingTime);
-        this.formatTime = DateUtil.formatDate(DateUtil.FORMAT, startingTime);
+        this(startingTime, endTime, 0F);
     }
 
     public WorkInfo(long startingTime, long endTime, float multiple) {
         this.startingTime = startingTime;
         this.endTime = endTime;
-        this.multiple = multiple;
-        this.createTime = System.currentTimeMillis();
-        this.week = Util.getDayOfWeek(startingTime);
-        this.formatTime = DateUtil.formatDate(DateUtil.FORMAT, startingTime);
+        setCreateTime(System.currentTimeMillis());
+        setWeek(Util.getDayOfWeek(startingTime));
+        setMultiple(multiple);
     }
 
-    public WorkInfo(long id, long startingTime, long endTime, long createTime, int week, float multiple, String formatTime) {
-        this.id = id;
+    public WorkInfo(long id, long startingTime, long endTime, long createTime, int week, float multiple,
+                    String formatTime, float subsidy, float bonus, float deductions, String remark) {
         this.startingTime = startingTime;
         this.endTime = endTime;
-        this.createTime = createTime;
-        this.week = week;
-        this.multiple = multiple;
         this.formatTime = formatTime;
+        setId(id);
+        setCreateTime(createTime);
+        setWeek(week);
+        setMultiple(multiple);
+        setSubsidy(subsidy);
+        setBonus(bonus);
+        setDeductions(deductions);
+        setRemark(remark);
     }
 }

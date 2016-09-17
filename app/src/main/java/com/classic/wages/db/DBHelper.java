@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.classic.wages.db.table.WorkInfoTable;
+import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME    = "RecordsWages.db";
@@ -14,7 +15,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     @Override public void onCreate(SQLiteDatabase db) {
-        db.execSQL(WorkInfoTable.getTableSql());
+        db.execSQL(WorkInfoTable.createTableSql());
     }
 
     @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -34,8 +35,13 @@ public class DbHelper extends SQLiteOpenHelper {
         db.setVersion(newVersion);
     }
 
-    //添加按月计算/计件
     private void update3(SQLiteDatabase db) {
+        ArrayList<String> sqlArray = WorkInfoTable.getUpdateSql3();
+        for (String sql:sqlArray){
+            db.execSQL(sql);
+        }
+        sqlArray.clear();
+
         //db.execSQL(MonthlyInfoTable.getTableSql());
         //db.execSQL(QuantityInfoTable.getTableSql());
     }
