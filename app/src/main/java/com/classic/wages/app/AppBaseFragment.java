@@ -16,7 +16,7 @@ public abstract class AppBaseFragment extends BaseFragment implements ICalculati
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
         ButterKnife.bind(this, parentView);
-        mAppContext = activity.getApplicationContext();
+        mAppContext = mActivity.getApplicationContext();
     }
 
     @Override public void unRegister() {

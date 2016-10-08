@@ -1,11 +1,15 @@
 package com.classic.wages.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.core.utils.NetworkUtil;
 import com.classic.core.utils.ToastUtil;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyFeedback;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -51,5 +55,20 @@ public final class PgyerUtil {
                 }
             }
         });
+    }
+
+    public static void register(Context context){
+        PgyCrashManager.register(context);
+    }
+
+    public static void destroy(){
+        try{
+            PgyUpdateManager.unregister();
+            PgyCrashManager.unregister();
+            PgyFeedbackShakeManager.unregister();
+            PgyFeedback.getInstance().destroy();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

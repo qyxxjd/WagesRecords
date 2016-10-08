@@ -34,7 +34,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
-//    compile rootProject.ext.supportDesign
     compile rootProject.ext.supportRecyclerView
 
     compile rootProject.ext.basicProject
@@ -57,6 +56,8 @@ dependencies {
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer
 
-    compile rootProject.ext.leakCanaryDebug
-    compile rootProject.ext.blockCanary
+    debugCompile rootProject.ext.leakCanaryDebug
+    debugCompile rootProject.ext.blockCanaryDebug
+    releaseCompile rootProject.ext.leakCanaryRelease
+    releaseCompile rootProject.ext.blockCanaryRelease
 }

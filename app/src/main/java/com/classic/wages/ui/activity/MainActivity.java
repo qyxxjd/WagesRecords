@@ -12,7 +12,6 @@ import com.classic.wages.ui.fragment.MainFragment;
 import com.classic.wages.ui.fragment.QueryFragment;
 import com.classic.wages.ui.fragment.SettingFragment;
 import com.classic.wages.utils.PgyerUtil;
-import com.pgyersdk.crash.PgyCrashManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -34,11 +33,11 @@ public class MainActivity extends AppBaseActivity {
     @Override public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setTitle(R.string.app_name);
-        mDoubleClickExitHelper = new DoubleClickExitHelper(activity);
+        mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
 
         initBottomBar();
-        PgyCrashManager.register(getApplicationContext());
-        PgyerUtil.checkUpdate(activity, false);
+        PgyerUtil.register(mAppContext);
+        PgyerUtil.checkUpdate(mActivity, false);
     }
 
     //private void init(){
@@ -86,7 +85,7 @@ public class MainActivity extends AppBaseActivity {
 
     @Override public void unRegister() {
         super.unRegister();
-        PgyCrashManager.unregister();
+        PgyerUtil.destroy();
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
