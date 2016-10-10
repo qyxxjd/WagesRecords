@@ -22,12 +22,19 @@
         <activity
             android:name="com.classic.wages.ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <layout
+                android:gravity="top|end"
+                android:defaultHeight="@dimen/multi_window_height"
+                android:defaultWidth="@dimen/multi_window_width"
+                android:minWidth="@dimen/multi_window_min_width"
+                android:minHeight="@dimen/multi_window_min_height" />
         </activity>
 
 

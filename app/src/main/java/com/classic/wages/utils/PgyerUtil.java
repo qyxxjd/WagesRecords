@@ -2,6 +2,7 @@ package com.classic.wages.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -13,8 +14,13 @@ import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
+import com.pgyersdk.views.PgyerDialog;
+import java.lang.ref.WeakReference;
+
 
 /**
+ * 应用名称: CarAssistant
+ * 包 名 称: com.classic.car.utils
  *
  * 文件描述：版本更新
  * 创 建 人：续写经典
@@ -23,38 +29,57 @@ import com.pgyersdk.update.UpdateManagerListener;
 public final class PgyerUtil {
 
     public static void checkUpdate(final Activity activity, final boolean showHint){
-        if(!NetworkUtil.isNetworkAvailable(activity)){
+        if(!NetworkUtil.isNetworkAvailable(activity.getApplicationContext())){
             if(showHint){
-                ToastUtil.showToast(activity, R.string.network_error);
+                ToastUtil.showToast(activity.getApplicationContext(), R.string.network_error);
             }
             return;
         }
-
+        final WeakReference<Activity> reference = new WeakReference<>(activity);
         PgyUpdateManager.register(activity, new UpdateManagerListener() {
             @Override public void onUpdateAvailable(final String result) {
+                final Activity act = reference.get();
+                if(null == act) { return; }
                 final AppBean appBean = getAppBeanFromString(result);
 
-                new MaterialDialog.Builder(activity)
+                new MaterialDialog.Builder(act)
                         .title(R.string.update_dialog_title)
                         .titleColorRes(R.color.primary_text)
-                        .backgroundColorRes(android.R.color.white)
+                        .backgroundColorRes(R.color.white)
                         .content(appBean.getReleaseNote())
                         .contentColorRes(R.color.primary_light)
                         .positiveText(R.string.update)
                         .negativeText(R.string.cancel)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override public void onClick(MaterialDialog dialog, DialogAction which) {
-                                startDownloadTask(activity, appBean.getDownloadURL());
+                                startDownloadTask(act, appBean.getDownloadURL());
                             }
                         }).show();
             }
 
             @Override public void onNoUpdateAvailable() {
-                if (showHint) {
-                    ToastUtil.showToast(activity, R.string.no_update);
+                final Activity act = reference.get();
+                if (null != act && showHint) {
+                    ToastUtil.showToast(act.getApplicationContext(), R.string.no_update);
                 }
             }
         });
+    }
+
+    public static void setDialogStyle(@NonNull String backgroundColor, @NonNull String textColor){
+        PgyerDialog.setDialogTitleBackgroundColor(backgroundColor);
+        PgyerDialog.setDialogTitleTextColor(textColor);
+    }
+
+    public static void feedback(Activity activity){
+        WeakReference<Activity> reference = new WeakReference<>(activity);
+        Activity act = reference.get();
+        if(null == act) { return; }
+        try {
+            PgyFeedback.getInstance().showDialog(act);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void register(Context context){
