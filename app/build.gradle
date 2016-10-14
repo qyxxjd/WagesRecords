@@ -42,7 +42,7 @@ dependencies {
     compile rootProject.ext.materialSpinner
     compile rootProject.ext.fab
     compile rootProject.ext.pickerView
-    compile rootProject.ext.bottomBar
+    compile rootProject.ext.navigationTabBar
 
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid

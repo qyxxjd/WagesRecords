@@ -21,12 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.roughike.bottombar.BottomBar
-        android:id="@+id/main_bottombar"
+    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
+        android:id="@+id/main_ntb"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottombar_height"
         android:layout_gravity="bottom"
-        app:bb_tabXmlResource="@xml/bottombar_tabs"
-        app:bb_behavior="shifting" />
+        app:ntb_animation_duration="400"
+        app:ntb_titled="true"
+        app:ntb_title_mode="active"
+        app:ntb_bg_color="@color/colorPrimary"
+        app:ntb_title_size="@dimen/font_small"/>
 
 </android.support.design.widget.CoordinatorLayout>

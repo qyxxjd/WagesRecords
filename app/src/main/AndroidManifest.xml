@@ -15,7 +15,7 @@
 
     <application
         android:name="com.classic.wages.app.WagesApplication"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_wages"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/WagesTheme">
