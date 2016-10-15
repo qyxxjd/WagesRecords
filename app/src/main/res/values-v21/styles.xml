@@ -7,7 +7,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <!--<style name="WagesTheme" parent="AppTheme">
+    <!--<style name="AppTheme">
         <item name="android:navigationBarColor">@android:color/background_dark</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

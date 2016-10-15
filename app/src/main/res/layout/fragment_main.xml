@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+    <FrameLayout style="@style/Main.Layout">
 
-</FrameLayout>
+        <TextView style="@style/Main.Lable"
+            android:text="@string/main.month.lable" />
+
+        <TextView style="@style/Main.Value"
+            android:id="@+id/main_month_wages"
+            android:textColor="#EE82EE" />
+
+    </FrameLayout>
+
+    <View style="@style/Main.Line" />
+
+    <FrameLayout style="@style/Main.Layout">
+
+        <TextView style="@style/Main.Lable"
+            android:text="@string/main.year.lable" />
+
+        <TextView style="@style/Main.Value"
+            android:id="@+id/main_year_wages"
+            android:textColor="#00CED1" />
+
+    </FrameLayout>
+
+    <View style="@style/Main.Line" />
+
+    <FrameLayout style="@style/Main.Layout">
+
+        <TextView style="@style/Main.Lable"
+            android:text="@string/main.total.lable" />
+
+        <TextView style="@style/Main.Value"
+            android:id="@+id/main_total_wages"
+            android:textColor="#00BFFF" />
+
+    </FrameLayout>
+
+</LinearLayout>
 

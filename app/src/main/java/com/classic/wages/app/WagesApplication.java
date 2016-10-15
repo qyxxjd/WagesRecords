@@ -17,5 +17,4 @@ public class WagesApplication extends Application {
         BlockCanary.install(this, new WagesContext(this)).start();
 
     }
-
 }

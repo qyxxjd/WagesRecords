@@ -1,5 +1,8 @@
 package com.classic.wages.consts;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author 续写经典
  * @date 2013/12/5
@@ -7,7 +10,19 @@ package com.classic.wages.consts;
 public class Consts {
     private Consts() {}
 
+    public static final List<String> RULES_LIST = Arrays.asList(
+            "默认规则", "固定+加班", "必胜客兼职", "按月计算", "计件" );
 
+    /** 计算规则：默认规则 */
+    public static final      int          RULES_DEFAULT  = 0x00;
+    /** 计算规则：固定+加班 */
+    public static final      int          RULES_FIXED    = 0x01;
+    /** 计算规则：必胜客兼职 */
+    public static final      int          RULES_PIZZAHUT = 0x02;
+    /** 计算规则：按月计算 */
+    public static final      int          RULES_MONTHLY  = 0x03;
+    /** 计算规则：计件 */
+    public static final      int          RULES_QUANTITY = 0x04;
 
     public static final int PAGE_SIZE = 10;
 

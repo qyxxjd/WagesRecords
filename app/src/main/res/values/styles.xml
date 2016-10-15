@@ -8,12 +8,60 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
-    <style name="WagesTheme" parent="AppTheme" />
-
     <style name="AppTheme.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay"
         parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="Main"/>
+    <style name="Main.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">@dimen/margin_large</item>
+    </style>
+    <style name="Main.Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <style name="Main.Lable">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="Main.Value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">48sp</item>
+        <item name="android:text">0</item>
+    </style>
+
+    <style name="Setting" />
+    <style name="Setting.Layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/margin_normal</item>
+    </style>
+    <style name="Setting.ItemMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/layout_height_small</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableRight">@drawable/ic_menu_arrow</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="Setting.Line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
 
 </resources>

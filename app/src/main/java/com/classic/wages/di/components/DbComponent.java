@@ -3,7 +3,6 @@ package com.classic.wages.di.components;
 import com.classic.wages.di.modules.DbModule;
 import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
-import com.classic.wages.ui.fragment.QueryFragment;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -17,5 +16,4 @@ import javax.inject.Singleton;
 public interface DbComponent {
     void inject(MainFragment fragment);
     void inject(ListFragment fragment);
-    void inject(QueryFragment fragment);
 }

@@ -1,4 +1,4 @@
-package com.classic.wages.ui.interfaces;
+package com.classic.wages.ui.rules;
 
 /**
  * 应用名称: WagesRecords

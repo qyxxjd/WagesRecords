@@ -14,4 +14,6 @@
     <color name="gray" >#939393</color>
     <color name="gray_dark" >#5F5F5F</color>
     <color name="black" >#323232</color>
+
+    <color name="silver">#bacac6</color>
 </resources>

@@ -1,7 +1,6 @@
 package com.classic.wages.di.modules;
 
 import android.app.Application;
-import com.classic.wages.app.RxBus;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -24,7 +23,4 @@ import javax.inject.Singleton;
         return mApplication;
     }
 
-    @Provides @Singleton RxBus provideRxBus() {
-        return new RxBus();
-    }
 }

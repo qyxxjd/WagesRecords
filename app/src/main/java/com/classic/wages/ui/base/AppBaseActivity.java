@@ -1,4 +1,4 @@
-package com.classic.wages.app;
+package com.classic.wages.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;

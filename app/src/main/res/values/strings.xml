@@ -13,13 +13,20 @@
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
 
+    <string name="main.month.lable">本月收入</string>
+    <string name="main.year.lable">本年收入</string>
+    <string name="main.total.lable">总收入</string>
+
     <string name="network.error">网络异常,请检查网络连接</string>
 
-    <string name="about.update">检查更新</string>
-    <string name="about.feedback">问题反馈</string>
-    <string name="about.author">联系作者</string>
-    <string name="about.share">应用分享</string>
-    <string name="about.thanks">感恩鸣谢</string>
+    <string name="setting.rules">计算规则</string>
+    <string name="setting.rules.detail">规则说明</string>
+
+    <string name="setting.update">检查更新</string>
+    <string name="setting.feedback">问题反馈</string>
+    <string name="setting.author">联系作者</string>
+    <string name="setting.share">应用分享</string>
+    <string name="setting.thanks">感恩鸣谢</string>
 
     <string name="thanks.detail">
         感谢以下开源库和作者，排名不分先后：\n
