@@ -16,4 +16,12 @@
     <color name="black" >#323232</color>
 
     <color name="silver">#bacac6</color>
+
+    <color name="week0">#F52048</color>
+    <color name="week1">#EC7AAC</color>
+    <color name="week2">#F96937</color>
+    <color name="week3">#545AD5</color>
+    <color name="week4">#B254D5</color>
+    <color name="week5">#54D3D5</color>
+    <color name="week6">#54D560</color>
 </resources>

@@ -1,6 +1,9 @@
 package com.classic.wages.ui.rules.impl;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import com.classic.wages.db.dao.IDao;
+import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.rules.IRules;
 
 /**
@@ -21,7 +24,10 @@ public class DefaultRulesImpl implements IRules {
         return null;
     }
 
-    @Override public void onDataQuery(Integer year, Integer month) {
-
+    @Override public void onDataQuery(@NonNull IDao dao, Integer year, Integer month) {
+        if(dao instanceof WorkInfoDao){
+            final WorkInfoDao workInfoDao = (WorkInfoDao) dao;
+        }
     }
+
 }

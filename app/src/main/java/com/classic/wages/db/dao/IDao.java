@@ -1,6 +1,8 @@
 package com.classic.wages.db.dao;
 
+import android.support.annotation.NonNull;
 import java.util.List;
+import rx.Observable;
 
 /**
  * 应用名称: WagesRecords
@@ -12,15 +14,16 @@ import java.util.List;
  */
 public interface IDao<T> {
 
-    long insert(T t);
+    long insert(@NonNull T t);
 
-    void insert(List<T> list);
+    void insert(@NonNull List<T> list);
 
-    int update(T t);
+    int update(@NonNull T t);
 
     int delete(long id);
 
-    T query(long id);
+    Observable<List<T>> query(Integer year, Integer month);
 
-    List<T> query(Integer year, Integer month);
+    Observable<List<T>> queryAll();
+
 }

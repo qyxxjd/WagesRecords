@@ -34,13 +34,12 @@
         RxAndroid \n
         Sqlbrite \n
         Dagger2 \n
-        BottomBar \n
         LeakCanary \n
         BlockCanary \n
         Butterknife \n
-        CircleImageView \n
         MaterialDialog \n
         MaterialSpinner \n
+        NavigationTabBar \n
         MaterialEditText \n
         FloatingActionButton \n
     </string>
