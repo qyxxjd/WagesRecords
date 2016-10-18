@@ -67,8 +67,6 @@ public class DefaultRulesImpl implements IRules {
 
         @Override public void onUpdate(BaseAdapterHelper helper, WorkInfo item, int position) {
             final Context context = helper.getView().getContext();
-            //final int padding = ConversionUtil.dp2px(context, 8);
-            //helper.getView().setPadding(padding, padding, padding, padding);
             helper.setText(R.id.list_item_week, "日")
                     .setText(R.id.list_item_date, "2016-07-16")
                   .setTextColorRes(R.id.list_item_date, R.color.week0)
