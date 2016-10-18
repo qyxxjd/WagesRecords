@@ -35,6 +35,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportRecyclerView
+    compile rootProject.ext.supportCardView
 
     compile rootProject.ext.basicProject
     compile rootProject.ext.commonAdapter
@@ -52,6 +53,8 @@ dependencies {
     compile rootProject.ext.dagger2
     apt rootProject.ext.butterknifeCompiler
     apt rootProject.ext.dagger2Compiler
+//    annotationProcessor rootProject.ext.butterknifeCompiler
+//    annotationProcessor rootProject.ext.dagger2Compiler
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer

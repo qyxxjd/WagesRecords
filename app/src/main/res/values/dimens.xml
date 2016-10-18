@@ -2,7 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">72dp</dimen>
 
     <dimen name="toolbar_elevation">1dp</dimen>
     <dimen name="bottombar_height">56dp</dimen>
@@ -44,10 +44,13 @@
     <dimen name="border_small">2dp</dimen>
     <dimen name="border_normal">4dp</dimen>
 
+    <dimen name="item_week_width">48dp</dimen>
     <dimen name="rules_spinner_width">160dp</dimen>
 
     <dimen name="multi_window_height">500dp</dimen>
     <dimen name="multi_window_width">500dp</dimen>
     <dimen name="multi_window_min_height">300dp</dimen>
     <dimen name="multi_window_min_width">300dp</dimen>
+
+
 </resources>

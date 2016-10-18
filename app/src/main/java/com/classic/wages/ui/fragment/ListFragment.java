@@ -1,13 +1,21 @@
 package com.classic.wages.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
 import cn.qy.util.activity.R;
+import com.classic.wages.app.WagesApplication;
+import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.ui.rules.IRules;
+import com.classic.wages.ui.rules.impl.DefaultRulesImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
+import javax.inject.Inject;
 
 /**
  * 应用名称: WagesRecords
@@ -19,9 +27,13 @@ import java.util.ArrayList;
  */
 public class ListFragment extends AppBaseFragment {
 
-    @BindView(R.id.query_months_spinner) MaterialSpinner mMonthsSpinner;
-    @BindView(R.id.query_years_spinner)  MaterialSpinner mYearsSpinner;
-    @BindView(R.id.recycler_view)        RecyclerView    mRecyclerView;
+    @BindView(R.id.query_months_spinner) MaterialSpinner      mMonthsSpinner;
+    @BindView(R.id.query_years_spinner)  MaterialSpinner      mYearsSpinner;
+    @BindView(R.id.recycler_view)        RecyclerView         mRecyclerView;
+    @BindView(R.id.fab)                  FloatingActionButton mFab;
+
+    @Inject WorkInfoDao mWorkInfoDao;
+    private IRules      mRules;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -33,15 +45,24 @@ public class ListFragment extends AppBaseFragment {
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
+        ((WagesApplication)mAppContext).getAppComponent().inject(this);
         final ArrayList<String> temp = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             temp.add(String.valueOf(i));
         }
         mMonthsSpinner.setItems(temp);
         mYearsSpinner.setItems(temp);
+
+        mFab.attachToRecyclerView(mRecyclerView);
+        mRules = new DefaultRulesImpl(mActivity);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mRules.getAdapter());
+        mRules.onDataQuery(mWorkInfoDao, null, null);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
-
+        mRules = new DefaultRulesImpl(mActivity);
     }
 }

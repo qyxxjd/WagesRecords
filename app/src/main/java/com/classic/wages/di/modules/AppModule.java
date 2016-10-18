@@ -11,7 +11,8 @@ import javax.inject.Singleton;
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
  */
-@Module public class AppModule {
+@Module(includes = { DbModule.class })
+public class AppModule {
 
     private final Application mApplication;
 
