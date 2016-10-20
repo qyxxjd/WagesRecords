@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <!--<color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>-->
     <color name="colorAccent">#FF4081</color>
     <color name="windowBackground">#EDEDED</color>
     <color name="primary_text">#212121</color>
@@ -24,4 +26,6 @@
     <color name="week4">#B254D5</color>
     <color name="week5">#54D3D5</color>
     <color name="week6">#54D560</color>
+
+    <color name="cyan">#00BCD4</color>
 </resources>

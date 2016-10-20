@@ -28,6 +28,18 @@
     <string name="setting.share">应用分享</string>
     <string name="setting.thanks">感恩鸣谢</string>
 
+    <string name="add.starttime">开始时间</string>
+    <string name="add.endtime">结束时间</string>
+    <string name="add.holiday.options">节假日选项(可选)</string>
+    <string name="add.holiday.double">双倍工资</string>
+    <string name="add.holiday.three">三倍工资</string>
+    <string name="add.holiday.custom">自定义</string>
+    <string name="add.holiday.custom.hint">请输入自定义倍数</string>
+    <string name="add.subsidy.hint">补贴(可选)</string>
+    <string name="add.bonus.hint">奖金(可选)</string>
+    <string name="add.deductions.hint">扣款(可选)</string>
+    <string name="add.remark.hint">备注信息(可选)</string>
+
     <string name="thanks.detail">
         感谢以下开源库和作者，排名不分先后：\n
         RxJava \n

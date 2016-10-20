@@ -1,5 +1,7 @@
 package com.classic.wages.ui.rules;
 
+import android.support.annotation.IntDef;
+
 /**
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.interfaces
@@ -20,9 +22,12 @@ public interface ICalculationRules {
     /** 计算规则：计件 */
     int RULES_QUANTITY = 0x04;
 
+    @IntDef({RULES_DEFAULT, RULES_FIXED, RULES_PIZZAHUT, RULES_MONTHLY, RULES_QUANTITY})
+    @interface Rules{}
+
     /**
      * 计算规则改变
      * @param rules
      */
-    void onCalculationRulesChange(int rules);
+    void onCalculationRulesChange(@Rules int rules);
 }

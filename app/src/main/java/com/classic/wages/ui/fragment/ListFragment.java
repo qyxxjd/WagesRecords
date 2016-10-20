@@ -6,10 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.qy.util.activity.R;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.db.dao.WorkInfoDao;
+import com.classic.wages.entity.BasicInfo;
+import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRules;
 import com.classic.wages.ui.rules.impl.DefaultRulesImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -60,9 +64,15 @@ public class ListFragment extends AppBaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mRules.getAdapter());
         mRules.onDataQuery(mWorkInfoDao, null, null);
+
+
     }
 
     @Override public void onCalculationRulesChange(int rules) {
         mRules = new DefaultRulesImpl(mActivity);
+    }
+
+    @OnClick(R.id.fab) public void onFabClick(){
+        AddActivity.start(mActivity, AddActivity.TYPE_ADD, ICalculationRules.RULES_DEFAULT, new BasicInfo());
     }
 }

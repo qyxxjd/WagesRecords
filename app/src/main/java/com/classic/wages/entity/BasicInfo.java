@@ -1,9 +1,11 @@
 package com.classic.wages.entity;
 
+import java.io.Serializable;
+
 /**
  * 基本信息
  */
-public class BasicInfo {
+public class BasicInfo implements Serializable{
 
     private long   id;
     private long   createTime;
