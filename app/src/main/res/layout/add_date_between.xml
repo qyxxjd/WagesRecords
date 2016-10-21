@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/layout_height_large"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        style="@style/Add.DateLayout"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal">
+
+        <TextView
+            style="@style/Add.DateHint"
+            android:id="@+id/add_start_time_hint"
+            android:text="@string/add.start.time"/>
+
+        <TextView
+            style="@style/Add.DateValue"
+            android:id="@+id/add_start_time"
+            android:text="@string/add.start.time"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        style="@style/Add.DateLayout"
+        android:layout_marginLeft="@dimen/margin_normal"
+        android:layout_marginStart="@dimen/margin_normal">
+
+        <TextView
+            style="@style/Add.DateHint"
+            android:id="@+id/add_end_time_hint"
+            android:text="@string/add.end.time"/>
+
+        <TextView
+            style="@style/Add.DateValue"
+            android:id="@+id/add_end_time"
+            android:text="@string/add.end.time"/>
+    </FrameLayout>
+
+</LinearLayout>

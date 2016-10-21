@@ -27,15 +27,15 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
     public static final int TYPE_ADD    = 0;
     public static final int TYPE_MODIFY = 1;
 
-    private static final String PARAMS_TYPE       = "type";
     private static final String PARAMS_RULES      = "rules";
-    public static final  String PARAMS_BASIC_INFO = "basicInfo";
+    public  static final String PARAMS_TYPE       = "type";
+    public  static final String PARAMS_BASIC_INFO = "basicInfo";
 
     private int       mType;
     private int       mRules;
     private BasicInfo mBasicInfo;
 
-    @IntDef({ TYPE_ADD, TYPE_MODIFY }) @interface AddTypes {}
+    @IntDef({ TYPE_ADD, TYPE_MODIFY }) public @interface AddTypes {}
 
     public interface Listener {
         void onAdd();
@@ -111,7 +111,7 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
 
                 break;
             default:
-                fragment = AddFragment.newInstance(mBasicInfo);
+                fragment = AddFragment.newInstance(mType, mBasicInfo);
                 break;
         }
         changeFragment(R.id.add_fragment_layout, fragment);

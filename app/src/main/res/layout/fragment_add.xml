@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none">
@@ -11,122 +10,11 @@
         android:padding="@dimen/margin_large"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_height_large"
-            android:orientation="horizontal">
+        <include layout="@layout/add_date_between"/>
 
-            <FrameLayout
-                style="@style/Add.DateLayout"
-                android:layout_marginRight="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal">
+        <include layout="@layout/add_optional"/>
 
-                <TextView
-                    style="@style/Add.DateHint"
-                    android:id="@+id/add_start_time_hint"
-                    android:text="@string/add.starttime"/>
-
-                <TextView
-                    style="@style/Add.DateValue"
-                    android:id="@+id/add_start_time"
-                    android:text="@string/add.starttime"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                style="@style/Add.DateLayout"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_marginStart="@dimen/margin_normal">
-
-                <TextView
-                    style="@style/Add.DateHint"
-                    android:id="@+id/add_end_time_hint"
-                    android:text="@string/add.endtime"/>
-
-                <TextView
-                    style="@style/Add.DateValue"
-                    android:id="@+id/add_end_time"
-                    android:text="@string/add.endtime"/>
-            </FrameLayout>
-
-        </LinearLayout>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_subsidy"
-            android:hint="@string/add.subsidy.hint"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="8"
-            app:met_primaryColor="@color/cyan"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_bonus"
-            android:hint="@string/add.bonus.hint"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="8"
-            app:met_primaryColor="@color/cyan"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_deductions"
-            android:hint="@string/add.deductions.hint"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="8"
-            app:met_primaryColor="@color/cyan"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_remark"
-            android:hint="@string/add.remark.hint"
-            android:inputType="text"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="100"
-            app:met_primaryColor="@color/cyan"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:text="@string/add.holiday.options"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/font_large"/>
-
-        <CheckBox
-            style="@style/Add.CheckBox"
-            android:id="@+id/add_holiday_double"
-            android:text="@string/add.holiday.double"/>
-
-        <CheckBox
-            style="@style/Add.CheckBox"
-            android:id="@+id/add_holiday_three"
-            android:text="@string/add.holiday.three"/>
-
-        <CheckBox
-            style="@style/Add.CheckBox"
-            android:id="@+id/add_holiday_custom"
-            android:text="@string/add.holiday.custom"/>
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_holiday_custom_value"
-            android:layout_marginLeft="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
-            android:hint="@string/add.holiday.custom.hint"
-            android:visibility="visible"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="8"
-            app:met_primaryColor="@color/cyan"/>
+        <include layout="@layout/add_holiday_options"/>
 
     </LinearLayout>
 </ScrollView>

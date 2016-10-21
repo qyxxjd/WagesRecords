@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:text="@string/add.holiday.options"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/font_large"/>
+
+    <CheckBox
+        style="@style/Add.CheckBox"
+        android:id="@+id/add_holiday_double"
+        android:text="@string/add.holiday.double"/>
+
+    <CheckBox
+        style="@style/Add.CheckBox"
+        android:id="@+id/add_holiday_three"
+        android:text="@string/add.holiday.three"/>
+
+    <CheckBox
+        style="@style/Add.CheckBox"
+        android:id="@+id/add_holiday_custom"
+        android:text="@string/add.holiday.custom"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_holiday_custom_value"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:hint="@string/add.holiday.custom.hint"
+        android:visibility="gone"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="8"
+        app:met_primaryColor="@color/cyan"/>
+</merge>

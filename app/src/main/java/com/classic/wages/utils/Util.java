@@ -1,5 +1,8 @@
 package com.classic.wages.utils;
 
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.widget.EditText;
 import java.util.Calendar;
 
 /**
@@ -17,5 +20,13 @@ public class Util {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         if (dayOfWeek < 0) { dayOfWeek = 0; }
         return dayOfWeek;
+    }
+
+    public static boolean checkNumber(@NonNull EditText editText){
+        final String number = editText.getText().toString();
+        return !TextUtils.isEmpty(number) && Float.valueOf(number) > 0f;
+    }
+    public static boolean checkString(@NonNull EditText editText){
+        return !TextUtils.isEmpty(editText.getText().toString());
     }
 }

@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottombar_height"
         android:layout_gravity="bottom"
-        app:ntb_animation_duration="200"
+        app:ntb_animation_duration="100"
         app:ntb_titled="true"
         app:ntb_title_mode="active"
         app:ntb_inactive_color="#f06292"

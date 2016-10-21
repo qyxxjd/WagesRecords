@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_subsidy"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:hint="@string/add.subsidy.hint"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="8"
+        app:met_primaryColor="@color/cyan"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_bonus"
+        android:hint="@string/add.bonus.hint"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="8"
+        app:met_primaryColor="@color/cyan"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_deductions"
+        android:hint="@string/add.deductions.hint"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="8"
+        app:met_primaryColor="@color/cyan"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_remark"
+        android:hint="@string/add.remark.hint"
+        android:inputType="text"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="100"
+        app:met_primaryColor="@color/cyan"/>
+</merge>
