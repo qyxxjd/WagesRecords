@@ -14,7 +14,7 @@ ext {
             minSdkVersion    : 16,
             targetSdkVersion : 25,
             versionCode      : 20,
-            versionName      : "4.2.0"
+            versionName      : "5.0.0"
     ]
 
     //官方库
@@ -46,7 +46,7 @@ ext {
     rxBindingLeanbackV17 = "com.jakewharton.rxbinding:rxbinding-leanback-v17:${rxBindingVersion}"
 
     //数据库
-    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.7.0"
+    sqlbrite = "com.squareup.sqlbrite:sqlbrite:0.8.0"
 
     //通用适配器
     commonAdapter = "com.classic.adapter:commonadapter:1.2"
@@ -72,6 +72,6 @@ ext {
     pickerView = "com.bigkoo:pickerview:2.1.1"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
-    pgyer = "com.pgyersdk:sdk:2.4.2"
+    pgyer = "com.pgyersdk:sdk:2.4.4"
 
 }
