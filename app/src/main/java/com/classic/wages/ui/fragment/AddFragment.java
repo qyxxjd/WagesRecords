@@ -130,7 +130,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
 
     @Override public void onAdd() {
         if (checkParams()) {
-            final WorkInfo info = new WorkInfo();
+            final WorkInfo info = new WorkInfo(mCurrentStartTime, mCurrentEndTime);
             updateWorkInfo(info);
             if(mWorkInfoDao.insert(info) > 0L){
                 ToastUtil.showToast(mAppContext, R.string.add_success);
@@ -143,6 +143,8 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
 
     @Override public void onModify() {
         if(checkParams()){
+            mWorkInfo.setStartingTime(mCurrentStartTime);
+            mWorkInfo.setEndTime(mCurrentEndTime);
             updateWorkInfo(mWorkInfo);
             if(mWorkInfoDao.update(mWorkInfo) > 0){
                 ToastUtil.showToast(mAppContext, R.string.modify_success);
@@ -154,8 +156,6 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
     }
 
     private void updateWorkInfo(@NonNull WorkInfo info){
-        info.setStartingTime(mCurrentStartTime);
-        info.setEndTime(mCurrentEndTime);
         if (mHolidayDouble.isChecked()) {
             info.setMultiple(2f);
         } else if (mHolidayThree.isChecked()) {

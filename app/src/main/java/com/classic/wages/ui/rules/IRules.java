@@ -1,8 +1,6 @@
 package com.classic.wages.ui.rules;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import com.classic.wages.db.dao.IDao;
 
 /**
  * 应用名称: WagesRecords
@@ -25,5 +23,5 @@ public interface IRules {
      * @param year 查询的年份，null代表全部
      * @param month 查询的月份，null代表全部
      */
-    void onDataQuery(@NonNull IDao dao, Integer year, Integer month);
+    void onDataQuery(Integer year, Integer month);
 }

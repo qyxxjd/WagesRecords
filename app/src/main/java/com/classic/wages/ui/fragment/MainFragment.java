@@ -38,7 +38,7 @@ public class MainFragment extends AppBaseFragment {
         mTotalWages.setText("214536.87");
     }
 
-    @Override public void onCalculationRulesChange(int rules) {
+    @Override public void onCalculationRulesChange(@Rules int rules) {
 
     }
 }

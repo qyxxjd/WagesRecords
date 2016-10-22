@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
  * 包 名 称: com.classic.wages.ui.widget
  *
  * 文件描述: 圆形Drawable
- * 创 建 人: 刘宾
+ * 创 建 人: 续写经典
  * 创建时间: 2016/10/17 20:01
  */
 public class CircularDrawable extends Drawable {

@@ -58,18 +58,36 @@ public class ListFragment extends AppBaseFragment {
         mYearsSpinner.setItems(temp);
 
         mFab.attachToRecyclerView(mRecyclerView);
-        mRules = new DefaultRulesImpl(mActivity);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mRules.getAdapter());
-        mRules.onDataQuery(mWorkInfoDao, null, null);
 
-
+        //TODO
+        onCalculationRulesChange(ICalculationRules.RULES_DEFAULT);
     }
 
-    @Override public void onCalculationRulesChange(int rules) {
-        mRules = new DefaultRulesImpl(mActivity);
+    @Override public void onCalculationRulesChange(@Rules int rules) {
+        switch (rules){
+            case ICalculationRules.RULES_FIXED:
+
+                break;
+            case ICalculationRules.RULES_PIZZAHUT:
+
+                break;
+            case ICalculationRules.RULES_MONTHLY:
+
+                break;
+            case ICalculationRules.RULES_QUANTITY:
+
+                break;
+            case ICalculationRules.RULES_DEFAULT:
+            default:
+                mRules = new DefaultRulesImpl(mActivity, mWorkInfoDao);
+                break;
+        }
+        mRecyclerView.setAdapter(mRules.getAdapter());
+        mRules.onDataQuery(null, null);
     }
 
     @OnClick(R.id.fab) public void onFabClick(){

@@ -10,10 +10,18 @@ import java.util.List;
 public class Consts {
     private Consts() {}
 
-    public static final List<String> RULES_LIST = Arrays.asList(
-            "默认规则", "固定+加班", "必胜客兼职", "按月计算", "计件" );
+    public static final String STORAGE_PERMISSIONS_DESCRIBE  = "应用需要访问你的存储空间,进行日志存储";
+    public static final String FEEDBACK_PERMISSIONS_DESCRIBE = "语音反馈需要使用语音录制权限";
+    public static final String APPLY_FOR_PERMISSIONS         = "权限申请";
+    public static final String SETUP                         = "设置";
+    public static final String CANCEL                        = "取消";
 
-    public static final int PAGE_SIZE = 10;
+    public static final List<String> RULES_LIST =
+            Arrays.asList("默认规则", "固定+加班", "必胜客兼职", "按月计算", "计件");
+
+    public static final String[] FORMAT_WEEKS  = { "日", "一", "二", "三", "四", "五", "六" };
+    public static final int      HOUR_2_MS     = 3600000;
+    public static final int      DEFAULT_SCALE = 2;
 
     public static final String DEFAULT_HOURLY_WAGE = "11";
     public static final String DEFAULT_WORK_HOURS  = "100";
