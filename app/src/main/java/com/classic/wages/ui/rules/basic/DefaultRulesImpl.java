@@ -1,4 +1,4 @@
-package com.classic.wages.ui.rules.impl;
+package com.classic.wages.ui.rules.basic;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.core.utils.ConversionUtil;
 import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.MoneyUtil;
 import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
@@ -91,15 +90,16 @@ public class DefaultRulesImpl implements IRules,
         @Override public void onUpdate(BaseAdapterHelper helper, WorkInfo item, int position) {
             final int color = Util.getColorByWeek(item.getWeek());
             helper.setText(R.id.list_item_week, Util.formatWeek(item.getWeek()))
-                  .setText(R.id.list_item_date, DateUtil.formatDate(DateUtil.FORMAT_DATE,
-                                                                    item.getStartingTime()))
+                  .setText(R.id.list_item_date,
+                           DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getStartingTime()))
                   .setTextColorRes(R.id.list_item_date, color)
-                  .setText(R.id.list_item_time, formatTimeBetween(item.getStartingTime(),
-                                                                  item.getEndTime()))
+                  .setText(R.id.list_item_time, DefaultUtil.formatTimeBetween(
+                           item.getStartingTime(), item.getEndTime()))
                   .setTextColorRes(R.id.list_item_time, color)
-                  .setText(R.id.list_item_wages, Util.formatWages(getDayWages(item)))
+                  .setText(R.id.list_item_wages,
+                           Util.formatWages(DefaultUtil.getDayWages(item, mHourlyWage)))
                   .setTextColorRes(R.id.list_item_wages, color)
-                  .setText(R.id.list_item_hours, Util.formatHours(getDayHours(item)))
+                  .setText(R.id.list_item_hours, Util.formatHours(DefaultUtil.getDayHours(item)))
                   .setTextColorRes(R.id.list_item_hours, color);
             helper.getView(R.id.list_item_week)
                   .setBackground(Util.getCircularDrawable(Util.getColor(mContext, color), mRadius));
@@ -108,25 +108,5 @@ public class DefaultRulesImpl implements IRules,
         @Override public void call(List<WorkInfo> list) {
             replaceAll(list);
         }
-
-        private String formatTimeBetween(long startTime, long endTime){
-            return new StringBuilder(DateUtil.formatDate(DateUtil.FORMAT_TIME, startTime))
-                    .append(" - ")
-                    .append(DateUtil.formatDate(DateUtil.FORMAT_TIME, endTime))
-                    .toString();
-        }
-
-    }
-
-    private float getDayHours(WorkInfo workInfo){
-        return Util.ms2hour(workInfo.getEndTime()-workInfo.getStartingTime());
-    }
-
-    private float getDayWages(WorkInfo workInfo){
-        final float hours = getDayHours(workInfo);
-        final float result = MoneyUtil.newInstance(hours).multiply(mHourlyWage)
-                                      .multiply(workInfo.getMultiple() > 0f ? workInfo.getMultiple() : 1)
-                                      .round(Consts.DEFAULT_SCALE).create().floatValue();
-        return result;
     }
 }

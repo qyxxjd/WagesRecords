@@ -29,5 +29,5 @@ public interface ICalculationRules {
      * 计算规则改变
      * @param rules
      */
-    void onCalculationRulesChange(@Rules int rules);
+    void onCalculationRulesChange(int rules);
 }

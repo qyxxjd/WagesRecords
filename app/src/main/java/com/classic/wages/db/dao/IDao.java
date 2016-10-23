@@ -24,6 +24,10 @@ public interface IDao<T> {
 
     Observable<List<T>> query(Integer year, Integer month);
 
+    Observable<List<T>> queryCurrentMonth();
+
+    Observable<List<T>> queryCurrentYear();
+
     Observable<List<T>> queryAll();
 
 }

@@ -32,5 +32,5 @@ public abstract class AppBaseFragment extends BaseFragment implements ICalculati
         mCompositeSubscription.add(subscription);
     }
 
-    @Override public void onCalculationRulesChange(@Rules int rules) { }
+    @Override public void onCalculationRulesChange(int rules) { }
 }

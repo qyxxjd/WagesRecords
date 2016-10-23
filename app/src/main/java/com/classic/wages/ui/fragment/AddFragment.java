@@ -1,5 +1,6 @@
 package com.classic.wages.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.EditTextUtil;
 import com.classic.core.utils.ToastUtil;
 import com.classic.wages.app.WagesApplication;
+import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.WorkInfo;
@@ -24,10 +26,6 @@ import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import java.util.Date;
 import javax.inject.Inject;
-
-import static com.classic.wages.ui.activity.AddActivity.PARAMS_BASIC_INFO;
-import static com.classic.wages.ui.activity.AddActivity.PARAMS_TYPE;
-import static com.classic.wages.ui.activity.AddActivity.TYPE_MODIFY;
 
 /**
  * 应用名称: WagesRecords
@@ -43,8 +41,6 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
 
     private static final String FORMAT   = "yyyy-MM-dd HH:mm";
     private static final float  ZERO     = 0f;
-    private static final int    MIN_YEAR = 2010;
-    private static final int    MAX_YEAR = 2020;
 
     @BindView(R.id.add_start_time_hint) TextView mStartTimeHint;
     @BindView(R.id.add_start_time)      TextView mStartTime;
@@ -76,9 +72,9 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
 
     public static AddFragment newInstance(@AddActivity.AddTypes int type, BasicInfo basicInfo) {
         Bundle args = new Bundle();
-        args.putInt(PARAMS_TYPE, type);
+        args.putInt(AddActivity.PARAMS_TYPE, type);
         if (null != basicInfo) {
-            args.putSerializable(PARAMS_BASIC_INFO, basicInfo);
+            args.putSerializable(AddActivity.PARAMS_BASIC_INFO, basicInfo);
         }
         AddFragment fragment = new AddFragment();
         fragment.setArguments(args);
@@ -89,9 +85,13 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         return R.layout.fragment_add;
     }
 
+    @Override public void onAttach(Context context) {
+        super.onAttach(context);
+        ((WagesApplication)mActivity.getApplicationContext()).getAppComponent().inject(this);
+    }
+
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-        ((WagesApplication)mAppContext).getAppComponent().inject(this);
         initParams();
         mHolidayDouble.setOnCheckedChangeListener(this);
         mHolidayThree.setOnCheckedChangeListener(this);
@@ -183,16 +183,16 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         mTimePickerView.setCyclic(false);
         mTimePickerView.setCancelable(false);
         mTimePickerView.setOnTimeSelectListener(this);
-        mTimePickerView.setRange(MIN_YEAR, MAX_YEAR);
+        mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
         mTimePickerView.setTime(date);
         mTimePickerView.show();
     }
 
     private void initParams(){
         final Bundle bundle = getArguments();
-        mType = bundle.getInt(PARAMS_TYPE);
-        if(mType == TYPE_MODIFY){
-            mWorkInfo = (WorkInfo) bundle.getSerializable(PARAMS_BASIC_INFO);
+        mType = bundle.getInt(AddActivity.PARAMS_TYPE);
+        if(mType == AddActivity.TYPE_MODIFY){
+            mWorkInfo = (WorkInfo) bundle.getSerializable(AddActivity.PARAMS_BASIC_INFO);
             if(null == mWorkInfo){
                 mActivity.finish();
                 return;

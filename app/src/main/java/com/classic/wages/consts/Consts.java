@@ -1,5 +1,6 @@
 package com.classic.wages.consts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,19 @@ public class Consts {
     public static final String APPLY_FOR_PERMISSIONS         = "权限申请";
     public static final String SETUP                         = "设置";
     public static final String CANCEL                        = "取消";
+
+    public static final int          MIN_YEAR = 2010;
+    public static final int          MAX_YEAR = 2050;
+    public static final List<String> YEARS    = new ArrayList<>();
+    public static final List<String> MONTHS   = new ArrayList<>();
+    static {
+        for (int i = MIN_YEAR; i <= MAX_YEAR; i++) {
+            YEARS.add(String.valueOf(i));
+        }
+        for (int i = 1; i <= 12; i++) {
+            MONTHS.add(String.valueOf(i));
+        }
+    }
 
     public static final List<String> RULES_LIST =
             Arrays.asList("默认规则", "固定+加班", "必胜客兼职", "按月计算", "计件");

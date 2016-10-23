@@ -76,14 +76,14 @@ public final class Util {
     }
 
     public static String formatWages(Number number){
-        return new StringBuilder("￥ ").append(number).toString();
+        return new StringBuilder("￥").append(MoneyUtil.replace(number)).toString();
     }
 
     public static String formatHours(long startTime, long endTime){
         return formatHours(ms2hour(endTime - startTime));
     }
     public static String formatHours(Number number){
-        return new StringBuilder().append(number).append(" H").toString();
+        return new StringBuilder().append(MoneyUtil.replace(number)).append(" H").toString();
     }
 
     /**

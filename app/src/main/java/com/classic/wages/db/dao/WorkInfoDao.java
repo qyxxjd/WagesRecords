@@ -52,6 +52,16 @@ public class WorkInfoDao implements IDao<WorkInfo> {
         return queryListBySql(getSql(year, month));
     }
 
+    @Override public Observable<List<WorkInfo>> queryCurrentMonth() {
+        //TODO
+        return null;
+    }
+
+    @Override public Observable<List<WorkInfo>> queryCurrentYear() {
+        //TODO
+        return null;
+    }
+
     @Override public Observable<List<WorkInfo>> queryAll() {
         return queryListBySql(getSql(null, null));
     }

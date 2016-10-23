@@ -1,5 +1,6 @@
 package com.classic.wages.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,17 +9,19 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import com.classic.core.utils.DateUtil;
+import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.app.WagesApplication;
+import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRules;
-import com.classic.wages.ui.rules.impl.DefaultRulesImpl;
+import com.classic.wages.ui.rules.basic.DefaultRulesImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.melnykov.fab.FloatingActionButton;
-import java.util.ArrayList;
 import javax.inject.Inject;
 
 /**
@@ -38,6 +41,8 @@ public class ListFragment extends AppBaseFragment {
 
     @Inject WorkInfoDao mWorkInfoDao;
     private IRules      mRules;
+    private Integer     mFilterYear;
+    private Integer     mFilterMonth;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -47,27 +52,33 @@ public class ListFragment extends AppBaseFragment {
         return R.layout.fragment_list;
     }
 
+    @Override public void onAttach(Context context) {
+        super.onAttach(context);
+        ((WagesApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
+    }
+
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-        ((WagesApplication)mAppContext).getAppComponent().inject(this);
-        final ArrayList<String> temp = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            temp.add(String.valueOf(i));
-        }
-        mMonthsSpinner.setItems(temp);
-        mYearsSpinner.setItems(temp);
+        mYearsSpinner.setItems(Consts.YEARS);
+        mMonthsSpinner.setItems(Consts.MONTHS);
+        mYearsSpinner.setOnItemSelectedListener(mYearSelectedListener);
+        mMonthsSpinner.setOnItemSelectedListener(mMonthSelectedListener);
+        mYearsSpinner.setSelectedIndex(DateUtil.getYear() - Consts.MIN_YEAR);
+        mMonthsSpinner.setSelectedIndex(DateUtil.getMonth());
+        mFilterYear = Integer.valueOf(mYearsSpinner.getText().toString());
+        mFilterMonth = Integer.valueOf(mMonthsSpinner.getText().toString());
 
         mFab.attachToRecyclerView(mRecyclerView);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //TODO
-        onCalculationRulesChange(ICalculationRules.RULES_DEFAULT);
+        final int rules = new SharedPreferencesUtil(mAppContext, Consts.SP_NAME)
+                .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        onCalculationRulesChange(rules);
     }
 
-    @Override public void onCalculationRulesChange(@Rules int rules) {
+    @Override public void onCalculationRulesChange(int rules) {
         switch (rules){
             case ICalculationRules.RULES_FIXED:
 
@@ -87,10 +98,27 @@ public class ListFragment extends AppBaseFragment {
                 break;
         }
         mRecyclerView.setAdapter(mRules.getAdapter());
-        mRules.onDataQuery(null, null);
+        mRules.onDataQuery(mFilterYear, mFilterMonth);
     }
 
     @OnClick(R.id.fab) public void onFabClick(){
         AddActivity.start(mActivity, AddActivity.TYPE_ADD, ICalculationRules.RULES_DEFAULT, new BasicInfo());
     }
+
+    private final MaterialSpinner.OnItemSelectedListener<String> mYearSelectedListener
+            = new MaterialSpinner.OnItemSelectedListener<String>() {
+        @Override
+        public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+            mFilterYear = Integer.valueOf(item);
+            mRules.onDataQuery(mFilterYear, mFilterMonth);
+        }
+    };
+    private final MaterialSpinner.OnItemSelectedListener<String> mMonthSelectedListener
+            = new MaterialSpinner.OnItemSelectedListener<String>() {
+        @Override
+        public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+            mFilterMonth = Integer.valueOf(item);
+            mRules.onDataQuery(mFilterYear, mFilterMonth);
+        }
+    };
 }

@@ -1,9 +1,9 @@
 package com.classic.wages.di.components;
 
 import com.classic.wages.di.modules.AppModule;
-import com.classic.wages.ui.activity.MainActivity;
 import com.classic.wages.ui.fragment.AddFragment;
 import com.classic.wages.ui.fragment.ListFragment;
+import com.classic.wages.ui.fragment.MainFragment;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -15,7 +15,7 @@ import javax.inject.Singleton;
  */
 @Singleton @Component(modules = { AppModule.class })
 public interface AppComponent {
-    void inject(MainActivity activity);
+    void inject(MainFragment fragment);
     void inject(ListFragment fragment);
     void inject(AddFragment fragment);
 }
