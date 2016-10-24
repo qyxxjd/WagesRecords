@@ -49,9 +49,7 @@ public class MainFragment extends AppBaseFragment {
     public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
 
-        final int rules = new SharedPreferencesUtil(mAppContext, Consts.SP_NAME)
-                .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
-        onCalculationRulesChange(rules);
+        onFragmentShow();
     }
 
     @Override public void onCalculationRulesChange(int rules) {
@@ -76,5 +74,13 @@ public class MainFragment extends AppBaseFragment {
         mIWagesCalculation.calculationCurrentMonthWages(mMonthWages);
         mIWagesCalculation.calculationCurrentYearWages(mYearWages);
         mIWagesCalculation.calculationTotalWages(mTotalWages);
+    }
+
+    @Override public void onFragmentShow() {
+        super.onFragmentShow();
+
+        final int rules = new SharedPreferencesUtil(mAppContext, Consts.SP_NAME)
+                .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        onCalculationRulesChange(rules);
     }
 }

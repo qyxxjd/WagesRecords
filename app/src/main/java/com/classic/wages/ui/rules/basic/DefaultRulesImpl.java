@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import cn.qy.util.activity.R;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.core.utils.ConversionUtil;
@@ -74,9 +76,20 @@ public class DefaultRulesImpl implements IRules,
     }
 
     @Override
-    public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-        //TODO
-        mWorkInfoDao.delete(mAdapter.getItem(position).getId());
+    public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
+        new MaterialDialog.Builder(mContext)
+                .title(R.string.delete)
+                .titleColorRes(R.color.primary_text)
+                .backgroundColorRes(R.color.white)
+                .content(R.string.delete_data_hint)
+                .contentColorRes(R.color.primary_light)
+                .positiveText(R.string.delete)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override public void onClick(MaterialDialog dialog, DialogAction which) {
+                        mWorkInfoDao.delete(mAdapter.getItem(position).getId());
+                    }
+                }).show();
     }
 
     private final class Adapter extends CommonRecyclerAdapter<WorkInfo> implements
@@ -109,7 +122,6 @@ public class DefaultRulesImpl implements IRules,
         }
 
         @Override public void call(List<WorkInfo> list) {
-            Logger.d("onDataQuery - call");
             if(DataUtil.isEmpty(list)){
                 clear();
             } else {

@@ -8,6 +8,7 @@
     <string name="no.update">当前已是最新版本</string>
     <string name="modify">修改</string>
     <string name="delete">删除</string>
+    <string name="delete.data.hint">确认删除本条数据?</string>
     <string name="delete.success">删除成功</string>
     <string name="delete.fail">删除失败</string>
     <string name="confirm">确认</string>

@@ -55,7 +55,7 @@ public class DefaultWagesCalculationImpl implements IWagesCalculation {
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
         observable.flatMap(new Func1<List<WorkInfo>, Observable<Float>>() {
                         @Override public Observable<Float> call(List<WorkInfo> list) {
-                            final int size = DataUtil.isEmpty(list)?0:list.size();
+                            final int size = DataUtil.isEmpty(list) ? 0 : list.size();
                             final float wages = DefaultUtil.getTotalWages(list, mHourlyWage);
                             Logger.d("size:"+size+",wages:"+wages);
                             return Observable.just(wages);

@@ -53,7 +53,7 @@ public class MainActivity extends AppBaseActivity {
         setTitle(R.string.app_name);
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
         checkStoragePermissions();
-        initTabBar();
+        initTabBar(savedInstanceState);
         PgyerUtil.register(mAppContext);
         PgyerUtil.checkUpdate(mActivity, false);
     }
@@ -95,7 +95,7 @@ public class MainActivity extends AppBaseActivity {
         }
     }
 
-    private void initTabBar() {
+    private void initTabBar(Bundle savedInstanceState) {
         final int color = Color.parseColor("#FF4081");
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
         models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_main), color)
@@ -119,7 +119,9 @@ public class MainActivity extends AppBaseActivity {
                         onTabSelected(index);
                     }
                 });
-        navigationTabBar.setModelIndex(TAB_MAIN);
+        if(null == savedInstanceState){
+            navigationTabBar.setModelIndex(TAB_MAIN);
+        }
     }
 
     @Override public void unRegister() {
