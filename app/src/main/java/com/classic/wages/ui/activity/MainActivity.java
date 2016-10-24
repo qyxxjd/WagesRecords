@@ -23,6 +23,7 @@ import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppBaseActivity {
     private static final int    TAB_MAIN      = 0;
     private static final int    TAB_LIST      = 1;

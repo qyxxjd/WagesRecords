@@ -70,4 +70,6 @@ public class WorkInfo extends BasicInfo {
         setDeductions(deductions);
         setRemark(remark);
     }
+
+
 }

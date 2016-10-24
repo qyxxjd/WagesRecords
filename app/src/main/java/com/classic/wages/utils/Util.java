@@ -104,13 +104,9 @@ public final class Util {
         return MoneyUtil.newInstance(ms).divide(Consts.HOUR_2_MS, scale).create().floatValue();
     }
 
-    public static boolean checkNumber(@NonNull EditText editText) {
+    public static float getNumber(@NonNull EditText editText) {
         final String number = editText.getText().toString();
-        return !TextUtils.isEmpty(number) && Float.valueOf(number) > 0f;
-    }
-
-    public static boolean checkString(@NonNull EditText editText) {
-        return !TextUtils.isEmpty(editText.getText().toString());
+        return TextUtils.isEmpty(number) ? 0f : Float.valueOf(number);
     }
 
     public static CircularDrawable getCircularDrawable(int color, float radius){
@@ -122,17 +118,15 @@ public final class Util {
         return DRAWABLE_MAP.get(color);
     }
 
-    public static Drawable getDrawable(@NonNull Context context, @DrawableRes int resId){
-        final Context ctx = context.getApplicationContext();
+    public static Drawable getDrawable(@NonNull Context ctx, @DrawableRes int resId){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getDrawable(resId, ctx.getTheme());
+            return ctx.getResources().getDrawable(resId);
         }
         return ctx.getDrawable(resId);
     }
-    public static int getColor(@NonNull Context context, @ColorRes int colorId){
-        final Context ctx = context.getApplicationContext();
+    public static int getColor(@NonNull Context ctx, @ColorRes int colorId){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getColor(colorId, ctx.getTheme());
+            return ctx.getResources().getColor(colorId);
         }
         return ctx.getColor(colorId);
     }

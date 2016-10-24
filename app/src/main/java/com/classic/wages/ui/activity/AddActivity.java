@@ -15,6 +15,7 @@ import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.AddFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
 
+
 /**
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.activity
@@ -71,7 +72,7 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
         super.initView(savedInstanceState);
         getToolbar().setOnMenuItemClickListener(this);
         initParams();
-        initFragment();
+        initFragment(savedInstanceState);
     }
 
     @Override public boolean onMenuItemClick(MenuItem menuItem) {
@@ -95,7 +96,8 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
         setTitle(mType == TYPE_ADD ? R.string.add : R.string.modify);
     }
 
-    private void initFragment() {
+    private void initFragment(Bundle savedInstanceState) {
+        if(null != savedInstanceState) return;
         BaseFragment fragment = null;
         switch (mRules) {
             case ICalculationRules.RULES_FIXED:

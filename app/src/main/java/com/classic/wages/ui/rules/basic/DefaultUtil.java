@@ -1,5 +1,6 @@
 package com.classic.wages.ui.rules.basic;
 
+import android.support.annotation.NonNull;
 import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
@@ -25,38 +26,28 @@ final class DefaultUtil {
                 .toString();
     }
 
-    static float getDayHours(WorkInfo workInfo){
+    static float getDayHours(@NonNull WorkInfo workInfo){
         return Util.ms2hour(workInfo.getEndTime()-workInfo.getStartingTime());
     }
 
-    static float getDayWages(WorkInfo workInfo, float hourlyWage){
-        return calculationDayWages(workInfo, hourlyWage)
-                .round(Consts.DEFAULT_SCALE)
-                .create()
-                .floatValue();
+    static float getDayWages(@NonNull WorkInfo workInfo, float hourlyWage){
+        return MoneyUtil.newInstance(calculationDayWages(workInfo, hourlyWage))
+                        .round(Consts.DEFAULT_SCALE)
+                        .create()
+                        .floatValue();
     }
 
     static float getTotalWages(List<WorkInfo> list, float hourlyWage){
         if(DataUtil.isEmpty(list)) return 0f;
-        MoneyUtil util = null;
+        float totalWages = 0f;
         for (WorkInfo workInfo : list) {
-            if(null == util){
-                util = calculationDayWages(workInfo, hourlyWage);
-            } else {
-                util.add(calculationDayWages(workInfo, hourlyWage));
-            }
+            totalWages += calculationDayWages(workInfo, hourlyWage);
         }
-        return util.round(Consts.DEFAULT_SCALE)
-                   .create()
-                   .floatValue();
+        return MoneyUtil.newInstance(totalWages).round(Consts.DEFAULT_SCALE).create().floatValue();
     }
 
-    private static MoneyUtil calculationDayWages(WorkInfo workInfo, float hourlyWage){
-        return MoneyUtil.newInstance(getDayHours(workInfo))
-                        .multiply(hourlyWage)
-                        .multiply(workInfo.getMultiple() > 0f ? workInfo.getMultiple() : 1)
-                        .add(workInfo.getBonus())
-                        .add(workInfo.getSubsidy())
-                        .subtract(workInfo.getDeductions());
+    private static float calculationDayWages(@NonNull WorkInfo workInfo, float hourlyWage){
+        return getDayHours(workInfo) * hourlyWage * (workInfo.getMultiple() > 0f ? workInfo.getMultiple() : 1)
+               + workInfo.getBonus() + workInfo.getSubsidy() - workInfo.getDeductions();
     }
 }

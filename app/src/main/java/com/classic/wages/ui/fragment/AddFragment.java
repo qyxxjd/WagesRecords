@@ -164,16 +164,10 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             final float multiple = Float.valueOf(mHolidayCustomValue.getText().toString());
             info.setMultiple(multiple);
         }
-        if(Util.checkNumber(mBonus)){
-            info.setBonus(Float.valueOf(mBonus.getText().toString().trim()));
-        }
-        if(Util.checkNumber(mSubsidy)){
-            info.setSubsidy(Float.valueOf(mSubsidy.getText().toString().trim()));
-        }
-        if(Util.checkNumber(mDeductions)){
-            info.setDeductions(Float.valueOf(mDeductions.getText().toString().trim()));
-        }
-        if(Util.checkString(mRemark)){
+        info.setBonus(Util.getNumber(mBonus));
+        info.setSubsidy(Util.getNumber(mSubsidy));
+        info.setDeductions(Util.getNumber(mDeductions));
+        if(!TextUtils.isEmpty(mRemark.getText().toString())){
             info.setRemark(mRemark.getText().toString().trim());
         }
     }

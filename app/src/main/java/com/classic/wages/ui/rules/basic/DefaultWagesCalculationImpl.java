@@ -3,12 +3,15 @@ package com.classic.wages.ui.rules.basic;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.MoneyUtil;
 import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.rules.IWagesCalculation;
+import com.classic.wages.utils.RxUtil;
+import com.orhanobut.logger.Logger;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import rx.Observable;
@@ -52,7 +55,10 @@ public class DefaultWagesCalculationImpl implements IWagesCalculation {
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
         observable.flatMap(new Func1<List<WorkInfo>, Observable<Float>>() {
                         @Override public Observable<Float> call(List<WorkInfo> list) {
-                            return Observable.just(DefaultUtil.getTotalWages(list, mHourlyWage));
+                            final int size = DataUtil.isEmpty(list)?0:list.size();
+                            final float wages = DefaultUtil.getTotalWages(list, mHourlyWage);
+                            Logger.d("size:"+size+",wages:"+wages);
+                            return Observable.just(wages);
                         }
                     })
                     .subscribe(new Action1<Float>() {
@@ -61,6 +67,6 @@ public class DefaultWagesCalculationImpl implements IWagesCalculation {
                                 weakReference.get().setText(MoneyUtil.replace(wages));
                             }
                         }
-                    });
+                    }, RxUtil.ERROR_ACTION);
     }
 }
