@@ -53,17 +53,44 @@ public class WorkInfoDao implements IDao<WorkInfo> {
     }
 
     @Override public Observable<List<WorkInfo>> queryCurrentMonth() {
-        //TODO
-        return null;
+        final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(WorkInfoTable.TABLE_NAME)
+                                                                    .append(" WHERE ")
+                                                                    .append(WorkInfoTable.COLUMN_FORMAT_TIME)
+                                                                    .append(" between datetime('now','start of month','+1 second') ")
+                                                                    .append("AND datetime('now','start of month','+1 month','-1 second')")
+                                                                    .append(" ORDER BY ")
+                                                                    .append(WorkInfoTable.COLUMN_STARTING_TIME)
+                                                                    .append(" DESC ");
+        return queryListBySql(sb.toString());
     }
 
     @Override public Observable<List<WorkInfo>> queryCurrentYear() {
-        //TODO
-        return null;
+        final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(WorkInfoTable.TABLE_NAME)
+                                                                    .append(" WHERE strftime('%Y',")
+                                                                    .append(WorkInfoTable.COLUMN_FORMAT_TIME)
+                                                                    .append(")=strftime('%Y',date('now')) ")
+                                                                    .append(" ORDER BY ")
+                                                                    .append(WorkInfoTable.COLUMN_STARTING_TIME)
+                                                                    .append(" DESC ");
+        return queryListBySql(sb.toString());
     }
 
     @Override public Observable<List<WorkInfo>> queryAll() {
         return queryListBySql(getSql(null, null));
+    }
+
+    @Override public Observable<List<String>> queryYears() {
+        final String sql = new StringBuilder("SELECT DISTINCT STRFTIME('%Y', ")
+                .append(WorkInfoTable.COLUMN_FORMAT_TIME)
+                .append(") AS years FROM ")
+                .append(WorkInfoTable.TABLE_NAME)
+                .toString();
+        return mDatabase.createQuery(WorkInfoTable.TABLE_NAME, sql)
+                        .map(new Func1<SqlBrite.Query, List<String>>() {
+                            @Override public List<String> call(SqlBrite.Query query) {
+                                return convertYears(query.run());
+                            }
+                        });
     }
 
     private String getSql(Integer year, Integer month) {
@@ -136,6 +163,21 @@ public class WorkInfoDao implements IDao<WorkInfo> {
                                      cursor.getFloat(cursor.getColumnIndex(WorkInfoTable.COLUMN_DEDUCTIONS)),
                                      cursor.getString(cursor.getColumnIndex(WorkInfoTable.COLUMN_REMARK)))
                 );
+            }
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+        } finally {
+            CloseUtil.close(cursor);
+        }
+        return list;
+    }
+
+    private List<String> convertYears(Cursor cursor) {
+        if(null == cursor) return null;
+        List<String> list = new ArrayList<>();
+        try {
+            while (cursor.moveToNext()) {
+                list.add(cursor.getString(0));
             }
         } catch (Exception e) {
             Logger.e(e.getMessage());

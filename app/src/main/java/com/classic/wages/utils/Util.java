@@ -123,17 +123,18 @@ public final class Util {
     }
 
     public static Drawable getDrawable(@NonNull Context context, @DrawableRes int resId){
+        final Context ctx = context.getApplicationContext();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return context.getResources().getDrawable(resId, context.getTheme());
+            return ctx.getResources().getDrawable(resId, ctx.getTheme());
         }
-        return context.getDrawable(resId);
+        return ctx.getDrawable(resId);
     }
     public static int getColor(@NonNull Context context, @ColorRes int colorId){
+        final Context ctx = context.getApplicationContext();
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return context.getResources().getColor(colorId, context.getTheme());
+            return ctx.getResources().getColor(colorId, ctx.getTheme());
         }
-        return context.getColor(colorId);
+        return ctx.getColor(colorId);
     }
-
 
 }

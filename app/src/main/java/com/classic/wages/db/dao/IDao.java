@@ -30,4 +30,5 @@ public interface IDao<T> {
 
     Observable<List<T>> queryAll();
 
+    Observable<List<String>> queryYears();
 }

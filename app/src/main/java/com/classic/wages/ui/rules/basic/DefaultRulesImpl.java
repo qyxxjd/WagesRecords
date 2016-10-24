@@ -9,6 +9,7 @@ import cn.qy.util.activity.R;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.core.utils.ConversionUtil;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
@@ -19,6 +20,7 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRules;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
+import com.orhanobut.logger.Logger;
 import java.util.List;
 import rx.functions.Action1;
 
@@ -58,6 +60,7 @@ public class DefaultRulesImpl implements IRules,
     }
 
     @Override public void onDataQuery(Integer year, Integer month) {
+        Logger.d("onDataQuery:"+year+","+month);
         mWorkInfoDao.query(year, month)
                     .compose(RxUtil.<List<WorkInfo>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
                     .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
@@ -106,7 +109,12 @@ public class DefaultRulesImpl implements IRules,
         }
 
         @Override public void call(List<WorkInfo> list) {
-            replaceAll(list);
+            Logger.d("onDataQuery - call");
+            if(DataUtil.isEmpty(list)){
+                clear();
+            } else {
+                replaceAll(list);
+            }
         }
     }
 }

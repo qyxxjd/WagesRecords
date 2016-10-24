@@ -2,12 +2,10 @@ package com.classic.wages.ui.activity;
 
 import android.Manifest;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.view.KeyEvent;
 import butterknife.BindView;
+import cn.qy.util.activity.BuildConfig;
 import cn.qy.util.activity.R;
 import com.classic.core.BasicConfig;
 import com.classic.core.permissions.AfterPermissionGranted;
@@ -20,6 +18,7 @@ import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
 import com.classic.wages.ui.fragment.SettingFragment;
 import com.classic.wages.utils.PgyerUtil;
+import com.classic.wages.utils.Util;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,22 +87,22 @@ public class MainActivity extends AppBaseActivity {
     }
 
     private void init() {
-        //if (BuildConfig.DEBUG) {
-        //    BasicConfig.getInstance(mAppContext).initDir().initLog(true);
-        //} else {
+        if (BuildConfig.DEBUG) {
+            BasicConfig.getInstance(mAppContext).initDir().initLog(true);
+        } else {
             BasicConfig.getInstance(mAppContext).init();
-        //}
+        }
     }
 
     private void initTabBar() {
         final int color = Color.parseColor("#FF4081");
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
-        models.add(new NavigationTabBar.Model.Builder(getIcon(R.drawable.ic_main), color).title(
-                TITLE_MAIN).build());
-        models.add(new NavigationTabBar.Model.Builder(getIcon(R.drawable.ic_list), color).title(
-                TITLE_LIST).build());
-        models.add(new NavigationTabBar.Model.Builder(getIcon(R.drawable.ic_setting), color).title(
-                TITLE_SETTING).build());
+        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_main), color)
+                           .title(TITLE_MAIN).build());
+        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_list), color)
+                           .title(TITLE_LIST).build());
+        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_setting), color)
+                           .title(TITLE_SETTING).build());
 
         navigationTabBar.setModels(models);
         navigationTabBar.setBehaviorEnabled(true);
@@ -120,13 +119,6 @@ public class MainActivity extends AppBaseActivity {
                     }
                 });
         navigationTabBar.setModelIndex(TAB_MAIN);
-    }
-
-    private Drawable getIcon(@DrawableRes int resId) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return getResources().getDrawable(resId, getTheme());
-        }
-        return getDrawable(resId);
     }
 
     @Override public void unRegister() {
