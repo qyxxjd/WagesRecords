@@ -100,7 +100,10 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
         if(null != savedInstanceState) return;
         BaseFragment fragment = null;
         switch (mRules) {
-            case ICalculationRules.RULES_FIXED:
+            case ICalculationRules.RULES_FIXED_DAY:
+
+                break;
+            case ICalculationRules.RULES_FIXED_MONTH:
 
                 break;
             case ICalculationRules.RULES_PIZZAHUT:

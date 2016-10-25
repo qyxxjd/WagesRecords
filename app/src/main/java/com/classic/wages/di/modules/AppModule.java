@@ -1,6 +1,8 @@
 package com.classic.wages.di.modules;
 
 import android.app.Application;
+import com.classic.core.utils.SharedPreferencesUtil;
+import com.classic.wages.consts.Consts;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -23,5 +25,10 @@ public class AppModule {
     @Provides @Singleton Application provideApplication() {
         return mApplication;
     }
+
+    @Provides @Singleton SharedPreferencesUtil provideSharedPreferencesUtil() {
+        return new SharedPreferencesUtil(mApplication, Consts.SP_NAME);
+    }
+
 
 }

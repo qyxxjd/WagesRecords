@@ -29,8 +29,9 @@ public class MainFragment extends AppBaseFragment {
     @BindView(R.id.main_year_wages)  TextView mYearWages;
     @BindView(R.id.main_total_wages) TextView mTotalWages;
 
-    @Inject WorkInfoDao       mWorkInfoDao;
-    private IWagesCalculation mIWagesCalculation;
+    @Inject WorkInfoDao           mWorkInfoDao;
+    @Inject SharedPreferencesUtil mPreferencesUtil;
+    private IWagesCalculation     mIWagesCalculation;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -54,7 +55,10 @@ public class MainFragment extends AppBaseFragment {
 
     @Override public void onCalculationRulesChange(int rules) {
         switch (rules){
-            case ICalculationRules.RULES_FIXED:
+            case ICalculationRules.RULES_FIXED_DAY:
+
+                break;
+            case ICalculationRules.RULES_FIXED_MONTH:
 
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
@@ -79,8 +83,7 @@ public class MainFragment extends AppBaseFragment {
     @Override public void onFragmentShow() {
         super.onFragmentShow();
 
-        final int rules = new SharedPreferencesUtil(mAppContext, Consts.SP_NAME)
-                .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        final int rules = mPreferencesUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         onCalculationRulesChange(rules);
     }
 }

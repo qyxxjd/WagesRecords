@@ -7,8 +7,8 @@
 
     <FrameLayout style="@style/Main.Layout">
 
-        <TextView style="@style/Main.Lable"
-            android:text="@string/main.month.lable" />
+        <TextView style="@style/Main.Label"
+            android:text="@string/main.month.label" />
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_month_wages"
@@ -20,8 +20,8 @@
 
     <FrameLayout style="@style/Main.Layout">
 
-        <TextView style="@style/Main.Lable"
-            android:text="@string/main.year.lable" />
+        <TextView style="@style/Main.Label"
+            android:text="@string/main.year.label" />
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_year_wages"
@@ -33,8 +33,8 @@
 
     <FrameLayout style="@style/Main.Layout">
 
-        <TextView style="@style/Main.Lable"
-            android:text="@string/main.total.lable" />
+        <TextView style="@style/Main.Label"
+            android:text="@string/main.total.label" />
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_total_wages"

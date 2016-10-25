@@ -12,17 +12,19 @@ import android.support.annotation.IntDef;
  */
 public interface ICalculationRules {
     /** 计算规则：默认规则 */
-    int RULES_DEFAULT  = 0x00;
-    /** 计算规则：固定+加班 */
-    int RULES_FIXED    = 0x01;
+    int RULES_DEFAULT     = 0x00;
+    /** 计算规则：按月加班 */
+    int RULES_FIXED_MONTH = 0x01;
     /** 计算规则：必胜客兼职 */
-    int RULES_PIZZAHUT = 0x02;
-    /** 计算规则：按月计算 */
-    int RULES_MONTHLY  = 0x03;
+    int RULES_PIZZAHUT    = 0x02;
+    /** 计算规则：月工资 */
+    int RULES_MONTHLY     = 0x03;
     /** 计算规则：计件 */
-    int RULES_QUANTITY = 0x04;
+    int RULES_QUANTITY    = 0x04;
+    /** 计算规则：按天加班 */
+    int RULES_FIXED_DAY   = 0x05;
 
-    @IntDef({RULES_DEFAULT, RULES_FIXED, RULES_PIZZAHUT, RULES_MONTHLY, RULES_QUANTITY})
+    @IntDef({RULES_DEFAULT, RULES_FIXED_MONTH, RULES_PIZZAHUT, RULES_MONTHLY, RULES_QUANTITY, RULES_FIXED_DAY})
     @interface Rules{}
 
     /**

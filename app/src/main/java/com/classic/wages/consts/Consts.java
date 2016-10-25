@@ -31,7 +31,7 @@ public class Consts {
     }
 
     public static final List<String> RULES_LIST =
-            Arrays.asList("默认规则", "固定+加班", "必胜客兼职", "按月计算", "计件");
+            Arrays.asList("默认规则", "按月加班", "必胜客兼职", "月工资", "计件", "按天加班");
 
     public static final String[] FORMAT_WEEKS  = { "日", "一", "二", "三", "四", "五", "六" };
     public static final int      HOUR_2_MS     = 3600000;

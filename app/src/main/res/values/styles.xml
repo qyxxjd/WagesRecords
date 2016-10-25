@@ -28,7 +28,7 @@
         <item name="android:background">@color/divider</item>
     </style>
 
-    <style name="Main.Lable">
+    <style name="Main.Label">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/font_normal</item>
@@ -58,6 +58,20 @@
         <item name="android:drawableRight">@drawable/ic_menu_arrow</item>
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="Setting.ItemLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="Setting.ItemValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">@dimen/font_small</item>
     </style>
     <style name="Setting.Line">
         <item name="android:layout_width">match_parent</item>

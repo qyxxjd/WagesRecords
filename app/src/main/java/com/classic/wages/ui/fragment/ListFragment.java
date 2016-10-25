@@ -39,10 +39,12 @@ public class ListFragment extends AppBaseFragment {
     @BindView(R.id.recycler_view)        RecyclerView         mRecyclerView;
     @BindView(R.id.fab)                  FloatingActionButton mFab;
 
-    @Inject WorkInfoDao mWorkInfoDao;
-    private IRules      mRules;
-    private Integer     mFilterYear;
-    private Integer     mFilterMonth;
+    @Inject WorkInfoDao           mWorkInfoDao;
+    @Inject SharedPreferencesUtil mPreferencesUtil;
+
+    private IRules  mRules;
+    private Integer mFilterYear;
+    private Integer mFilterMonth;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -73,14 +75,16 @@ public class ListFragment extends AppBaseFragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        final int rules = new SharedPreferencesUtil(mAppContext, Consts.SP_NAME)
-                .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        final int rules = mPreferencesUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         onCalculationRulesChange(rules);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
         switch (rules){
-            case ICalculationRules.RULES_FIXED:
+            case ICalculationRules.RULES_FIXED_DAY:
+
+                break;
+            case ICalculationRules.RULES_FIXED_MONTH:
 
                 break;
             case ICalculationRules.RULES_PIZZAHUT:

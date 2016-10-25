@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setting_rules_default_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/layout_height_small"
+    android:visibility="gone">
+
+    <TextView
+        style="@style/Setting.ItemLabel"
+        android:text="@string/setting.hourly.wage.label"
+        />
+
+    <TextView style="@style/Setting.ItemValue"
+        android:id="@+id/setting_hourly_wage"
+        tools:text="11元/小时"
+        />
+
+    <View style="@style/Main.Line" />
+</FrameLayout>

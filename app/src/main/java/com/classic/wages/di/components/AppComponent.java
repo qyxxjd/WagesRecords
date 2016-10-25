@@ -4,6 +4,7 @@ import com.classic.wages.di.modules.AppModule;
 import com.classic.wages.ui.fragment.AddFragment;
 import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
+import com.classic.wages.ui.fragment.SettingFragment;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -17,5 +18,6 @@ import javax.inject.Singleton;
 public interface AppComponent {
     void inject(MainFragment fragment);
     void inject(ListFragment fragment);
+    void inject(SettingFragment fragment);
     void inject(AddFragment fragment);
 }
