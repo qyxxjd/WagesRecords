@@ -38,5 +38,5 @@
     <dimen name="multi_window_min_height">300dp</dimen>
     <dimen name="multi_window_min_width">300dp</dimen>
 
-
+    <dimen name="qrcode_width">140dp</dimen>
 </resources>

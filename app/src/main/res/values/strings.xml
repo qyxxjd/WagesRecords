@@ -32,6 +32,12 @@
     <string name="setting.rest.wage.label">带薪休息</string>
     <string name="setting.allowance.wage.label">晚班津贴</string>
 
+    <string name="setup.success">设置成功</string>
+    <string name="setup.hourly.wage">设置当前时薪</string>
+    <string name="setup.hourly.wage.empty">当前时薪不能为空</string>
+    <string name="hourly.wage.suffix">元/小时</string>
+
+
     <string name="add.start.time">开始时间</string>
     <string name="add.start.time.empty">请选择开始时间</string>
     <string name="add.end.time">结束时间</string>
@@ -52,6 +58,12 @@
     <string name="add.failure">添加失败</string>
     <string name="modify.success">修改成功</string>
     <string name="modify.failure">修改失败</string>
+
+    <string name="author.qq">QQ:630404403</string>
+    <string name="author.wx">微信:630404403</string>
+    <string name="share.title">应用分享</string>
+    <string name="share.subject">@string/app_name</string>
+    <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：https://www.pgyer.com/recordswages</string>
 
     <string name="thanks.detail">
         感谢以下开源库和作者，排名不分先后：\n

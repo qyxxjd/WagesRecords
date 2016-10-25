@@ -155,4 +155,14 @@ public class MainActivity extends AppBaseActivity {
                 break;
         }
     }
+
+    public void notifyCalculationRulesChange(int rules) {
+        if(null != mMainFragment){
+            mMainFragment.onCalculationRulesChange(rules);
+        }
+        if(null != mListFragment){
+            mListFragment.onCalculationRulesChange(rules);
+        }
+    }
+
 }

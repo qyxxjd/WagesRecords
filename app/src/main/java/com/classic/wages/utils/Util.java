@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.EditText;
 import cn.qy.util.activity.R;
@@ -129,6 +130,12 @@ public final class Util {
             return ctx.getResources().getColor(colorId);
         }
         return ctx.getColor(colorId);
+    }
+    public static String getString(@NonNull Context ctx, @StringRes int resId){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return ctx.getResources().getString(resId);
+        }
+        return ctx.getString(resId);
     }
 
 }

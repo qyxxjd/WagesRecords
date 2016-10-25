@@ -28,4 +28,5 @@
     <color name="week6">#54D560</color>
 
     <color name="cyan">#00BCD4</color>
+    <drawable name="transparent">@android:color/transparent</drawable>
 </resources>
