@@ -29,4 +29,6 @@
 
     <color name="cyan">#00BCD4</color>
     <drawable name="transparent">@android:color/transparent</drawable>
+
+    <color name="licenses_divider">#FF90EBFE</color>
 </resources>

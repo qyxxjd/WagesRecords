@@ -39,4 +39,9 @@
     <dimen name="multi_window_min_width">300dp</dimen>
 
     <dimen name="qrcode_width">140dp</dimen>
+
+    <dimen name="licenses_item_height">120dp</dimen>
+    <dimen name="licenses_logo_height">48dp</dimen>
+    <dimen name="licenses_divider_margin">23dp</dimen>
+    <dimen name="licenses_title_font">28sp</dimen>
 </resources>

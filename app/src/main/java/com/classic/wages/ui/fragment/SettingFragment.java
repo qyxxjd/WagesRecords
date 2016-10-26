@@ -22,6 +22,7 @@ import com.classic.core.utils.ToastUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.activity.MainActivity;
+import com.classic.wages.ui.activity.OpenSourceLicensesActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.dialog.AuthorDialog;
 import com.classic.wages.ui.rules.ICalculationRules;
@@ -93,7 +94,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         mAuthorDialog.show();
     }
     @OnClick(R.id.setting_thanks) public void onThanksClick(){
-        //TODO
+        OpenSourceLicensesActivity.start(mActivity);
     }
 
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
@@ -153,7 +154,6 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                         }
                     }
                 });
-
     }
 
     private void displayInputDialog(int titleResId, String inputHint, String inputDefaultValue,
