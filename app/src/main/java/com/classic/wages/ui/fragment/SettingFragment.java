@@ -93,7 +93,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         }
         mAuthorDialog.show();
     }
-    @OnClick(R.id.setting_thanks) public void onThanksClick(){
+    @OnClick(R.id.setting_licenses) public void onThanksClick(){
         OpenSourceLicensesActivity.start(mActivity);
     }
 

@@ -65,20 +65,6 @@
     <string name="share.subject">@string/app_name</string>
     <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：https://www.pgyer.com/recordswages</string>
 
-    <string name="thanks.detail">
-        感谢以下开源库和作者，排名不分先后：\n
-        RxJava \n
-        RxAndroid \n
-        Sqlbrite \n
-        Dagger2 \n
-        LeakCanary \n
-        BlockCanary \n
-        Butterknife \n
-        MaterialDialog \n
-        MaterialSpinner \n
-        NavigationTabBar \n
-        MaterialEditText \n
-        FloatingActionButton \n
-    </string>
+    <string name="setting.licenses">Open Source Licenses</string>
 
 </resources>

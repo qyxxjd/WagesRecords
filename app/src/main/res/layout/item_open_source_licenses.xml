@@ -37,12 +37,12 @@
         android:id="@+id/licenses_item_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_large"
         android:layout_below="@id/licenses_item_title"
         android:layout_toRightOf="@id/licenses_item_logo"
         android:layout_toEndOf="@id/licenses_item_logo"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/font_larger"
+        android:textSize="@dimen/font_large"
         />
 
     <TextView
@@ -54,7 +54,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@id/licenses_item_author"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/font_larger"
         />
 
     <View

@@ -67,8 +67,8 @@
             <View style="@style/Main.Line" />
 
             <TextView style="@style/Setting.ItemMenu"
-                android:id="@+id/setting_thanks"
-                android:text="@string/setting.thanks"/>
+                android:id="@+id/setting_licenses"
+                android:text="@string/setting.licenses"/>
 
         </LinearLayout>
     </LinearLayout>

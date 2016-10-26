@@ -46,7 +46,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
 
     @Override public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-
+        setTitle(R.string.setting_licenses);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -112,11 +112,38 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         LICENSE_ARRAY.add(new LicenseItem("Butter Knife", "Jake Wharton", LICENSE_TYPE_APACHE,
                                           "https://avatars1.githubusercontent.com/u/66577?v=3&s=466",
                                           "https://github.com/JakeWharton/butterknife"));
-        //LICENSE_ARRAY.add(new LicenseItem("", "", LICENSE_TYPE_MIT,
-        //                                  "",
-        //                                  ""));
-        //LICENSE_ARRAY.add(new LicenseItem("", "", LICENSE_TYPE_MIT,
-        //                                  "",
-        //                                  ""));
+        LICENSE_ARRAY.add(new LicenseItem("LeakCanary", "Square", LICENSE_TYPE_APACHE,
+                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+                                          "https://github.com/square/leakcanary"));
+        LICENSE_ARRAY.add(new LicenseItem("SQLBrite", "Square", LICENSE_TYPE_APACHE,
+                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+                                          "https://github.com/square/sqlbrite"));
+        LICENSE_ARRAY.add(new LicenseItem("Dagger 2", "Google", LICENSE_TYPE_APACHE,
+                                          "https://avatars0.githubusercontent.com/u/1342004?v=3&s=200",
+                                          "https://github.com/google/dagger"));
+        LICENSE_ARRAY.add(new LicenseItem("AndroidPerformanceMonitor", "MarkZhai", LICENSE_TYPE_APACHE,
+                                          "https://avatars3.githubusercontent.com/u/1106500?v=3&s=466",
+                                          "https://github.com/markzhai/AndroidPerformanceMonitor"));
+        LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
+                                          "https://avatars3.githubusercontent.com/u/423539?v=3&s=200",
+                                          "https://github.com/bumptech/glide"));
+        LICENSE_ARRAY.add(new LicenseItem("NavigationTabBar", "Devlight", LICENSE_TYPE_APACHE,
+                                          "https://avatars2.githubusercontent.com/u/18118313?v=3&s=200",
+                                          "https://github.com/DevLight-Mobile-Agency/NavigationTabBar"));
+        LICENSE_ARRAY.add(new LicenseItem("CircleImageView", "Henning Dodenhof", LICENSE_TYPE_APACHE,
+                                          "https://avatars3.githubusercontent.com/u/1824223?v=3&s=466",
+                                          "https://github.com/hdodenhof/CircleImageView"));
+        LICENSE_ARRAY.add(new LicenseItem("Material Dialogs", "Aidan Follestad", LICENSE_TYPE_MIT,
+                                          "https://avatars2.githubusercontent.com/u/1820165?v=3&s=466",
+                                          "https://github.com/afollestad/material-dialogs"));
+        LICENSE_ARRAY.add(new LicenseItem("MaterialEditText", "扔物线/朱凯", LICENSE_TYPE_APACHE,
+                                          "https://avatars0.githubusercontent.com/u/4454687?v=3&s=466",
+                                          "https://github.com/rengwuxian/MaterialEditText"));
+        LICENSE_ARRAY.add(new LicenseItem("Material Spinner", "Jared Rummler", LICENSE_TYPE_APACHE,
+                                          "https://avatars1.githubusercontent.com/u/6203389?v=3&s=466",
+                                          "https://github.com/jaredrummler/Material-Spinner"));
+        LICENSE_ARRAY.add(new LicenseItem("PickerView", "Sai", "",
+                                          "https://avatars1.githubusercontent.com/u/9945153?v=3&s=466",
+                                          "https://github.com/saiwu-bigkoo/Android-PickerView"));
     }
 }
