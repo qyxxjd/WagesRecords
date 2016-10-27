@@ -2,10 +2,13 @@ package com.classic.wages.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
@@ -20,8 +23,8 @@ import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRules;
 import com.classic.wages.ui.rules.basic.DefaultRulesImpl;
+import com.classic.wages.utils.HidingScrollListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.melnykov.fab.FloatingActionButton;
 import javax.inject.Inject;
 
 /**
@@ -70,10 +73,18 @@ public class ListFragment extends AppBaseFragment {
         mFilterYear = Integer.valueOf(mYearsSpinner.getText().toString());
         mFilterMonth = Integer.valueOf(mMonthsSpinner.getText().toString());
 
-        mFab.attachToRecyclerView(mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addOnScrollListener(new HidingScrollListener() {
+            @Override public void onHide() {
+                mFab.animate().translationY(mFab.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+            }
+
+            @Override public void onShow() {
+                mFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+        });
 
         final int rules = mPreferencesUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         onCalculationRulesChange(rules);

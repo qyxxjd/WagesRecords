@@ -36,13 +36,13 @@ dependencies {
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportRecyclerView
     compile rootProject.ext.supportCardView
+    compile rootProject.ext.supportDesign
 
     compile rootProject.ext.basicProject
     compile rootProject.ext.commonAdapter
     compile rootProject.ext.materialDialog
     compile rootProject.ext.materialSpinner
     compile rootProject.ext.materialEditText
-    compile rootProject.ext.fab
     compile rootProject.ext.pickerView
     compile rootProject.ext.navigationTabBar
     compile rootProject.ext.circleImageView
