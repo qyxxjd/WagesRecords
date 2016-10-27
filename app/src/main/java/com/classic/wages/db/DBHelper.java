@@ -3,6 +3,8 @@ package com.classic.wages.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.classic.wages.db.table.MonthlyInfoTable;
+import com.classic.wages.db.table.QuantityInfoTable;
 import com.classic.wages.db.table.WorkInfoTable;
 import java.util.ArrayList;
 
@@ -16,6 +18,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override public void onCreate(SQLiteDatabase db) {
         db.execSQL(WorkInfoTable.createTableSql());
+        db.execSQL(MonthlyInfoTable.getTableSql());
+        db.execSQL(QuantityInfoTable.getTableSql());
     }
 
     @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -35,14 +39,17 @@ public class DbHelper extends SQLiteOpenHelper {
         db.setVersion(newVersion);
     }
 
+
     private void update3(SQLiteDatabase db) {
+        //添加奖金、补贴、扣款、备注字段
         ArrayList<String> sqlArray = WorkInfoTable.getUpdateSql3();
         for (String sql:sqlArray){
             db.execSQL(sql);
         }
         sqlArray.clear();
-
-        //db.execSQL(MonthlyInfoTable.getTableSql());
-        //db.execSQL(QuantityInfoTable.getTableSql());
+        //新增月工资
+        db.execSQL(MonthlyInfoTable.getTableSql());
+        //新增计件工资
+        db.execSQL(QuantityInfoTable.getTableSql());
     }
 }

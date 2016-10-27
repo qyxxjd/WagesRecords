@@ -14,6 +14,7 @@ public class BasicInfo implements Serializable{
     private float  bonus;   //奖金
     private float  deductions;//扣款
     private float  multiple;  //节假日多倍工资
+    private String formatTime; //用于sql日期函数查询
     private String remark;
 
     public long getId() {
@@ -82,6 +83,14 @@ public class BasicInfo implements Serializable{
     /** 扣款 */
     public void setDeductions(float deductions) {
         this.deductions = deductions;
+    }
+
+    public String getFormatTime() {
+        return formatTime;
+    }
+
+    public void setFormatTime(String formatTime) {
+        this.formatTime = formatTime;
     }
 
     /** 备注 */

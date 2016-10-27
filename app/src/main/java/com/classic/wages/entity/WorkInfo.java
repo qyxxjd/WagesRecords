@@ -13,7 +13,6 @@ public class WorkInfo extends BasicInfo {
 
     private long   startingTime;
     private long   endTime;
-    private String formatTime; //用于sql日期函数查询
 
     /** 工作结束时间 */
     public long getEndTime() {
@@ -37,14 +36,6 @@ public class WorkInfo extends BasicInfo {
         setFormatTime(DateUtil.formatDate(DateUtil.FORMAT, startingTime));
     }
 
-    public String getFormatTime() {
-        return formatTime;
-    }
-
-    public void setFormatTime(String formatTime) {
-        this.formatTime = formatTime;
-    }
-
     public WorkInfo(long startingTime, long endTime) {
         this(startingTime, endTime, 0F);
     }
@@ -60,7 +51,6 @@ public class WorkInfo extends BasicInfo {
                     String formatTime, float subsidy, float bonus, float deductions, String remark) {
         this.startingTime = startingTime;
         this.endTime = endTime;
-        this.formatTime = formatTime;
         setId(id);
         setCreateTime(createTime);
         setWeek(week);
@@ -68,6 +58,7 @@ public class WorkInfo extends BasicInfo {
         setSubsidy(subsidy);
         setBonus(bonus);
         setDeductions(deductions);
+        setFormatTime(formatTime);
         setRemark(remark);
     }
 

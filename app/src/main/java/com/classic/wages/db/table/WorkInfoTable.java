@@ -10,7 +10,6 @@ public class WorkInfoTable implements IBasicColumn {
     public static final String TABLE_NAME           = "t_workinfo";
     public static final String COLUMN_STARTING_TIME = "startingTime";
     public static final String COLUMN_END_TIME      = "endTime";
-    public static final String COLUMN_FORMAT_TIME   = "formatTime";
 
     public static String createTableSql() {
         final StringBuilder sb = new StringBuilder("create table if not exists ");

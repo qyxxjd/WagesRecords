@@ -24,8 +24,11 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRules;
 import com.classic.wages.ui.rules.basic.DefaultRulesImpl;
 import com.classic.wages.utils.HidingScrollListener;
+import com.classic.wages.utils.RxUtil;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import java.util.List;
 import javax.inject.Inject;
+import rx.functions.Action1;
 
 /**
  * 应用名称: WagesRecords
@@ -88,6 +91,14 @@ public class ListFragment extends AppBaseFragment {
 
         final int rules = mPreferencesUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         onCalculationRulesChange(rules);
+
+        mWorkInfoDao.queryYears()
+                    .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+                    .subscribe(new Action1<List<String>>() {
+                        @Override public void call(List<String> strings) {
+                            mYearsSpinner.setItems(strings);
+                        }
+                    }, RxUtil.ERROR_ACTION);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
