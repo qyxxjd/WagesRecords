@@ -15,7 +15,7 @@ import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.core.utils.IntentUtil;
 import com.classic.wages.ui.base.AppBaseActivity;
-import com.classic.wages.utils.GlideImageLoad;
+import com.classic.wages.utils.PicassoImageLoad;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
 
         @Override public void onUpdate(BaseAdapterHelper helper, LicenseItem item, int position) {
-            helper.setImageLoad(new GlideImageLoad())
+            helper.setImageLoad(new PicassoImageLoad())
                   .setImageUrl(R.id.licenses_item_logo, item.logoUrl)
                   .setText(R.id.licenses_item_title, item.title)
                   .setText(R.id.licenses_item_author, item.author)

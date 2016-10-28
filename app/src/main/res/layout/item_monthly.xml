@@ -1,0 +1,27 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_large"
+    android:layout_marginRight="@dimen/margin_large"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/radius_normal"
+    app:cardElevation="0dp"
+    >
+
+    <TextView style="@style/List.ItemWeek"
+        android:id="@+id/monthly_item_month"
+        tools:text="12" />
+
+    <TextView style="@style/List.ItemText"
+        android:id="@+id/monthly_item_wages"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:textSize="@dimen/font_larger"
+        android:layout_gravity="center_vertical|end"
+        tools:text="￥ 88.88"
+        />
+
+</android.support.v7.widget.CardView>

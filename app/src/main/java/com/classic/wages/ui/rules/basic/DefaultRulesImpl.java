@@ -99,7 +99,7 @@ public class DefaultRulesImpl implements IRules,
             this(context, null);
         }
         Adapter(Context context, List<WorkInfo> list) {
-            super(context, R.layout.fragment_list_item, list);
+            super(context, R.layout.item_default, list);
             mContext = context.getApplicationContext();
         }
 

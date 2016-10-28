@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
@@ -42,6 +43,7 @@ public class ListFragment extends AppBaseFragment {
 
     @BindView(R.id.query_months_spinner) MaterialSpinner      mMonthsSpinner;
     @BindView(R.id.query_years_spinner)  MaterialSpinner      mYearsSpinner;
+    @BindView(R.id.query_spinner_layout) LinearLayout         mSpinnerLayout;
     @BindView(R.id.recycler_view)        RecyclerView         mRecyclerView;
     @BindView(R.id.fab)                  FloatingActionButton mFab;
 
@@ -123,6 +125,7 @@ public class ListFragment extends AppBaseFragment {
                 mRules = new DefaultRulesImpl(mActivity, mWorkInfoDao);
                 break;
         }
+        mSpinnerLayout.setVisibility(rules == ICalculationRules.RULES_MONTHLY ? View.GONE : View.VISIBLE);
         mRecyclerView.setAdapter(mRules.getAdapter());
         mRules.onDataQuery(mFilterYear, mFilterMonth);
     }

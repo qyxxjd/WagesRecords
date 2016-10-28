@@ -15,9 +15,9 @@
         android:layout_height="@dimen/licenses_logo_height"
         android:layout_marginRight="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
-        android:src="@mipmap/ic_wages"
         app:civ_border_width="@dimen/border_normal"
         app:civ_border_color="@color/licenses_divider"
+        tools:src="@drawable/ic_github"
         />
 
     <TextView

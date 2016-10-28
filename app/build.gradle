@@ -46,7 +46,7 @@ dependencies {
     compile rootProject.ext.pickerView
     compile rootProject.ext.navigationTabBar
     compile rootProject.ext.circleImageView
-    compile rootProject.ext.glide
+    compile rootProject.ext.picasso
 
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
