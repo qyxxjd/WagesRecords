@@ -34,9 +34,9 @@
                 android:id="@+id/setting_rules_detail"
                 android:text="@string/setting.rules.detail"/>
 
-            <include layout="@layout/layout_rules_default" />
-
         </LinearLayout>
+
+        <include layout="@layout/setting_rules_content" />
 
         <LinearLayout style="@style/Setting.Layout"
             android:layout_marginTop="@dimen/margin_large"

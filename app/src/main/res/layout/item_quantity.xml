@@ -30,7 +30,8 @@
         android:layout_marginStart="64dp"
         android:layout_marginBottom="@dimen/margin_normal"
         android:layout_gravity="bottom"
-        tools:text="20:30 - 22:30" />
+        android:maxLength="12"
+        tools:text="计件物品名称" />
 
     <TextView style="@style/List.ItemText"
         android:id="@+id/quantity_item_wages"

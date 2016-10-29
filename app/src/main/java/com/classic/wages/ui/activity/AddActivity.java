@@ -46,12 +46,13 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
 
     public static void start(
             @NonNull Activity activity,
-            @AddTypes int type,
-            @ICalculationRules.Rules int rules, BasicInfo basicInfo) {
+            @AddTypes int type, int rules, BasicInfo basicInfo) {
         Intent intent = new Intent(activity, AddActivity.class);
         intent.putExtra(PARAMS_TYPE, type);
         intent.putExtra(PARAMS_RULES, rules);
-        intent.putExtra(PARAMS_BASIC_INFO, basicInfo);
+        if(null != basicInfo){
+            intent.putExtra(PARAMS_BASIC_INFO, basicInfo);
+        }
         activity.startActivity(intent);
     }
 
@@ -115,9 +116,12 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
             case ICalculationRules.RULES_QUANTITY:
 
                 break;
-            default:
+            case ICalculationRules.RULES_DEFAULT:
                 fragment = AddFragment.newInstance(mType, mBasicInfo);
                 break;
+        }
+        if(null == fragment){
+            throw new IllegalArgumentException("Illegal argument!");
         }
         changeFragment(R.id.add_fragment_layout, fragment);
     }

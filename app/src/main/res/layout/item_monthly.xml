@@ -12,8 +12,16 @@
     >
 
     <TextView style="@style/List.ItemWeek"
-        android:id="@+id/monthly_item_month"
-        tools:text="12" />
+        android:id="@+id/monthly_item_week" />
+
+    <TextView style="@style/List.ItemText"
+        android:id="@+id/monthly_item_date"
+        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/font_large"
+        tools:text="2013-8-1"
+        />
 
     <TextView style="@style/List.ItemText"
         android:id="@+id/monthly_item_wages"

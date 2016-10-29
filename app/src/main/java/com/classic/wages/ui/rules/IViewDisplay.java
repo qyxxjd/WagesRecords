@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午17:30
  */
-public interface IRules {
+public interface IViewDisplay {
 
     /**
      * 当前规则的列表适配器

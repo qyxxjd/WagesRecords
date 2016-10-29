@@ -13,17 +13,24 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
+import com.classic.wages.db.dao.MonthlyInfoDao;
+import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
-import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.IRules;
-import com.classic.wages.ui.rules.basic.DefaultRulesImpl;
+import com.classic.wages.ui.rules.IViewDisplay;
+import com.classic.wages.ui.rules.basic.DefaultViewDisplayImpl;
+import com.classic.wages.ui.rules.fixed.FixedDayViewDisplayImpl;
+import com.classic.wages.ui.rules.fixed.FixedMonthViewDisplayImpl;
+import com.classic.wages.ui.rules.monthly.MonthlyViewDisplayImpl;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutViewDisplayImpl;
+import com.classic.wages.ui.rules.quantity.QuantityViewDisplayImpl;
 import com.classic.wages.utils.HidingScrollListener;
 import com.classic.wages.utils.RxUtil;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -48,11 +55,14 @@ public class ListFragment extends AppBaseFragment {
     @BindView(R.id.fab)                  FloatingActionButton mFab;
 
     @Inject WorkInfoDao           mWorkInfoDao;
-    @Inject SharedPreferencesUtil mPreferencesUtil;
+    @Inject MonthlyInfoDao        mMonthlyInfoDao;
+    @Inject QuantityInfoDao       mQuantityInfoDao;
+    @Inject SharedPreferencesUtil mSpUtil;
 
-    private IRules  mRules;
-    private Integer mFilterYear;
-    private Integer mFilterMonth;
+    private IViewDisplay mViewDisplay;
+    private Integer      mFilterYear;
+    private Integer      mFilterMonth;
+    private int          mRulesType = -1;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -91,47 +101,79 @@ public class ListFragment extends AppBaseFragment {
             }
         });
 
-        final int rules = mPreferencesUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
-        onCalculationRulesChange(rules);
-
+        mRulesType = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mWorkInfoDao.queryYears()
                     .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
                     .subscribe(new Action1<List<String>>() {
                         @Override public void call(List<String> strings) {
-                            mYearsSpinner.setItems(strings);
+                            spinnerDataChange(strings);
                         }
-                    }, RxUtil.ERROR_ACTION);
+                    }, new Action1<Throwable>() {
+                        @Override public void call(Throwable throwable) {
+                            spinnerDataChange(null);
+                        }
+                    });
+    }
+
+    private void spinnerDataChange(List<String> items){
+        if(DataUtil.isEmpty(items)){
+            onCalculationRulesChange(mRulesType);
+            return;
+        }
+        mYearsSpinner.setItems(items);
+        mYearsSpinner.setSelectedIndex(0);
+        mFilterYear = Integer.valueOf(mYearsSpinner.getText().toString());
+        onCalculationRulesChange(mRulesType);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
+        mSpinnerLayout.setVisibility(rules == ICalculationRules.RULES_MONTHLY ? View.GONE : View.VISIBLE);
+        if(rules == ICalculationRules.RULES_MONTHLY){
+            mViewDisplay = new MonthlyViewDisplayImpl(mActivity, mMonthlyInfoDao);
+            mRecyclerView.setAdapter(mViewDisplay.getAdapter());
+            mViewDisplay.onDataQuery(null, null);
+            return;
+        }
+
         switch (rules){
             case ICalculationRules.RULES_FIXED_DAY:
-
+                mViewDisplay = new FixedDayViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-
+                mViewDisplay = new FixedMonthViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-
-                break;
-            case ICalculationRules.RULES_MONTHLY:
-
+                mViewDisplay = new PizzaHutViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
                 break;
             case ICalculationRules.RULES_QUANTITY:
-
+                mViewDisplay = new QuantityViewDisplayImpl(mActivity, mQuantityInfoDao);
                 break;
             case ICalculationRules.RULES_DEFAULT:
             default:
-                mRules = new DefaultRulesImpl(mActivity, mWorkInfoDao);
+                mViewDisplay = new DefaultViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
                 break;
         }
-        mSpinnerLayout.setVisibility(rules == ICalculationRules.RULES_MONTHLY ? View.GONE : View.VISIBLE);
-        mRecyclerView.setAdapter(mRules.getAdapter());
-        mRules.onDataQuery(mFilterYear, mFilterMonth);
+        mRecyclerView.setAdapter(mViewDisplay.getAdapter());
+        mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
+    }
+
+    @Override public void onRecalculation() {
+        int rulesType = mRulesType;
+        mRulesType = -1;
+        onCalculationRulesChange(rulesType);
     }
 
     @OnClick(R.id.fab) public void onFabClick(){
-        AddActivity.start(mActivity, AddActivity.TYPE_ADD, ICalculationRules.RULES_DEFAULT, new BasicInfo());
+        AddActivity.start(mActivity, AddActivity.TYPE_ADD, mRulesType, null);
+    }
+
+    @Override public void onFragmentShow() {
+        super.onFragmentShow();
+        final int rules = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        if(mRulesType != rules){
+            mRulesType = rules;
+            onCalculationRulesChange(rules);
+        }
     }
 
     private final MaterialSpinner.OnItemSelectedListener<String> mYearSelectedListener
@@ -139,7 +181,7 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterYear = Integer.valueOf(item);
-            mRules.onDataQuery(mFilterYear, mFilterMonth);
+            mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
     private final MaterialSpinner.OnItemSelectedListener<String> mMonthSelectedListener
@@ -147,7 +189,7 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterMonth = Integer.valueOf(item);
-            mRules.onDataQuery(mFilterYear, mFilterMonth);
+            mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
 }

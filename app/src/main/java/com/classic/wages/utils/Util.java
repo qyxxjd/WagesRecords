@@ -10,7 +10,9 @@ import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.EditText;
 import cn.qy.util.activity.R;
+import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
+import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
 import java.util.Calendar;
@@ -87,6 +89,13 @@ public final class Util {
         return new StringBuilder().append(MoneyUtil.replace(number)).append(" H").toString();
     }
 
+    public static String formatTimeBetween(long startTime, long endTime){
+        return new StringBuilder(DateUtil.formatDate(DateUtil.FORMAT_TIME, startTime))
+                .append(" - ")
+                .append(DateUtil.formatDate(DateUtil.FORMAT_TIME, endTime))
+                .toString();
+    }
+
     /**
      * 毫秒转小时
      * @param ms
@@ -137,5 +146,8 @@ public final class Util {
         }
         return ctx.getString(resId);
     }
-
+    public static float getPreferencesValue(@NonNull SharedPreferencesUtil spUtil,
+                                     String key, String defultValue){
+        return Float.valueOf(spUtil.getStringValue(key, defultValue));
+    }
 }

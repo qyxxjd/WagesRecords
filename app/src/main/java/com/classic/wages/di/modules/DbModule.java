@@ -20,6 +20,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import cn.qy.util.activity.BuildConfig;
 import com.classic.wages.db.DbHelper;
+import com.classic.wages.db.dao.MonthlyInfoDao;
+import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.orhanobut.logger.Logger;
 import com.squareup.sqlbrite.BriteDatabase;
@@ -42,13 +44,22 @@ import rx.schedulers.Schedulers;
     }
 
     @Provides @Singleton SqlBrite provideSqlBrite() {
-        return SqlBrite.create(new SqlBrite.Logger() {
-            @Override public void log(String message) {
-                if(!TextUtils.isEmpty(message)){
-                    Logger.d(message);
-                }
-            }
-        });
+        return new SqlBrite.Builder()
+                           .logger(new SqlBrite.Logger() {
+                                @Override public void log(String message) {
+                                    if(!TextUtils.isEmpty(message)){
+                                        Logger.d(message);
+                                    }
+                                }
+                           })
+                           .build();
+        //return SqlBrite.create(new SqlBrite.Logger() {
+        //    @Override public void log(String message) {
+        //        if(!TextUtils.isEmpty(message)){
+        //            Logger.d(message);
+        //        }
+        //    }
+        //});
     }
 
     @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite, SQLiteOpenHelper helper) {
@@ -59,5 +70,13 @@ import rx.schedulers.Schedulers;
 
     @Provides @Singleton WorkInfoDao provideWorkInfoDao(BriteDatabase briteDatabase) {
         return new WorkInfoDao(briteDatabase);
+    }
+
+    @Provides @Singleton MonthlyInfoDao provideMonthlyInfoDao(BriteDatabase briteDatabase) {
+        return new MonthlyInfoDao(briteDatabase);
+    }
+
+    @Provides @Singleton QuantityInfoDao provideQuantityInfoDao(BriteDatabase briteDatabase) {
+        return new QuantityInfoDao(briteDatabase);
     }
 }

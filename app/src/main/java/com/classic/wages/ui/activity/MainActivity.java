@@ -156,12 +156,12 @@ public class MainActivity extends AppBaseActivity {
         }
     }
 
-    public void notifyCalculationRulesChange(int rules) {
+    public void notifyRecalculation() {
         if(null != mMainFragment){
-            mMainFragment.onCalculationRulesChange(rules);
+            mMainFragment.onRecalculation();
         }
         if(null != mListFragment){
-            mListFragment.onCalculationRulesChange(rules);
+            mListFragment.onRecalculation();
         }
     }
 

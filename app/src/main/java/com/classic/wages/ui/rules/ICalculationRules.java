@@ -32,4 +32,9 @@ public interface ICalculationRules {
      * @param rules
      */
     void onCalculationRulesChange(int rules);
+
+    /**
+     * 重新计算
+     */
+    void onRecalculation();
 }

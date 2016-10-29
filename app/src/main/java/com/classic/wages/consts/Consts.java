@@ -37,29 +37,66 @@ public class Consts {
     public static final int      HOUR_2_MS     = 3600000;
     public static final int      DEFAULT_SCALE = 2;
 
-    public static final String DEFAULT_HOURLY_WAGE = "11";
-    public static final String DEFAULT_WORK_HOURS  = "100";
-    public static final String DEFAULT_NIGHT_WAGE  = "3.3";
+    public static final String DEFAULT_HOURLY_WAGE       = "11";  //默认时薪
+    public static final String DEFAULT_NIGHT_SUBSIDY     = "3.3"; //默认晚班补贴
+    public static final String DEFAULT_DAY_FIXED_HOURS   = "10";  //默认按天加班的固定时长
+    public static final String DEFAULT_MONTH_FIXED_HOURS = "100"; //默认按月加班的固定时长
 
     public static final String SP_NAME        = "recordsWages";
-    /** 时薪 */
-    public static final String SP_HOURLY_WAGE = "hourlyWage";
     /** 当前工资计算规则 */
     public static final String SP_RULES_TYPE  = "rulesType";
 
-    /*    规则一（固定+加班）    */
-    /** 加班时薪 */
-    public static final String SP_OVERTIME_WAGE = "overtimeWage";
-    /** 固定时长-超过这个时间按加班计算 */
-    public static final String SP_WORK_HOURS    = "workHours";
+    /**
+     * 默认规则
+     * 时薪
+     */
+    public static final String SP_HOURLY_WAGE = "hourlyWage";
+
+    /**
+     * 按天加班规则
+     */
+    //正常时薪
+    public static final String SP_FIXED_DAY_HOURLY_WAGE          = "fixedDayHourlyWage";
+    //固定时长, 每天超过这个时间算加班工资
+    public static final String SP_FIXED_DAY_HOURS                = "fixedDayHours";
+    //加班时薪
+    public static final String SP_FIXED_DAY_OVERTIME_HOURLY_WAGE = "fixedDayOvertimeHourlyWage";
+
+    /**
+     * 按月加班规则
+     */
+    //正常时薪
+    public static final String SP_FIXED_MONTH_HOURLY_WAGE          = "fixedMonthHourlyWage";
+    //固定时长, 每个月超过这个时间算加班工资
+    public static final String SP_FIXED_MONTH_HOURS                = "fixedMonthHours";
+    //加班时薪
+    public static final String SP_FIXED_MONTH_OVERTIME_MOURLY_WAGE = "fixedMonthOvertimeHourlyWage";
+
+    /**
+     * 必胜客兼职规则
+     */
+    //正常时薪
+    public static final String SP_PIZZA_HUT_HOURLY_WAGE      = "pizzaHutHourlyWage";
+    //带薪休息的时薪
+    public static final String SP_PIZZA_HUT_REST_HOURLY_WAGE = "pizzaHutRestHourlyWage";
+    //晚班补贴
+    public static final String SP_PIZZA_HUT_NIGHT_SUBSIDY    = "pizzaHutNightSubsidy";
 
 
-    /*    规则二（必胜客兼职）    */
-    /** 时薪-带薪休息 */
-    public static final String SP_REST_WAGE  = "restWage";
-    /** 时薪-22点后晚班津贴 */
-    public static final String SP_NIGHT_WAGE = "nightWage";
 
-    public static final String TAG_DATA_CHANGE  = "dataChange";
-    public static final String TAG_RULES_CHANGE = "rulesChange";
+    ///*    规则一（固定+加班）    */
+    ///** 加班时薪 */
+    //public static final String SP_OVERTIME_WAGE = "overtimeWage";
+    ///** 固定时长-超过这个时间按加班计算 */
+    //public static final String SP_WORK_HOURS    = "workHours";
+    //
+    //
+    ///*    规则二（必胜客兼职）    */
+    ///** 时薪-带薪休息 */
+    //public static final String SP_REST_WAGE  = "restWage";
+    ///** 时薪-22点后晚班津贴 */
+    //public static final String SP_NIGHT_WAGE = "nightWage";
+    //
+    //public static final String TAG_DATA_CHANGE  = "dataChange";
+    //public static final String TAG_RULES_CHANGE = "rulesChange";
 }

@@ -33,4 +33,6 @@ public abstract class AppBaseFragment extends BaseFragment implements ICalculati
     }
 
     @Override public void onCalculationRulesChange(int rules) { }
+
+    @Override public void onRecalculation() { }
 }
