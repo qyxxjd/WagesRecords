@@ -21,6 +21,7 @@ import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
 import com.orhanobut.logger.Logger;
 import java.util.List;
+import rx.Observable;
 import rx.functions.Action1;
 
 /**
@@ -64,9 +65,11 @@ public abstract class BaseViewDisplayImpl<T extends BasicInfo> implements IViewD
 
     @Override public void onDataQuery(Integer year, Integer month) {
         Logger.d("onDataQuery:"+year+","+month);
-        mDao.query(year, month)
-            .compose(RxUtil.<List<T>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
-            .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
+        Observable<List<T>> observable = mDao.query(year, month);
+        if(null != observable){
+            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+                      .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
+        }
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {

@@ -33,7 +33,7 @@ public class FixedDayViewDisplayImpl extends BaseViewDisplayImpl<WorkInfo> {
         mHourlyWage = FixedUtils.getPreferencesValue(spUtil,
                 Consts.SP_FIXED_DAY_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
         mFixedHours = FixedUtils.getPreferencesValue(spUtil,
-                Consts.SP_FIXED_DAY_HOURS, Consts.DEFAULT_DAY_FIXED_HOURS);
+                Consts.SP_FIXED_DAY_FIXED_HOURS, Consts.DEFAULT_DAY_FIXED_HOURS);
         mOvertimeHourlyWage = FixedUtils.getPreferencesValue(spUtil,
                 Consts.SP_FIXED_DAY_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
     }

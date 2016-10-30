@@ -57,8 +57,33 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
     }
 
     @Override public Observable<List<MonthlyInfo>> query(Integer year, Integer month) {
-        //no impl
-        return null;
+        return queryListBySql(getSql(year, month));
+    }
+
+    private String getSql(Integer year, Integer month) {
+        final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(MonthlyInfoTable.TABLE_NAME);
+        if (null != year || null != month) {
+            sb.append(" WHERE ");
+        }
+        if (null != year) {
+            sb.append(" strftime('%Y',")
+              .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
+              .append(")='")
+              .append(year)
+              .append("' ");
+        }
+        if (null != year && null != month) {
+            sb.append(" AND ");
+        }
+        if (null != month) {
+            sb.append(" strftime('%m',")
+              .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
+              .append(")='")
+              .append(month)
+              .append("' ");
+        }
+        sb.append(" ORDER BY ").append(MonthlyInfoTable.COLUMN_MONTHLY_TIME).append(" DESC ");
+        return sb.toString();
     }
 
     @Override public Observable<List<MonthlyInfo>> queryCurrentMonth() {
@@ -68,9 +93,10 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
                                         .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
                                         .append(" between datetime('now','start of month','+1 second') ")
                                         .append("AND datetime('now','start of month','+1 month','-1 second')")
-                                        .append(" ORDER BY ")
-                                        .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-                                        .append(" DESC ");
+                                        //.append(" ORDER BY ")
+                                        //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+                                        //.append(" DESC ")
+                ;
         return queryListBySql(sb.toString());
     }
 
@@ -80,9 +106,10 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
                                         .append(" WHERE strftime('%Y',")
                                         .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
                                         .append(")=strftime('%Y',date('now')) ")
-                                        .append(" ORDER BY ")
-                                        .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-                                        .append(" DESC ");
+                                        //.append(" ORDER BY ")
+                                        //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+                                        //.append(" DESC ")
+                ;
         return queryListBySql(sb.toString());
     }
 
@@ -116,6 +143,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
         values.put(MonthlyInfoTable.COLUMN_MONTHLY_WAGE, info.getMonthlyWage());
         values.put(MonthlyInfoTable.COLUMN_WEEK, info.getWeek());
         values.put(MonthlyInfoTable.COLUMN_MULTIPLE, info.getMultiple());
+        values.put(MonthlyInfoTable.COLUMN_FORMAT_TIME, info.getFormatTime());
         values.put(MonthlyInfoTable.COLUMN_SUBSIDY, info.getSubsidy());
         values.put(MonthlyInfoTable.COLUMN_BONUS, info.getBonus());
         values.put(MonthlyInfoTable.COLUMN_DEDUCTIONS, info.getDeductions());

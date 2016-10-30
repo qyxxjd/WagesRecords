@@ -36,8 +36,7 @@ public class MonthlyInfo extends BasicInfo {
 
     public MonthlyInfo(long monthlyTime, float monthlyWage) {
         this.monthlyWage = monthlyWage;
-        final long time = System.currentTimeMillis();
-        setCreateTime(time);
+        setCreateTime(System.currentTimeMillis());
         setMonthlyTime(monthlyTime);
     }
 

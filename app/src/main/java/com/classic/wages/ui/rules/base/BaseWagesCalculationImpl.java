@@ -44,20 +44,21 @@ public abstract class BaseWagesCalculationImpl<T> implements IWagesCalculation {
         calculation(mDao.queryAll(), tv);
     }
 
-    private void calculation(Observable<List<T>> observable, TextView tv){
+    protected void calculation(Observable<List<T>> observable, TextView tv){
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
         observable.flatMap(new Func1<List<T>, Observable<Float>>() {
                         @Override public Observable<Float> call(List<T> list) {
                             return Observable.just(getTotalWages(list));
                         }
                     })
-                    .subscribe(new Action1<Float>() {
-                        @Override public void call(Float wages) {
-                            if(weakReference.get() != null){
-                                weakReference.get().setText(MoneyUtil.replace(wages));
-                            }
-                        }
-                    }, RxUtil.ERROR_ACTION);
+                  .compose(RxUtil.<Float>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+                  .subscribe(new Action1<Float>() {
+                      @Override public void call(Float wages) {
+                          if(weakReference.get() != null){
+                              weakReference.get().setText(MoneyUtil.replace(wages));
+                          }
+                      }
+                  }, RxUtil.ERROR_ACTION);
     }
 
     protected float getTotalWages(List<T> list){

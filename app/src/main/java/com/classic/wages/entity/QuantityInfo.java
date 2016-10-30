@@ -57,6 +57,7 @@ public class QuantityInfo extends BasicInfo {
         this.title = title;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
+        setCreateTime(System.currentTimeMillis());
         setWorkTime(workTime);
     }
 

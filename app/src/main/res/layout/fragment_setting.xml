@@ -40,6 +40,7 @@
 
         <LinearLayout style="@style/Setting.Layout"
             android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/bottom_bar_height"
             android:background="@drawable/white_radius_bg" >
 
             <TextView style="@style/Setting.ItemMenu"

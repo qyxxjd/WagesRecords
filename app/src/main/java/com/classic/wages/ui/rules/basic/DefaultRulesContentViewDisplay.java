@@ -22,11 +22,15 @@ import com.classic.wages.utils.Util;
  */
 public class DefaultRulesContentViewDisplay extends BaseRulesContentViewDisplay {
 
-    private String mCurrentHourlyWage;
+    private String mHourlyWage;
 
     public DefaultRulesContentViewDisplay(@NonNull Activity activity,
+                                          @NonNull View rulesContentView,
                                           @NonNull SharedPreferencesUtil spUtil) {
-        super(activity, spUtil);
+        super(activity, rulesContentView, spUtil);
+        mHourlyWage = MoneyUtil.replace(mSpUtil.getStringValue(
+                                        Consts.SP_HOURLY_WAGE,
+                                        Consts.DEFAULT_HOURLY_WAGE));
     }
 
     @Override public void setupRulesContent() {
@@ -35,28 +39,23 @@ public class DefaultRulesContentViewDisplay extends BaseRulesContentViewDisplay 
         mItem2Layout.setVisibility(View.GONE);
         mItem3Layout.setVisibility(View.GONE);
         mItem1Label.setText(R.string.setting_hourly_wage_label);
+        mItem1Value.setText(formatHourlyWage(mHourlyWage));
+    }
 
-        mCurrentHourlyWage = MoneyUtil.replace(mSpUtil.getStringValue(
-                Consts.SP_HOURLY_WAGE,
-                Consts.DEFAULT_HOURLY_WAGE));
-        mItem1Value.setText(formatHourlyWage(mCurrentHourlyWage));
-        mItem1Layout.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                setupHourlyWage();
-            }
-        });
+    @Override protected void onItem1LayoutClick() {
+        setupHourlyWage();
     }
 
     private void setupHourlyWage(){
         if(!checkWeakReference()){ return; }
         //设置当前时薪
         displayInputDialog(R.string.setup_hourly_wage,
-                Util.getString(mAppContext, R.string.setting_hourly_wage_label),
-                mCurrentHourlyWage,
+                Util.getString(mAppContext, R.string.setting_hourly_wage_label), mHourlyWage,
                 new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
+                        mHourlyWage = MoneyUtil.replace(input.toString());
                         mItem1Value.setText(formatHourlyWage(input.toString()));
                         mSpUtil.putStringValue(Consts.SP_HOURLY_WAGE, input.toString());
                         ToastUtil.showToast(mAppContext, R.string.setup_success);

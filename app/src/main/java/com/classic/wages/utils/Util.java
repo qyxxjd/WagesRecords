@@ -81,10 +81,6 @@ public final class Util {
     public static String formatWages(Number number){
         return new StringBuilder("￥").append(MoneyUtil.replace(number)).toString();
     }
-
-    public static String formatHours(long startTime, long endTime){
-        return formatHours(ms2hour(endTime - startTime));
-    }
     public static String formatHours(Number number){
         return new StringBuilder().append(MoneyUtil.replace(number)).append(" H").toString();
     }
@@ -140,11 +136,11 @@ public final class Util {
         }
         return ctx.getColor(colorId);
     }
-    public static String getString(@NonNull Context ctx, @StringRes int resId){
+    public static String getString(@NonNull Context ctx, @StringRes int resId, Object... params){
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getString(resId);
+            return ctx.getResources().getString(resId, params);
         }
-        return ctx.getString(resId);
+        return ctx.getString(resId, params);
     }
     public static float getPreferencesValue(@NonNull SharedPreferencesUtil spUtil,
                                      String key, String defultValue){

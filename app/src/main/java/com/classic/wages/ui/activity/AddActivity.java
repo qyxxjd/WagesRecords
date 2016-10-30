@@ -13,6 +13,8 @@ import com.classic.core.fragment.BaseFragment;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.AddFragment;
+import com.classic.wages.ui.fragment.AddMonthlyFragment;
+import com.classic.wages.ui.fragment.AddQuantityFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
 
 
@@ -33,7 +35,7 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
     public  static final String PARAMS_BASIC_INFO = "basicInfo";
 
     private int       mType;
-    private int       mRules;
+    private int       mRulesType;
     private BasicInfo mBasicInfo;
 
     @IntDef({ TYPE_ADD, TYPE_MODIFY }) public @interface AddTypes {}
@@ -91,7 +93,7 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
     private void initParams() {
         final Intent intent = getIntent();
         mType = intent.getIntExtra(PARAMS_TYPE, TYPE_ADD);
-        mRules = intent.getIntExtra(PARAMS_RULES, ICalculationRules.RULES_DEFAULT);
+        mRulesType = intent.getIntExtra(PARAMS_RULES, ICalculationRules.RULES_DEFAULT);
         mBasicInfo = (BasicInfo) intent.getSerializableExtra(PARAMS_BASIC_INFO);
 
         setTitle(mType == TYPE_ADD ? R.string.add : R.string.modify);
@@ -100,23 +102,17 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
     private void initFragment(Bundle savedInstanceState) {
         if(null != savedInstanceState) return;
         BaseFragment fragment = null;
-        switch (mRules) {
-            case ICalculationRules.RULES_FIXED_DAY:
-
-                break;
-            case ICalculationRules.RULES_FIXED_MONTH:
-
-                break;
-            case ICalculationRules.RULES_PIZZAHUT:
-
-                break;
+        switch (mRulesType) {
             case ICalculationRules.RULES_MONTHLY:
-
+                fragment = AddMonthlyFragment.newInstance(mType, mBasicInfo);
                 break;
             case ICalculationRules.RULES_QUANTITY:
-
+                fragment = AddQuantityFragment.newInstance(mType, mBasicInfo);
                 break;
             case ICalculationRules.RULES_DEFAULT:
+            case ICalculationRules.RULES_FIXED_DAY:
+            case ICalculationRules.RULES_FIXED_MONTH:
+            case ICalculationRules.RULES_PIZZAHUT:
                 fragment = AddFragment.newInstance(mType, mBasicInfo);
                 break;
         }

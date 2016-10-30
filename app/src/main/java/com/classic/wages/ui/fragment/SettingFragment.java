@@ -7,6 +7,7 @@ import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.core.permissions.AfterPermissionGranted;
 import com.classic.core.permissions.EasyPermissions;
 import com.classic.core.utils.IntentUtil;
@@ -19,6 +20,9 @@ import com.classic.wages.ui.dialog.AuthorDialog;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IRulesContentViewDisplay;
 import com.classic.wages.ui.rules.basic.DefaultRulesContentViewDisplay;
+import com.classic.wages.ui.rules.fixed.FixedDayRulesContentViewDisplay;
+import com.classic.wages.ui.rules.fixed.FixedMonthRulesContentViewDisplay;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutRulesContentViewDisplay;
 import com.classic.wages.utils.PgyerUtil;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.List;
@@ -37,12 +41,13 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     private static final String FEEDBACK_PERMISSION = Manifest.permission.RECORD_AUDIO;
 
     @BindView(R.id.setting_rules_spinner) MaterialSpinner mRulesSpinner;
+    @BindView(R.id.setting_rules_content) View            mRulesContentView;
 
     @Inject SharedPreferencesUtil mSpUtil;
 
-    private int          mRulesType;
-    private AuthorDialog mAuthorDialog;
-    private IRulesContentViewDisplay mRulesContent;
+    private int                      mRulesType;
+    private AuthorDialog             mAuthorDialog;
+    private IRulesContentViewDisplay mRulesContentViewDisplay;
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
@@ -68,7 +73,14 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     }
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
-        //TODO
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.setting_rules_detail)
+                .titleColorRes(R.color.primary_text)
+                .backgroundColorRes(R.color.white)
+                .content(R.string.setting_rules_description)
+                .contentColorRes(R.color.secondary_text)
+                .positiveText(R.string.confirm)
+                .show();
     }
     @OnClick(R.id.setting_update) public void onUpdateClick(){
         PgyerUtil.checkUpdate(mActivity, true);
@@ -93,26 +105,33 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
         if(position == mRulesType) return;
         mRulesType = position;
-        mSpUtil.putStringValue(Consts.SP_RULES_TYPE, String.valueOf(mRulesType));
+        mSpUtil.putIntValue(Consts.SP_RULES_TYPE, mRulesType);
         refreshUIByRules(mRulesType);
     }
 
     private void refreshUIByRules(int rules){
-        switch (rules){
+        switch (rules) {
             case ICalculationRules.RULES_FIXED_DAY:
-
+                mRulesContentViewDisplay = new FixedDayRulesContentViewDisplay(mActivity,
+                        mRulesContentView, mSpUtil);
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-
+                mRulesContentViewDisplay = new FixedMonthRulesContentViewDisplay(mActivity,
+                        mRulesContentView, mSpUtil);
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-
+                mRulesContentViewDisplay = new PizzaHutRulesContentViewDisplay(mActivity,
+                        mRulesContentView, mSpUtil);
                 break;
             case ICalculationRules.RULES_DEFAULT:
-                mRulesContent = new DefaultRulesContentViewDisplay(mActivity, mSpUtil);
+                mRulesContentViewDisplay = new DefaultRulesContentViewDisplay(mActivity,
+                        mRulesContentView, mSpUtil);
                 break;
+            default:
+                mRulesContentView.setVisibility(View.GONE);
+                return;
         }
-        mRulesContent.setupRulesContent();
+        mRulesContentViewDisplay.setupRulesContent();
     }
 
     @Override public void onPause() {

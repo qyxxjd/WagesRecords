@@ -29,15 +29,33 @@
     <string name="setting.share">应用分享</string>
     <string name="setting.thanks">感恩鸣谢</string>
     <string name="setting.hourly.wage.label">当前时薪</string>
-    <string name="setting.rest.wage.label">带薪休息</string>
-    <string name="setting.allowance.wage.label">晚班津贴</string>
+    <string name="setting.rest.hourly.wage.label">带薪休息</string>
+    <string name="setting.night.subsidy.label">晚班补贴</string>
+    <string name="setting.fixed.hours.label">固定时长</string>
+    <string name="setting.overtime.hourly.wage.label">加班时薪</string>
 
     <string name="setup.success">设置成功</string>
     <string name="setup.hourly.wage">设置当前时薪</string>
-    <string name="setup.hourly.wage.empty">当前时薪不能为空</string>
-    <string name="hourly.wage.suffix">元/小时</string>
+    <string name="setup.rest.hourly.wage">设置带薪休息时薪</string>
+    <string name="setup.night.subsidy">设置晚班补助</string>
+    <string name="setup.fixed.hours">设置固定时长</string>
+    <string name="setup.overtime.hourly.wage">设置加班时薪</string>
+    <string name="hourly.wage.suffix">%s元/小时</string>
+    <string name="hours.suffix">%s小时</string>
 
 
+    <string name="add.monthly.time">工作时间</string>
+    <string name="add.monthly.wage">月工资</string>
+    <string name="add.monthly.time.empty">请选择工作时间</string>
+    <string name="add.monthly.wage.empty">请输入月工资</string>
+    <string name="add.quantity.time">工作时间</string>
+    <string name="add.quantity.title">物品名称</string>
+    <string name="add.quantity.count">物品数量</string>
+    <string name="add.quantity.unit.price">物品单价</string>
+    <string name="add.quantity.time.empty">请选择工作时间</string>
+    <string name="add.quantity.title.empty">请输入物品名称</string>
+    <string name="add.quantity.count.empty">请输入物品数量</string>
+    <string name="add.quantity.unit.price.empty">请输入物品单价</string>
     <string name="add.start.time">开始时间</string>
     <string name="add.start.time.empty">请选择开始时间</string>
     <string name="add.end.time">结束时间</string>
@@ -67,4 +85,43 @@
 
     <string name="setting.licenses">Open Source Licenses</string>
 
+    <string name="setting.rules.description">
+        1.默认规则 \n
+        工作时长 X 当前时薪 + \n
+        补贴 + 奖金 - 扣款 \n
+        节假日计算方式: \n
+        工作时长 X 当前时薪 X 倍数 + \n
+        补贴 + 奖金 - 扣款 \n\n
+        2.按月加班 \n
+        一个月内的工作总时长,如果超过固定时长,多余部分按加班工资计算。\n
+        普通工作时长 X 当前时薪 +  \n
+        加班时长 X 加班时薪 +  \n
+        节假日工作时长 X 当前时薪 X 倍数 +  \n
+        补贴 + 奖金 - 扣款 \n\n
+        3.必胜客兼职 \n
+        大于8小时 : 休息1小时,带薪0.5小时  \n
+        大于6小时 : 休息0小时,带薪0.5小时  \n
+        大于4小时 : 休息0小时,带薪0.25小时  \n
+        晚上22点后享受晚班补贴  \n
+        计算方式：\n
+        普通工作时长 X 当前时薪 +  \n
+        带薪休息时长 X 带薪休息时薪 +  \n
+        晚班时长 X (当前时薪 + 晚班补贴) +  \n
+        补贴 + 奖金 - 扣款 \n
+        节假日计算方式：\n
+        工作时长 X 当前时薪 X 倍数 +  \n
+        补贴 + 奖金 - 扣款 \n\n
+        4.月工资 \n
+        月工资 + 补贴 + 奖金 - 扣款 \n\n
+        5.计件 \n
+        数量 X 单价 + 补贴 + 奖金 - 扣款 \n\n
+        6.按天加班 \n
+        一个天内的工作总时长,如果超过固定时长,多余部分按加班工资计算。注意:如果选择了节假日选项,将忽略加班时薪,详细计算规则如下。\n
+        普通工作时长 X 当前时薪 +  \n
+        加班时长 X 加班时薪 +  \n
+        补贴 + 奖金 - 扣款 \n
+        节假日计算方式: \n
+        工作时长 X 当前时薪 X 倍数 + \n
+        补贴 + 奖金 - 扣款 \n\n
+    </string>
 </resources>

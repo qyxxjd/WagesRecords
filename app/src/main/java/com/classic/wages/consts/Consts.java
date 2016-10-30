@@ -58,7 +58,7 @@ public class Consts {
     //正常时薪
     public static final String SP_FIXED_DAY_HOURLY_WAGE          = "fixedDayHourlyWage";
     //固定时长, 每天超过这个时间算加班工资
-    public static final String SP_FIXED_DAY_HOURS                = "fixedDayHours";
+    public static final String SP_FIXED_DAY_FIXED_HOURS          = "fixedDayFixedHours";
     //加班时薪
     public static final String SP_FIXED_DAY_OVERTIME_HOURLY_WAGE = "fixedDayOvertimeHourlyWage";
 
@@ -68,9 +68,9 @@ public class Consts {
     //正常时薪
     public static final String SP_FIXED_MONTH_HOURLY_WAGE          = "fixedMonthHourlyWage";
     //固定时长, 每个月超过这个时间算加班工资
-    public static final String SP_FIXED_MONTH_HOURS                = "fixedMonthHours";
+    public static final String SP_FIXED_MONTH_FIXED_HOURS          = "fixedMonthFixedHours";
     //加班时薪
-    public static final String SP_FIXED_MONTH_OVERTIME_MOURLY_WAGE = "fixedMonthOvertimeHourlyWage";
+    public static final String SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE = "fixedMonthOvertimeHourlyWage";
 
     /**
      * 必胜客兼职规则

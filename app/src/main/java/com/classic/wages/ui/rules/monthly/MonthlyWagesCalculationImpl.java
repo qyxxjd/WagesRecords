@@ -22,44 +22,4 @@ public class MonthlyWagesCalculationImpl extends BaseWagesCalculationImpl<Monthl
     @Override protected float getWages(@NonNull MonthlyInfo info) {
         return MonthlyUtils.getWages(info);
     }
-
-    //@Override public void calculationCurrentMonthWages(TextView tv) {
-    //    calculation(mMonthlyInfoDao.queryCurrentMonth(), tv);
-    //}
-    //
-    //@Override public void calculationCurrentYearWages(TextView tv) {
-    //    calculation(mMonthlyInfoDao.queryCurrentYear(), tv);
-    //}
-    //
-    //@Override public void calculationTotalWages(TextView tv) {
-    //    calculation(mMonthlyInfoDao.queryAll(), tv);
-    //}
-    //
-    //private void calculation(Observable<List<MonthlyInfo>> observable, TextView tv){
-    //    final WeakReference<TextView> weakReference = new WeakReference<>(tv);
-    //    observable.flatMap(new Func1<List<MonthlyInfo>, Observable<Float>>() {
-    //                    @Override public Observable<Float> call(List<MonthlyInfo> list) {
-    //                        return Observable.just(getTotalWages(list));
-    //                    }
-    //                })
-    //                .subscribe(new Action1<Float>() {
-    //                    @Override public void call(Float wages) {
-    //                        if(weakReference.get() != null){
-    //                            weakReference.get().setText(MoneyUtil.replace(wages));
-    //                        }
-    //                    }
-    //                }, RxUtil.ERROR_ACTION);
-    //}
-
-
-
-    //private float getTotalWages(List<MonthlyInfo> list){
-    //    float totalWages = 0f;
-    //    if(DataUtil.isEmpty(list)) return totalWages;
-    //    for (MonthlyInfo item : list) {
-    //        totalWages += (item.getMonthlyWage() + item.getSubsidy() + item.getBonus() -
-    //                        item.getDeductions());
-    //    }
-    //    return MoneyUtil.newInstance(totalWages).round(Consts.DEFAULT_SCALE).create().floatValue();
-    //}
 }

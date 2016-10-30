@@ -2,6 +2,8 @@ package com.classic.wages.di.components;
 
 import com.classic.wages.di.modules.AppModule;
 import com.classic.wages.ui.fragment.AddFragment;
+import com.classic.wages.ui.fragment.AddMonthlyFragment;
+import com.classic.wages.ui.fragment.AddQuantityFragment;
 import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
 import com.classic.wages.ui.fragment.SettingFragment;
@@ -20,4 +22,6 @@ public interface AppComponent {
     void inject(ListFragment fragment);
     void inject(SettingFragment fragment);
     void inject(AddFragment fragment);
+    void inject(AddMonthlyFragment fragment);
+    void inject(AddQuantityFragment fragment);
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/margin_large"
+    android:orientation="vertical">
+
+    <FrameLayout
+        style="@style/Add.DateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height_large">
+
+        <TextView
+            style="@style/Add.DateHint"
+            android:id="@+id/add_monthly_time_hint"
+            android:textSize="@dimen/font_normal"
+            android:text="@string/add.monthly.time"/>
+
+        <TextView
+            style="@style/Add.DateValue"
+            android:id="@+id/add_monthly_time"
+            android:textSize="@dimen/font_larger"
+            android:text="@string/add.monthly.time"/>
+
+    </FrameLayout>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        style="@style/Add.EditText"
+        android:id="@+id/add_monthly_wage"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:hint="@string/add.monthly.wage"
+        app:met_floatingLabel="highlight"
+        app:met_textColorHint="@color/secondary_text"
+        app:met_baseColor="@color/primary_text"
+        app:met_maxCharacters="8"
+        app:met_primaryColor="@color/cyan"/>
+
+    <include layout="@layout/add_optional"/>
+
+</LinearLayout>

@@ -102,6 +102,10 @@ public class ListFragment extends AppBaseFragment {
         });
 
         mRulesType = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        if(mRulesType == ICalculationRules.RULES_MONTHLY){
+            onCalculationRulesChange(mRulesType);
+            return;
+        }
         mWorkInfoDao.queryYears()
                     .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
                     .subscribe(new Action1<List<String>>() {

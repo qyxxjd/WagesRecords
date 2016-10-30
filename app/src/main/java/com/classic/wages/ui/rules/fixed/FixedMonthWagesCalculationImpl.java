@@ -29,9 +29,9 @@ public class FixedMonthWagesCalculationImpl extends BaseWagesCalculationImpl<Wor
         mHourlyWage = FixedUtils.getPreferencesValue(spUtil,
                 Consts.SP_FIXED_MONTH_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
         mFixedHours = FixedUtils.getPreferencesValue(spUtil,
-                Consts.SP_FIXED_MONTH_HOURS, Consts.DEFAULT_MONTH_FIXED_HOURS);
+                Consts.SP_FIXED_MONTH_FIXED_HOURS, Consts.DEFAULT_MONTH_FIXED_HOURS);
         mOvertimeHourlyWage = FixedUtils.getPreferencesValue(spUtil,
-                Consts.SP_FIXED_MONTH_OVERTIME_MOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
+                Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
     }
 
     @Override protected float getWages(@NonNull WorkInfo info) {
