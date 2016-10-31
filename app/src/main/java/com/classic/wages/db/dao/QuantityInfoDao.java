@@ -3,6 +3,7 @@ package com.classic.wages.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import com.classic.core.utils.CloseUtil;
 import com.classic.wages.db.table.QuantityInfoTable;
 import com.classic.wages.entity.QuantityInfo;
@@ -56,7 +57,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
         return mDatabase.delete(QuantityInfoTable.TABLE_NAME, QuantityInfoTable.COLUMN_ID + "=" + id);
     }
 
-    @Override public Observable<List<QuantityInfo>> query(Integer year, Integer month) {
+    @Override public Observable<List<QuantityInfo>> query(String year, String month) {
         return queryListBySql(getSql(year, month));
     }
 
@@ -103,22 +104,22 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
                         });
     }
 
-    private String getSql(Integer year, Integer month) {
+    private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(QuantityInfoTable.TABLE_NAME);
-        if (null != year || null != month) {
+        if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
             sb.append(" WHERE ");
         }
-        if (null != year) {
+        if (!TextUtils.isEmpty(year)) {
             sb.append(" strftime('%Y',")
               .append(QuantityInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
               .append(year)
               .append("' ");
         }
-        if (null != year && null != month) {
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
             sb.append(" AND ");
         }
-        if (null != month) {
+        if (!TextUtils.isEmpty(month)) {
             sb.append(" strftime('%m',")
               .append(QuantityInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")

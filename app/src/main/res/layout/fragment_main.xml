@@ -12,7 +12,7 @@
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_month_wages"
-            android:textColor="#EE82EE" />
+            android:textColor="@color/main_month_wages" />
 
     </FrameLayout>
 
@@ -25,7 +25,7 @@
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_year_wages"
-            android:textColor="#00CED1" />
+            android:textColor="@color/main_year_wages" />
 
     </FrameLayout>
 
@@ -38,7 +38,7 @@
 
         <TextView style="@style/Main.Value"
             android:id="@+id/main_total_wages"
-            android:textColor="#00BFFF" />
+            android:textColor="@color/main_total_wages" />
 
     </FrameLayout>
 

@@ -63,7 +63,7 @@ public abstract class BaseViewDisplayImpl<T extends BasicInfo> implements IViewD
         return mAdapter;
     }
 
-    @Override public void onDataQuery(Integer year, Integer month) {
+    @Override public void onDataQuery(String year, String month) {
         Logger.d("onDataQuery:"+year+","+month);
         Observable<List<T>> observable = mDao.query(year, month);
         if(null != observable){

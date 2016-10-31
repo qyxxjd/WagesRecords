@@ -17,8 +17,8 @@
 
     <TextView style="@style/List.ItemText"
         android:id="@+id/quantity_item_date"
-        android:layout_marginLeft="64dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginLeft="@dimen/item_content_left_margin"
+        android:layout_marginStart="@dimen/item_content_left_margin"
         android:layout_marginTop="@dimen/margin_normal"
         android:textSize="@dimen/font_large"
         tools:text="2013-8-1"
@@ -26,8 +26,8 @@
 
     <TextView style="@style/List.ItemText"
         android:id="@+id/quantity_item_title"
-        android:layout_marginLeft="64dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginLeft="@dimen/item_content_left_margin"
+        android:layout_marginStart="@dimen/item_content_left_margin"
         android:layout_marginBottom="@dimen/margin_normal"
         android:layout_gravity="bottom"
         android:maxLength="12"

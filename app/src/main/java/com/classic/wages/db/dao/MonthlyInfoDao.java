@@ -3,6 +3,7 @@ package com.classic.wages.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import com.classic.core.utils.CloseUtil;
 import com.classic.wages.db.table.MonthlyInfoTable;
 import com.classic.wages.entity.MonthlyInfo;
@@ -56,26 +57,26 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
         return mDatabase.delete(MonthlyInfoTable.TABLE_NAME, MonthlyInfoTable.COLUMN_ID + "=" + id);
     }
 
-    @Override public Observable<List<MonthlyInfo>> query(Integer year, Integer month) {
+    @Override public Observable<List<MonthlyInfo>> query(String year, String month) {
         return queryListBySql(getSql(year, month));
     }
 
-    private String getSql(Integer year, Integer month) {
+    private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(MonthlyInfoTable.TABLE_NAME);
-        if (null != year || null != month) {
+        if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
             sb.append(" WHERE ");
         }
-        if (null != year) {
+        if (!TextUtils.isEmpty(year)) {
             sb.append(" strftime('%Y',")
               .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
               .append(year)
               .append("' ");
         }
-        if (null != year && null != month) {
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
             sb.append(" AND ");
         }
-        if (null != month) {
+        if (!TextUtils.isEmpty(month)) {
             sb.append(" strftime('%m',")
               .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")

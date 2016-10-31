@@ -31,4 +31,8 @@
     <drawable name="transparent">@android:color/transparent</drawable>
 
     <color name="licenses_divider">#FF90EBFE</color>
+
+    <color name="main_month_wages">#EE82EE</color>
+    <color name="main_year_wages">#00CED1</color>
+    <color name="main_total_wages">#00BFFF</color>
 </resources>

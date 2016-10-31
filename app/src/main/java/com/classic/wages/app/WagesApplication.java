@@ -19,8 +19,10 @@ public class WagesApplication extends Application {
         }
         LeakCanary.install(this);
         BlockCanary.install(this, new WagesContext(this)).start();
-        mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(this))
-                                          .dbModule(new DbModule()).build();
+        mAppComponent = DaggerAppComponent.builder()
+                                          .appModule(new AppModule(this))
+                                          .dbModule(new DbModule())
+                                          .build();
     }
 
     public AppComponent getAppComponent() {

@@ -17,7 +17,6 @@
         android:layout_marginEnd="@dimen/margin_large"
         app:civ_border_width="@dimen/border_normal"
         app:civ_border_color="@color/licenses_divider"
-        tools:src="@drawable/ic_github"
         />
 
     <TextView
@@ -25,7 +24,7 @@
         android:id="@+id/licenses_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_large"
         android:layout_toRightOf="@id/licenses_item_logo"
         android:layout_toEndOf="@id/licenses_item_logo"
         android:textColor="@color/primary_text"

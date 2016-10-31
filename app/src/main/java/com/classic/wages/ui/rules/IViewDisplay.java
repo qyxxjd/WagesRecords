@@ -23,5 +23,5 @@ public interface IViewDisplay {
      * @param year 查询的年份，null代表全部
      * @param month 查询的月份，null代表全部
      */
-    void onDataQuery(Integer year, Integer month);
+    void onDataQuery(String year, String month);
 }

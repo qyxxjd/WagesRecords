@@ -2,7 +2,6 @@ package com.classic.wages.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -22,6 +21,7 @@ import java.util.WeakHashMap;
  * @author 续写经典
  * @date 2013/12/14
  */
+@SuppressWarnings({ "deprecation", "StringBufferReplaceableByString" })
 public final class Util {
     private static final WeakHashMap<Integer, CircularDrawable> DRAWABLE_MAP = new WeakHashMap<>();
 
@@ -125,22 +125,25 @@ public final class Util {
     }
 
     public static Drawable getDrawable(@NonNull Context ctx, @DrawableRes int resId){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getDrawable(resId);
-        }
-        return ctx.getDrawable(resId);
+        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        //    return ctx.getResources().getDrawable(resId);
+        //}
+        //return ctx.getDrawable(resId);
+        return ctx.getResources().getDrawable(resId);
     }
     public static int getColor(@NonNull Context ctx, @ColorRes int colorId){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getColor(colorId);
-        }
-        return ctx.getColor(colorId);
+        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        //    return ctx.getResources().getColor(colorId);
+        //}
+        //return ctx.getColor(colorId);
+        return ctx.getResources().getColor(colorId);
     }
     public static String getString(@NonNull Context ctx, @StringRes int resId, Object... params){
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            return ctx.getResources().getString(resId, params);
-        }
-        return ctx.getString(resId, params);
+        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        //    return ctx.getResources().getString(resId, params);
+        //}
+        //return ctx.getString(resId, params);
+        return ctx.getResources().getString(resId, params);
     }
     public static float getPreferencesValue(@NonNull SharedPreferencesUtil spUtil,
                                      String key, String defultValue){

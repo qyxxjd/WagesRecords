@@ -60,8 +60,8 @@ public class ListFragment extends AppBaseFragment {
     @Inject SharedPreferencesUtil mSpUtil;
 
     private IViewDisplay mViewDisplay;
-    private Integer      mFilterYear;
-    private Integer      mFilterMonth;
+    private String       mFilterYear;
+    private String       mFilterMonth;
     private int          mRulesType = -1;
 
     public static ListFragment newInstance() {
@@ -85,8 +85,8 @@ public class ListFragment extends AppBaseFragment {
         mMonthsSpinner.setOnItemSelectedListener(mMonthSelectedListener);
         mYearsSpinner.setSelectedIndex(DateUtil.getYear() - Consts.MIN_YEAR);
         mMonthsSpinner.setSelectedIndex(DateUtil.getMonth());
-        mFilterYear = Integer.valueOf(mYearsSpinner.getText().toString());
-        mFilterMonth = Integer.valueOf(mMonthsSpinner.getText().toString());
+        mFilterYear = mYearsSpinner.getText().toString();
+        mFilterMonth = mMonthsSpinner.getText().toString();
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
@@ -126,7 +126,7 @@ public class ListFragment extends AppBaseFragment {
         }
         mYearsSpinner.setItems(items);
         mYearsSpinner.setSelectedIndex(0);
-        mFilterYear = Integer.valueOf(mYearsSpinner.getText().toString());
+        mFilterYear = mYearsSpinner.getText().toString();
         onCalculationRulesChange(mRulesType);
     }
 
@@ -184,7 +184,7 @@ public class ListFragment extends AppBaseFragment {
             = new MaterialSpinner.OnItemSelectedListener<String>() {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-            mFilterYear = Integer.valueOf(item);
+            mFilterYear = item;
             mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
@@ -192,8 +192,11 @@ public class ListFragment extends AppBaseFragment {
             = new MaterialSpinner.OnItemSelectedListener<String>() {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-            mFilterMonth = Integer.valueOf(item);
+            mFilterMonth = formatMonth(item);
             mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
+    private String formatMonth(String month){
+        return month.length() == 1 ? ("0" + month) : month;
+    }
 }

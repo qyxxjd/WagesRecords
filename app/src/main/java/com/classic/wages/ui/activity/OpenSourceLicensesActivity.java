@@ -9,15 +9,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import butterknife.BindView;
 import cn.qy.util.activity.R;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.adapter.interfaces.ImageLoad;
 import com.classic.core.utils.IntentUtil;
 import com.classic.wages.ui.base.AppBaseActivity;
-import com.classic.wages.utils.PicassoImageLoad;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * 应用名称: WagesRecords
@@ -61,7 +64,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         IntentUtil.browser(mActivity, LICENSE_ARRAY.get(position).projectUrl);
     }
 
-    static class LicenseItem {
+    private static class LicenseItem {
         String title;
         String author;
         String licenseType;
@@ -77,6 +80,15 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
     }
 
+    private static final ImageLoad  PICASSO_IMAGE_LOAD = new ImageLoad() {
+        @Override public void load(Context context, ImageView imageView, String imageUrl) {
+            Picasso.with(context)
+                   .load(imageUrl)
+                   .placeholder(R.drawable.ic_github)
+                   .into(imageView);
+        }
+    };
+
     private final class LicensesAdapter extends CommonRecyclerAdapter<LicenseItem>{
 
         LicensesAdapter(Context context, int layoutResId, List<LicenseItem> data) {
@@ -84,7 +96,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
 
         @Override public void onUpdate(BaseAdapterHelper helper, LicenseItem item, int position) {
-            helper.setImageLoad(new PicassoImageLoad())
+            helper.setImageLoad(PICASSO_IMAGE_LOAD)
                   .setImageUrl(R.id.licenses_item_logo, item.logoUrl)
                   .setText(R.id.licenses_item_title, item.title)
                   .setText(R.id.licenses_item_author, item.author)
@@ -94,7 +106,6 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
 
     private static final String LICENSE_TYPE_MIT    = "MIT";
     private static final String LICENSE_TYPE_APACHE = "Apache2.0";
-
     private static final ArrayList<LicenseItem> LICENSE_ARRAY = new ArrayList<>();
     static {
         LICENSE_ARRAY.add(new LicenseItem("CommonAdapter", "续写经典", LICENSE_TYPE_MIT,
@@ -139,7 +150,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         LICENSE_ARRAY.add(new LicenseItem("Material Dialogs", "Aidan Follestad", LICENSE_TYPE_MIT,
                                           "https://avatars2.githubusercontent.com/u/1820165?v=3&s=466",
                                           "https://github.com/afollestad/material-dialogs"));
-        LICENSE_ARRAY.add(new LicenseItem("MaterialEditText", "扔物线/朱凯", LICENSE_TYPE_APACHE,
+        LICENSE_ARRAY.add(new LicenseItem("MaterialEditText", "扔物线", LICENSE_TYPE_APACHE,
                                           "https://avatars0.githubusercontent.com/u/4454687?v=3&s=466",
                                           "https://github.com/rengwuxian/MaterialEditText"));
         LICENSE_ARRAY.add(new LicenseItem("Material Spinner", "Jared Rummler", LICENSE_TYPE_APACHE,
