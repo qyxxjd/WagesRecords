@@ -13,7 +13,7 @@ ext {
             applicationId    : "cn.qy.util.activity",
             minSdkVersion    : 16,
             targetSdkVersion : 25,
-            versionCode      : 21,
+            versionCode      : 22,
             versionName      : "5.0.0"
     ]
 
