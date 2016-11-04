@@ -107,6 +107,10 @@ public abstract class BaseViewDisplayImpl<T extends BasicInfo> implements IViewD
             onItemUpdate(helper, item, position);
         }
 
+        public List<T> getData(){
+            return mData;
+        }
+
         @Override public void call(List<T> list) {
             if(DataUtil.isEmpty(list)){
                 clear();

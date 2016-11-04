@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/layout_height_small"
+    android:padding="@dimen/margin_normal">
+
+    <TextView style="@style/Setting.ItemValue"
+        android:id="@+id/item_wages_detail_label"
+        android:layout_gravity="center_vertical"
+        tools:text="工作时长"/>
+
+    <TextView style="@style/Setting.ItemValue"
+        android:id="@+id/item_wages_detail_value"
+        tools:text="118.89H"/>
+
+</FrameLayout>

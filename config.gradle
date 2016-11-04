@@ -74,6 +74,6 @@ ext {
     pickerView = "com.bigkoo:pickerview:2.1.1"
 
     umeng = "com.umeng.analytics:analytics:latest.integration"
-    pgyer = "com.pgyersdk:sdk:2.4.4"
+    pgyer = "com.pgyersdk:sdk:2.4.5"
 
 }

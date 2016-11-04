@@ -76,7 +76,7 @@
     <style name="Setting.ItemValue">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
         <item name="android:textColor">@color/secondary_text</item>
         <item name="android:textSize">@dimen/font_small</item>
     </style>
@@ -143,4 +143,8 @@
         <item name="android:inputType">numberDecimal</item>
     </style>
 
+    <style name="PopAnim">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
 </resources>

@@ -2,8 +2,6 @@
 <resources>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <!--<color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>-->
     <color name="colorAccent">#FF4081</color>
     <color name="windowBackground">#EDEDED</color>
     <color name="primary_text">#212121</color>
@@ -13,9 +11,9 @@
     <color name="divider_dark">#B6B6B6</color>
 
     <color name="gray_light">#DBDBDB</color>
-    <color name="gray" >#939393</color>
-    <color name="gray_dark" >#5F5F5F</color>
-    <color name="black" >#323232</color>
+    <color name="gray">#939393</color>
+    <color name="gray_dark">#5F5F5F</color>
+    <color name="black">#323232</color>
 
     <color name="silver">#bacac6</color>
 
@@ -35,4 +33,6 @@
     <color name="main_month_wages">#EE82EE</color>
     <color name="main_year_wages">#00CED1</color>
     <color name="main_total_wages">#00BFFF</color>
+
+    <color name="white_transparent">#90FFFFFF</color>
 </resources>
