@@ -53,13 +53,6 @@ import rx.schedulers.Schedulers;
                                 }
                            })
                            .build();
-        //return SqlBrite.create(new SqlBrite.Logger() {
-        //    @Override public void log(String message) {
-        //        if(!TextUtils.isEmpty(message)){
-        //            Logger.d(message);
-        //        }
-        //    }
-        //});
     }
 
     @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite, SQLiteOpenHelper helper) {

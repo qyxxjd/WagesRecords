@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white_transparent"
-    android:padding="@dimen/margin_large" >
+    android:background="@color/white" >
 
   <com.classic.wages.ui.widget.LineGridView
       android:id="@+id/pop_wages_detail_gv"

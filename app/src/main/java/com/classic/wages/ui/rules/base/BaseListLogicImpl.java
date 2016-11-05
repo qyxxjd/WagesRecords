@@ -15,7 +15,7 @@ import com.classic.core.utils.DataUtil;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.activity.AddActivity;
-import com.classic.wages.ui.rules.IViewDisplay;
+import com.classic.wages.ui.rules.IListLogic;
 import com.classic.wages.ui.widget.CircularDrawable;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
@@ -32,7 +32,7 @@ import rx.functions.Action1;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午5:59
  */
-public abstract class BaseViewDisplayImpl<T extends BasicInfo> implements IViewDisplay,
+public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLogic,
                                          CommonRecyclerAdapter.OnItemClickListener,
                                          CommonRecyclerAdapter.OnItemLongClickListener{
 
@@ -46,12 +46,16 @@ public abstract class BaseViewDisplayImpl<T extends BasicInfo> implements IViewD
     protected abstract int  getItemLayout();
     protected abstract void onItemUpdate(BaseAdapterHelper helper, T item, int position);
 
-    public BaseViewDisplayImpl(@NonNull Context context, @NonNull IDao<T> dao, int rules){
+    public BaseListLogicImpl(@NonNull Context context, @NonNull IDao<T> dao, int rules){
         this.mContext = context;
         this.mAppContext = context.getApplicationContext();
         this.mDao = dao;
         this.mRules = rules;
         mRadius = ConversionUtil.dp2px(context, 24);
+    }
+
+    @Override public List<T> getData() {
+        return getAdapter().getData();
     }
 
     @Override public Adapter getAdapter() {

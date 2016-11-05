@@ -10,23 +10,23 @@ import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.core.permissions.AfterPermissionGranted;
 import com.classic.core.permissions.EasyPermissions;
+import com.classic.core.utils.AppInfoUtil;
 import com.classic.core.utils.IntentUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.activity.OpenSourceLicensesActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.dialog.AuthorDialog;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.IRulesContentViewDisplay;
-import com.classic.wages.ui.rules.basic.DefaultRulesContentViewDisplay;
-import com.classic.wages.ui.rules.fixed.FixedDayRulesContentViewDisplay;
-import com.classic.wages.ui.rules.fixed.FixedMonthRulesContentViewDisplay;
-import com.classic.wages.ui.rules.pizzahut.PizzaHutRulesContentViewDisplay;
+import com.classic.wages.ui.rules.ISettingLogic;
+import com.classic.wages.ui.rules.basic.DefaultSettingLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
 import com.classic.wages.utils.PgyerUtil;
+import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.List;
-import javax.inject.Inject;
 
 /**
  * 应用名称: WagesRecords
@@ -43,11 +43,9 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @BindView(R.id.setting_rules_spinner) MaterialSpinner mRulesSpinner;
     @BindView(R.id.setting_rules_content) View            mRulesContentView;
 
-    @Inject SharedPreferencesUtil mSpUtil;
-
-    private int                      mRulesType;
-    private AuthorDialog             mAuthorDialog;
-    private IRulesContentViewDisplay mRulesContentViewDisplay;
+    private int           mRulesType;
+    private AuthorDialog  mAuthorDialog;
+    private ISettingLogic mSettingLogic;
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
@@ -66,7 +64,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         super.initView(parentView, savedInstanceState);
         mRulesSpinner.setItems(Consts.RULES_LIST);
         mRulesSpinner.setOnItemSelectedListener(this);
-        mRulesType = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mRulesSpinner.setSelectedIndex(mRulesType);
         refreshUIByRules(mRulesType);
         PgyerUtil.setDialogStyle("#2196F3", "#FFFFFF");
@@ -74,7 +72,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
         new MaterialDialog.Builder(mActivity)
-                .title(R.string.setting_rules_detail)
+                .title(getRulesDetailTitle())
                 .titleColorRes(R.color.primary_text)
                 .backgroundColorRes(R.color.white)
                 .content(R.string.setting_rules_description)
@@ -82,6 +80,14 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .positiveText(R.string.confirm)
                 .show();
     }
+    private String getRulesDetailTitle(){
+        return new StringBuilder()
+                .append(mAppContext.getResources().getString(R.string.setting_rules_detail))
+                .append("  v")
+                .append(AppInfoUtil.getVersionName(mAppContext))
+                .toString();
+    }
+
     @OnClick(R.id.setting_update) public void onUpdateClick(){
         PgyerUtil.checkUpdate(mActivity, true);
     }
@@ -105,33 +111,29 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
         if(position == mRulesType) return;
         mRulesType = position;
-        mSpUtil.putIntValue(Consts.SP_RULES_TYPE, mRulesType);
+        Util.putPreferencesInt(Consts.SP_RULES_TYPE, mRulesType);
         refreshUIByRules(mRulesType);
     }
 
     private void refreshUIByRules(int rules){
         switch (rules) {
             case ICalculationRules.RULES_FIXED_DAY:
-                mRulesContentViewDisplay = new FixedDayRulesContentViewDisplay(mActivity,
-                        mRulesContentView, mSpUtil);
+                mSettingLogic = new FixedDaySettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-                mRulesContentViewDisplay = new FixedMonthRulesContentViewDisplay(mActivity,
-                        mRulesContentView, mSpUtil);
+                mSettingLogic = new FixedMonthSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-                mRulesContentViewDisplay = new PizzaHutRulesContentViewDisplay(mActivity,
-                        mRulesContentView, mSpUtil);
+                mSettingLogic = new PizzaHutSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_DEFAULT:
-                mRulesContentViewDisplay = new DefaultRulesContentViewDisplay(mActivity,
-                        mRulesContentView, mSpUtil);
+                mSettingLogic = new DefaultSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             default:
                 mRulesContentView.setVisibility(View.GONE);
                 return;
         }
-        mRulesContentViewDisplay.setupRulesContent();
+        mSettingLogic.setupRulesContent();
     }
 
     @Override public void onPause() {

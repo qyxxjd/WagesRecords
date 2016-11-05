@@ -3,13 +3,13 @@ package com.classic.wages.ui.rules.base;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
+import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.pop.WagesDetailPopupWindow;
-import com.classic.wages.ui.rules.IWagesDetail;
+import com.classic.wages.ui.rules.IWagesDetailLogic;
 import com.classic.wages.utils.RxUtil;
 import java.lang.ref.WeakReference;
 import java.util.List;
 import rx.Observable;
-import rx.Subscriber;
 import rx.functions.Action1;
 
 /**
@@ -20,7 +20,7 @@ import rx.functions.Action1;
  * 创 建 人: 刘宾
  * 创建时间: 2016/11/3 12:58
  */
-public abstract class BaseWagesDetail<T> implements IWagesDetail<T> {
+public abstract class BaseWagesDetailLogicImpl<T extends BasicInfo> implements IWagesDetailLogic<T> {
 
     private WeakReference<Activity> mWeakReference;
 
@@ -28,11 +28,7 @@ public abstract class BaseWagesDetail<T> implements IWagesDetail<T> {
 
     @Override public void onDisplay(@NonNull final Activity activity, @NonNull final View targetView, final List<T> list) {
         mWeakReference = new WeakReference<>(activity);
-        Observable.create(new Observable.OnSubscribe<List<String>>() {
-                        @Override public void call(Subscriber<? super List<String>> subscriber) {
-                            subscriber.onNext(convert(list));
-                        }
-                    })
+        Observable.just(convert(list))
                   .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
                   .subscribe(new Action1<List<String>>() {
                       @Override public void call(List<String> items) {
@@ -42,4 +38,5 @@ public abstract class BaseWagesDetail<T> implements IWagesDetail<T> {
                       }
                   }, RxUtil.ERROR_ACTION);
     }
+
 }

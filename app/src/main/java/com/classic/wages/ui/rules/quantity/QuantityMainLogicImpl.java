@@ -3,7 +3,9 @@ package com.classic.wages.ui.rules.quantity;
 import android.support.annotation.NonNull;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.QuantityInfo;
-import com.classic.wages.ui.rules.base.BaseWagesCalculationImpl;
+import com.classic.wages.ui.rules.base.BaseMainLogicImpl;
+import com.classic.wages.utils.Util;
+import java.util.List;
 
 /**
  * 应用名称: WagesRecords
@@ -13,13 +15,13 @@ import com.classic.wages.ui.rules.base.BaseWagesCalculationImpl;
  * 创 建 人：续写经典
  * 创建时间：16/10/23 下午1:33
  */
-public class QuantityWagesCalculationImpl extends BaseWagesCalculationImpl<QuantityInfo> {
+public class QuantityMainLogicImpl extends BaseMainLogicImpl<QuantityInfo> {
 
-    public QuantityWagesCalculationImpl(@NonNull QuantityInfoDao dao) {
+    public QuantityMainLogicImpl(@NonNull QuantityInfoDao dao) {
         super(dao);
     }
 
-    @Override protected float getWages(@NonNull QuantityInfo info) {
-        return QuantityUtils.getWages(info);
+    @Override protected float getTotalWages(List<QuantityInfo> list) {
+        return Util.round(QuantityUtils.calculationTotalWages(list).totalWages);
     }
 }

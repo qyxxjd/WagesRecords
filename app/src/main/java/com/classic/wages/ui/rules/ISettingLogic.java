@@ -8,7 +8,7 @@ package com.classic.wages.ui.rules;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午17:30
  */
-public interface IRulesContentViewDisplay {
+public interface ISettingLogic {
 
     void setupRulesContent();
 

@@ -11,7 +11,7 @@ import android.widget.EditText;
 import cn.qy.util.activity.R;
 import com.classic.core.utils.DateUtil;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
+import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
 import java.util.Calendar;
@@ -92,6 +92,22 @@ public final class Util {
                 .toString();
     }
 
+    public static float round(float value){
+        return MoneyUtil.newInstance(value)
+                        .round(Consts.DEFAULT_SCALE)
+                        .create()
+                        .floatValue();
+    }
+
+    @SuppressWarnings("StringBufferReplaceableByString")
+    public static String formatWageDetail(@NonNull String label, float value){
+        return new StringBuilder()
+                .append(label)
+                .append(Consts.WAGES_DETAIL_SEPARATOR)
+                .append(MoneyUtil.replace(value))
+                .toString();
+    }
+
     /**
      * 毫秒转小时
      * @param ms
@@ -145,8 +161,20 @@ public final class Util {
         //return ctx.getString(resId, params);
         return ctx.getResources().getString(resId, params);
     }
-    public static float getPreferencesValue(@NonNull SharedPreferencesUtil spUtil,
-                                     String key, String defultValue){
-        return Float.valueOf(spUtil.getStringValue(key, defultValue));
+    public static String getPreferencesString(String key, String defultValue){
+        return WagesApplication.getPreferencesUtil().getStringValue(key, defultValue);
+    }
+    public static float getPreferencesFloat(String key, String defultValue){
+        return Float.valueOf(WagesApplication.getPreferencesUtil().getStringValue(key,
+                defultValue));
+    }
+    public static int getPreferencesInt(String key, int defultValue){
+        return WagesApplication.getPreferencesUtil().getIntValue(key, defultValue);
+    }
+    public static void putPreferencesString(String key, String value){
+        WagesApplication.getPreferencesUtil().putStringValue(key, value);
+    }
+    public static void putPreferencesInt(String key, int value){
+        WagesApplication.getPreferencesUtil().putIntValue(key, value);
     }
 }

@@ -1,6 +1,8 @@
 package com.classic.wages.ui.rules;
 
 import android.support.v7.widget.RecyclerView;
+import com.classic.wages.entity.BasicInfo;
+import java.util.List;
 
 /**
  * 应用名称: WagesRecords
@@ -10,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午17:30
  */
-public interface IViewDisplay {
+public interface IListLogic<T extends BasicInfo> {
+
+    List<T> getData();
 
     /**
      * 当前规则的列表适配器

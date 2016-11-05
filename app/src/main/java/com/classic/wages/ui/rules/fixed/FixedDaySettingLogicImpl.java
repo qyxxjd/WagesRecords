@@ -6,10 +6,9 @@ import android.view.View;
 import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.core.utils.ToastUtil;
 import com.classic.wages.consts.Consts;
-import com.classic.wages.ui.rules.base.BaseRulesContentViewDisplay;
+import com.classic.wages.ui.rules.base.BaseSettingLogicImpl;
 import com.classic.wages.utils.Util;
 
 /**
@@ -20,24 +19,23 @@ import com.classic.wages.utils.Util;
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午8:38
  */
-public class FixedMonthRulesContentViewDisplay extends BaseRulesContentViewDisplay {
+public class FixedDaySettingLogicImpl extends BaseSettingLogicImpl {
 
     private String mHourlyWage;
     private String mFixedHours;
     private String mOvertimeHourlyWage;
 
-    public FixedMonthRulesContentViewDisplay(@NonNull Activity activity,
-                                             @NonNull View rulesContentView,
-                                             @NonNull SharedPreferencesUtil spUtil) {
-        super(activity, rulesContentView, spUtil);
-        mHourlyWage = MoneyUtil.replace(mSpUtil.getStringValue(
-                                        Consts.SP_FIXED_MONTH_HOURLY_WAGE,
+    public FixedDaySettingLogicImpl(@NonNull Activity activity,
+                                    @NonNull View rulesContentView) {
+        super(activity, rulesContentView);
+        mHourlyWage = MoneyUtil.replace(Util.getPreferencesString(
+                                        Consts.SP_FIXED_DAY_HOURLY_WAGE,
                                         Consts.DEFAULT_HOURLY_WAGE));
-        mFixedHours = MoneyUtil.replace(mSpUtil.getStringValue(
-                                        Consts.SP_FIXED_MONTH_FIXED_HOURS,
-                                        Consts.DEFAULT_MONTH_FIXED_HOURS));
-        mOvertimeHourlyWage = MoneyUtil.replace(mSpUtil.getStringValue(
-                                        Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE,
+        mFixedHours = MoneyUtil.replace(Util.getPreferencesString(
+                                        Consts.SP_FIXED_DAY_FIXED_HOURS,
+                                        Consts.DEFAULT_DAY_FIXED_HOURS));
+        mOvertimeHourlyWage = MoneyUtil.replace(Util.getPreferencesString(
+                                        Consts.SP_FIXED_DAY_OVERTIME_HOURLY_WAGE,
                                         Consts.DEFAULT_HOURLY_WAGE));
     }
 
@@ -76,7 +74,7 @@ public class FixedMonthRulesContentViewDisplay extends BaseRulesContentViewDispl
                         if(!checkWeakReference()){ return; }
                         mHourlyWage = MoneyUtil.replace(input.toString());
                         mItem1Value.setText(formatHourlyWage(input.toString()));
-                        mSpUtil.putStringValue(Consts.SP_FIXED_MONTH_HOURLY_WAGE, input.toString());
+                        Util.putPreferencesString(Consts.SP_FIXED_DAY_HOURLY_WAGE, input.toString());
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -92,7 +90,7 @@ public class FixedMonthRulesContentViewDisplay extends BaseRulesContentViewDispl
                         if(!checkWeakReference()){ return; }
                         mFixedHours = MoneyUtil.replace(input.toString());
                         mItem2Value.setText(formatHours(input.toString()));
-                        mSpUtil.putStringValue(Consts.SP_FIXED_MONTH_FIXED_HOURS, input.toString());
+                        Util.putPreferencesString(Consts.SP_FIXED_DAY_FIXED_HOURS, input.toString());
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -109,7 +107,7 @@ public class FixedMonthRulesContentViewDisplay extends BaseRulesContentViewDispl
                         if(!checkWeakReference()){ return; }
                         mOvertimeHourlyWage = MoneyUtil.replace(input.toString());
                         mItem3Value.setText(formatHourlyWage(input.toString()));
-                        mSpUtil.putStringValue(Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, input.toString());
+                        Util.putPreferencesString(Consts.SP_FIXED_DAY_OVERTIME_HOURLY_WAGE, input.toString());
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }

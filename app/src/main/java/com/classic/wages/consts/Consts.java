@@ -84,21 +84,5 @@ public class Consts {
     //晚班补贴
     public static final String SP_PIZZA_HUT_NIGHT_SUBSIDY    = "pizzaHutNightSubsidy";
 
-
-
-    ///*    规则一（固定+加班）    */
-    ///** 加班时薪 */
-    //public static final String SP_OVERTIME_WAGE = "overtimeWage";
-    ///** 固定时长-超过这个时间按加班计算 */
-    //public static final String SP_WORK_HOURS    = "workHours";
-    //
-    //
-    ///*    规则二（必胜客兼职）    */
-    ///** 时薪-带薪休息 */
-    //public static final String SP_REST_WAGE  = "restWage";
-    ///** 时薪-22点后晚班津贴 */
-    //public static final String SP_NIGHT_WAGE = "nightWage";
-    //
-    //public static final String TAG_DATA_CHANGE  = "dataChange";
-    //public static final String TAG_RULES_CHANGE = "rulesChange";
+    public static final String WAGES_DETAIL_SEPARATOR = "----";
 }

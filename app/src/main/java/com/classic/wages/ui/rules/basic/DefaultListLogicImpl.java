@@ -1,16 +1,15 @@
-package com.classic.wages.ui.rules.pizzahut;
+package com.classic.wages.ui.rules.basic;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import cn.qy.util.activity.R;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.base.BaseViewDisplayImpl;
+import com.classic.wages.ui.rules.base.BaseListLogicImpl;
 import com.classic.wages.utils.Util;
 
 /**
@@ -21,21 +20,13 @@ import com.classic.wages.utils.Util;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午5:59
  */
-public class PizzaHutViewDisplayImpl extends BaseViewDisplayImpl<WorkInfo> {
+public class DefaultListLogicImpl extends BaseListLogicImpl<WorkInfo> {
 
     private final float mHourlyWage;
-    private final float mRestHourlyWage;
-    private final float mNightSubsidy;
 
-    public PizzaHutViewDisplayImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao,
-                                   @NonNull SharedPreferencesUtil spUtil) {
-        super(context, dao, ICalculationRules.RULES_PIZZAHUT);
-        mHourlyWage = Util.getPreferencesValue(spUtil,
-                Consts.SP_PIZZA_HUT_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        mRestHourlyWage = Util.getPreferencesValue(spUtil,
-                Consts.SP_PIZZA_HUT_REST_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        mNightSubsidy = Util.getPreferencesValue(spUtil,
-                Consts.SP_PIZZA_HUT_NIGHT_SUBSIDY, Consts.DEFAULT_NIGHT_SUBSIDY);
+    public DefaultListLogicImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao) {
+        super(context, dao, ICalculationRules.RULES_DEFAULT);
+        mHourlyWage = Util.getPreferencesFloat(Consts.SP_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
     }
 
     @Override protected int getItemLayout() {
@@ -52,11 +43,9 @@ public class PizzaHutViewDisplayImpl extends BaseViewDisplayImpl<WorkInfo> {
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
               .setText(R.id.list_item_wages,
-                       Util.formatWages(PizzaHutUtils.getDayWages(item,
-                               mHourlyWage, mRestHourlyWage, mNightSubsidy)))
+                       Util.formatWages(DefaultUtil.getDayWages(item, mHourlyWage)))
               .setTextColorRes(R.id.list_item_wages, color)
-              .setText(R.id.list_item_hours, Util.formatHours(Util.ms2hour(
-                      item.getEndTime() - item.getStartingTime())))
+              .setText(R.id.list_item_hours, Util.formatHours(DefaultUtil.getDayHours(item)))
               .setTextColorRes(R.id.list_item_hours, color);
         helper.getView(R.id.list_item_week)
               .setBackground(getCircularDrawable(color));

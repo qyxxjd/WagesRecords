@@ -10,7 +10,7 @@ import android.widget.TextView;
  * 创 建 人：续写经典
  * 创建时间：16/10/23 下午1:13
  */
-public interface IWagesCalculation {
+public interface IMainLogic {
 
     /**
      * 计算当前月份工资

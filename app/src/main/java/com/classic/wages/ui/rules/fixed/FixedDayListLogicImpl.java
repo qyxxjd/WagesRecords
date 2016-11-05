@@ -1,35 +1,39 @@
-package com.classic.wages.ui.rules.basic;
+package com.classic.wages.ui.rules.fixed;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import cn.qy.util.activity.R;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.base.BaseViewDisplayImpl;
+import com.classic.wages.ui.rules.base.BaseListLogicImpl;
 import com.classic.wages.utils.Util;
 
 /**
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.impl
  *
- * 文件描述：列表-默认规则
+ * 文件描述：列表-按天加班
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午5:59
  */
-public class DefaultViewDisplayImpl extends BaseViewDisplayImpl<WorkInfo> {
+public class FixedDayListLogicImpl extends BaseListLogicImpl<WorkInfo> {
 
     private final float mHourlyWage;
+    private final float mFixedHours;
+    private final float mOvertimeHourlyWage;
 
-    public DefaultViewDisplayImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao,
-                                  @NonNull SharedPreferencesUtil spUtil) {
-        super(context, dao, ICalculationRules.RULES_DEFAULT);
-        mHourlyWage = Float.valueOf(
-                spUtil.getStringValue(Consts.SP_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE));
+    public FixedDayListLogicImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao) {
+        super(context, dao, ICalculationRules.RULES_FIXED_DAY);
+        mHourlyWage = Util.getPreferencesFloat(
+                Consts.SP_FIXED_DAY_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
+        mFixedHours = Util.getPreferencesFloat(
+                Consts.SP_FIXED_DAY_FIXED_HOURS, Consts.DEFAULT_DAY_FIXED_HOURS);
+        mOvertimeHourlyWage = Util.getPreferencesFloat(
+                Consts.SP_FIXED_DAY_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
     }
 
     @Override protected int getItemLayout() {
@@ -45,10 +49,11 @@ public class DefaultViewDisplayImpl extends BaseViewDisplayImpl<WorkInfo> {
               .setText(R.id.list_item_time, Util.formatTimeBetween(
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
-              .setText(R.id.list_item_wages,
-                       Util.formatWages(DefaultUtil.getDayWages(item, mHourlyWage)))
+              .setText(R.id.list_item_wages, Util.formatWages(FixedUtils.getDayWagesByFixedDay(
+                      item, mHourlyWage, mFixedHours, mOvertimeHourlyWage)))
               .setTextColorRes(R.id.list_item_wages, color)
-              .setText(R.id.list_item_hours, Util.formatHours(DefaultUtil.getDayHours(item)))
+              .setText(R.id.list_item_hours, Util.formatHours(Util.ms2hour(
+                      item.getEndTime() - item.getStartingTime())))
               .setTextColorRes(R.id.list_item_hours, color);
         helper.getView(R.id.list_item_week)
               .setBackground(getCircularDrawable(color));

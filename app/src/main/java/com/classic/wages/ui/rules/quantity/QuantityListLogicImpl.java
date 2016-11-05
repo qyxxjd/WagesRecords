@@ -8,7 +8,7 @@ import com.classic.core.utils.DateUtil;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.base.BaseViewDisplayImpl;
+import com.classic.wages.ui.rules.base.BaseListLogicImpl;
 import com.classic.wages.utils.Util;
 
 /**
@@ -19,9 +19,9 @@ import com.classic.wages.utils.Util;
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午12:03
  */
-public class QuantityViewDisplayImpl extends BaseViewDisplayImpl<QuantityInfo> {
+public class QuantityListLogicImpl extends BaseListLogicImpl<QuantityInfo> {
 
-    public QuantityViewDisplayImpl(@NonNull Context context, @NonNull QuantityInfoDao dao) {
+    public QuantityListLogicImpl(@NonNull Context context, @NonNull QuantityInfoDao dao) {
         super(context, dao, ICalculationRules.RULES_QUANTITY);
     }
 

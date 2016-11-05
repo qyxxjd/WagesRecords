@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.neenbedankt.android-apt'
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -56,8 +55,6 @@ dependencies {
 
     compile rootProject.ext.butterknife
     compile rootProject.ext.dagger2
-//    apt rootProject.ext.butterknifeCompiler
-//    apt rootProject.ext.dagger2Compiler
     annotationProcessor rootProject.ext.butterknifeCompiler
     annotationProcessor rootProject.ext.dagger2Compiler
 

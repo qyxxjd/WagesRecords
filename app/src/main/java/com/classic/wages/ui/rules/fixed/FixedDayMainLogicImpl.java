@@ -1,11 +1,13 @@
 package com.classic.wages.ui.rules.fixed;
 
 import android.support.annotation.NonNull;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.entity.WorkInfo;
-import com.classic.wages.ui.rules.base.BaseWagesCalculationImpl;
+import com.classic.wages.ui.rules.base.BaseMainLogicImpl;
+import com.classic.wages.ui.rules.base.BaseWagesDetailEntity;
+import com.classic.wages.utils.Util;
+import java.util.List;
 
 /**
  * 应用名称: WagesRecords
@@ -15,25 +17,25 @@ import com.classic.wages.ui.rules.base.BaseWagesCalculationImpl;
  * 创 建 人：续写经典
  * 创建时间：16/10/23 下午1:33
  */
-public class FixedDayWagesCalculationImpl extends BaseWagesCalculationImpl<WorkInfo> {
+public class FixedDayMainLogicImpl extends BaseMainLogicImpl<WorkInfo> {
 
     private final float mHourlyWage;
     private final float mFixedHours;
     private final float mOvertimeHourlyWage;
 
-    public FixedDayWagesCalculationImpl(@NonNull WorkInfoDao dao,
-                                        @NonNull SharedPreferencesUtil spUtil) {
+    public FixedDayMainLogicImpl(@NonNull WorkInfoDao dao) {
         super(dao);
-        mHourlyWage = FixedUtils.getPreferencesValue(spUtil,
+        mHourlyWage = Util.getPreferencesFloat(
                 Consts.SP_FIXED_DAY_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        mFixedHours = FixedUtils.getPreferencesValue(spUtil,
+        mFixedHours = Util.getPreferencesFloat(
                 Consts.SP_FIXED_DAY_FIXED_HOURS, Consts.DEFAULT_DAY_FIXED_HOURS);
-        mOvertimeHourlyWage = FixedUtils.getPreferencesValue(spUtil,
+        mOvertimeHourlyWage = Util.getPreferencesFloat(
                 Consts.SP_FIXED_DAY_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
     }
 
-    @Override protected float getWages(@NonNull WorkInfo info) {
-        return FixedUtils.getDayWagesByFixedDay(info, mHourlyWage, mFixedHours, mOvertimeHourlyWage);
+    @Override protected float getTotalWages(List<WorkInfo> list) {
+        BaseWagesDetailEntity entity = FixedUtils.getTotalWagesByFixedDay(list, mHourlyWage,
+                mFixedHours, mOvertimeHourlyWage);
+        return Util.round(entity.totalWages);
     }
-
 }

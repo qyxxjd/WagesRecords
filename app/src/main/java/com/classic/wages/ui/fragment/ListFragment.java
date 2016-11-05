@@ -6,6 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -15,28 +18,37 @@ import butterknife.OnClick;
 import cn.qy.util.activity.R;
 import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.activity.AddActivity;
+import com.classic.wages.ui.activity.MainActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.IViewDisplay;
-import com.classic.wages.ui.rules.basic.DefaultViewDisplayImpl;
-import com.classic.wages.ui.rules.fixed.FixedDayViewDisplayImpl;
-import com.classic.wages.ui.rules.fixed.FixedMonthViewDisplayImpl;
-import com.classic.wages.ui.rules.monthly.MonthlyViewDisplayImpl;
-import com.classic.wages.ui.rules.pizzahut.PizzaHutViewDisplayImpl;
-import com.classic.wages.ui.rules.quantity.QuantityViewDisplayImpl;
+import com.classic.wages.ui.rules.IListLogic;
+import com.classic.wages.ui.rules.IWagesDetailLogic;
+import com.classic.wages.ui.rules.basic.DefaultListLogicImpl;
+import com.classic.wages.ui.rules.basic.DefaultWagesDetailLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedDayListLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedDayWagesDetailLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedMonthListLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedMonthWagesDetailLogicImpl;
+import com.classic.wages.ui.rules.monthly.MonthlyListLogicImpl;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutListLogicImpl;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutWagesDetailLogicImpl;
+import com.classic.wages.ui.rules.quantity.QuantityListLogicImpl;
+import com.classic.wages.ui.rules.quantity.QuantityWagesDetailLogicImpl;
 import com.classic.wages.utils.HidingScrollListener;
 import com.classic.wages.utils.RxUtil;
+import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.util.List;
 import javax.inject.Inject;
 import rx.functions.Action1;
+
+import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
 
 /**
  * 应用名称: WagesRecords
@@ -57,12 +69,12 @@ public class ListFragment extends AppBaseFragment {
     @Inject WorkInfoDao           mWorkInfoDao;
     @Inject MonthlyInfoDao        mMonthlyInfoDao;
     @Inject QuantityInfoDao       mQuantityInfoDao;
-    @Inject SharedPreferencesUtil mSpUtil;
 
-    private IViewDisplay mViewDisplay;
-    private String       mFilterYear;
-    private String       mFilterMonth;
-    private int          mRulesType = -1;
+    private IListLogic        mListLogic;
+    private IWagesDetailLogic mWagesDetailLogic;
+    private String            mFilterYear;
+    private String            mFilterMonth;
+    private int               mRulesType = -1;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -101,7 +113,8 @@ public class ListFragment extends AppBaseFragment {
             }
         });
 
-        mRulesType = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        mRulesType = WagesApplication.getPreferencesUtil()
+                                     .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         if(mRulesType == ICalculationRules.RULES_MONTHLY){
             onCalculationRulesChange(mRulesType);
             return;
@@ -119,6 +132,20 @@ public class ListFragment extends AppBaseFragment {
                     });
     }
 
+    @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.wages_detail_menu, menu);
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        if(mRulesType == ICalculationRules.RULES_MONTHLY) return false;
+        if(mWagesDetailLogic != null && mListLogic != null){
+            mWagesDetailLogic.onDisplay(mActivity, ((MainActivity)mActivity).getToolbar(),
+                    mListLogic.getData());
+        }
+        return true;
+    }
+
     private void spinnerDataChange(List<String> items){
         if(DataUtil.isEmpty(items)){
             onCalculationRulesChange(mRulesType);
@@ -131,34 +158,41 @@ public class ListFragment extends AppBaseFragment {
     }
 
     @Override public void onCalculationRulesChange(int rules) {
-        mSpinnerLayout.setVisibility(rules == ICalculationRules.RULES_MONTHLY ? View.GONE : View.VISIBLE);
-        if(rules == ICalculationRules.RULES_MONTHLY){
-            mViewDisplay = new MonthlyViewDisplayImpl(mActivity, mMonthlyInfoDao);
-            mRecyclerView.setAdapter(mViewDisplay.getAdapter());
-            mViewDisplay.onDataQuery(null, null);
+        final boolean hasMonthlyRules = rules == ICalculationRules.RULES_MONTHLY;
+        mSpinnerLayout.setVisibility(hasMonthlyRules ? View.GONE : View.VISIBLE);
+        setHasOptionsMenu(!hasMonthlyRules);
+        if(hasMonthlyRules){
+            mListLogic = new MonthlyListLogicImpl(mActivity, mMonthlyInfoDao);
+            mRecyclerView.setAdapter(mListLogic.getAdapter());
+            mListLogic.onDataQuery(null, null);
             return;
         }
 
         switch (rules){
             case ICalculationRules.RULES_FIXED_DAY:
-                mViewDisplay = new FixedDayViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
+                mListLogic = new FixedDayListLogicImpl(mActivity, mWorkInfoDao);
+                mWagesDetailLogic = new FixedDayWagesDetailLogicImpl();
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-                mViewDisplay = new FixedMonthViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
+                mListLogic = new FixedMonthListLogicImpl(mActivity, mWorkInfoDao);
+                mWagesDetailLogic = new FixedMonthWagesDetailLogicImpl();
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-                mViewDisplay = new PizzaHutViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
+                mListLogic = new PizzaHutListLogicImpl(mActivity, mWorkInfoDao);
+                mWagesDetailLogic = new PizzaHutWagesDetailLogicImpl();
                 break;
             case ICalculationRules.RULES_QUANTITY:
-                mViewDisplay = new QuantityViewDisplayImpl(mActivity, mQuantityInfoDao);
+                mListLogic = new QuantityListLogicImpl(mActivity, mQuantityInfoDao);
+                mWagesDetailLogic = new QuantityWagesDetailLogicImpl();
                 break;
             case ICalculationRules.RULES_DEFAULT:
             default:
-                mViewDisplay = new DefaultViewDisplayImpl(mActivity, mWorkInfoDao, mSpUtil);
+                mListLogic = new DefaultListLogicImpl(mActivity, mWorkInfoDao);
+                mWagesDetailLogic = new DefaultWagesDetailLogicImpl();
                 break;
         }
-        mRecyclerView.setAdapter(mViewDisplay.getAdapter());
-        mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
+        mRecyclerView.setAdapter(mListLogic.getAdapter());
+        mListLogic.onDataQuery(mFilterYear, mFilterMonth);
     }
 
     @Override public void onRecalculation() {
@@ -168,12 +202,12 @@ public class ListFragment extends AppBaseFragment {
     }
 
     @OnClick(R.id.fab) public void onFabClick(){
-        AddActivity.start(mActivity, AddActivity.TYPE_ADD, mRulesType, null);
+        AddActivity.start(mActivity, TYPE_ADD, mRulesType, null);
     }
 
     @Override public void onFragmentShow() {
         super.onFragmentShow();
-        final int rules = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        final int rules = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         if(mRulesType != rules){
             mRulesType = rules;
             onCalculationRulesChange(rules);
@@ -185,7 +219,7 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterYear = item;
-            mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
+            mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
     private final MaterialSpinner.OnItemSelectedListener<String> mMonthSelectedListener
@@ -193,7 +227,7 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterMonth = formatMonth(item);
-            mViewDisplay.onDataQuery(mFilterYear, mFilterMonth);
+            mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
     private String formatMonth(String month){

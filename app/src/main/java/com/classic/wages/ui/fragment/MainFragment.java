@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import cn.qy.util.activity.R;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
@@ -16,13 +15,14 @@ import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.IWagesCalculation;
-import com.classic.wages.ui.rules.basic.DefaultWagesCalculationImpl;
-import com.classic.wages.ui.rules.fixed.FixedDayWagesCalculationImpl;
-import com.classic.wages.ui.rules.fixed.FixedMonthWagesCalculationImpl;
-import com.classic.wages.ui.rules.monthly.MonthlyWagesCalculationImpl;
-import com.classic.wages.ui.rules.pizzahut.PizzaHutWagesCalculationImpl;
-import com.classic.wages.ui.rules.quantity.QuantityWagesCalculationImpl;
+import com.classic.wages.ui.rules.IMainLogic;
+import com.classic.wages.ui.rules.basic.DefaultMainLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedDayMainLogicImpl;
+import com.classic.wages.ui.rules.fixed.FixedMonthMainLogicImpl;
+import com.classic.wages.ui.rules.monthly.MonthlyMainLogicImpl;
+import com.classic.wages.ui.rules.pizzahut.PizzaHutMainLogicImpl;
+import com.classic.wages.ui.rules.quantity.QuantityMainLogicImpl;
+import com.classic.wages.utils.Util;
 import javax.inject.Inject;
 
 /**
@@ -36,12 +36,11 @@ public class MainFragment extends AppBaseFragment {
     @BindView(R.id.main_year_wages)  TextView mYearWages;
     @BindView(R.id.main_total_wages) TextView mTotalWages;
 
-    @Inject WorkInfoDao           mWorkInfoDao;
-    @Inject MonthlyInfoDao        mMonthlyInfoDao;
-    @Inject QuantityInfoDao       mQuantityInfoDao;
-    @Inject SharedPreferencesUtil mSpUtil;
-    private IWagesCalculation     mIWagesCalculation;
-    private int                   mRulesType = -1;
+    @Inject WorkInfoDao     mWorkInfoDao;
+    @Inject MonthlyInfoDao  mMonthlyInfoDao;
+    @Inject QuantityInfoDao mQuantityInfoDao;
+    private IMainLogic      mMainLogic;
+    private int             mRulesType = -1;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -66,28 +65,28 @@ public class MainFragment extends AppBaseFragment {
     @Override public void onCalculationRulesChange(int rules) {
         switch (rules){
             case ICalculationRules.RULES_FIXED_DAY:
-                mIWagesCalculation = new FixedDayWagesCalculationImpl(mWorkInfoDao, mSpUtil);
+                mMainLogic = new FixedDayMainLogicImpl(mWorkInfoDao);
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-                mIWagesCalculation = new FixedMonthWagesCalculationImpl(mWorkInfoDao, mSpUtil);
+                mMainLogic = new FixedMonthMainLogicImpl(mWorkInfoDao);
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-                mIWagesCalculation = new PizzaHutWagesCalculationImpl(mWorkInfoDao, mSpUtil);
+                mMainLogic = new PizzaHutMainLogicImpl(mWorkInfoDao);
                 break;
             case ICalculationRules.RULES_MONTHLY:
-                mIWagesCalculation = new MonthlyWagesCalculationImpl(mMonthlyInfoDao);
+                mMainLogic = new MonthlyMainLogicImpl(mMonthlyInfoDao);
                 break;
             case ICalculationRules.RULES_QUANTITY:
-                mIWagesCalculation = new QuantityWagesCalculationImpl(mQuantityInfoDao);
+                mMainLogic = new QuantityMainLogicImpl(mQuantityInfoDao);
                 break;
             case ICalculationRules.RULES_DEFAULT:
             default:
-                mIWagesCalculation = new DefaultWagesCalculationImpl(mWorkInfoDao, mSpUtil);
+                mMainLogic = new DefaultMainLogicImpl(mWorkInfoDao);
                 break;
         }
-        mIWagesCalculation.calculationCurrentMonthWages(mMonthWages);
-        mIWagesCalculation.calculationCurrentYearWages(mYearWages);
-        mIWagesCalculation.calculationTotalWages(mTotalWages);
+        mMainLogic.calculationCurrentMonthWages(mMonthWages);
+        mMainLogic.calculationCurrentYearWages(mYearWages);
+        mMainLogic.calculationTotalWages(mTotalWages);
     }
 
     @Override public void onRecalculation() {
@@ -98,7 +97,7 @@ public class MainFragment extends AppBaseFragment {
 
     @Override public void onFragmentShow() {
         super.onFragmentShow();
-        final int rules = mSpUtil.getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        final int rules = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         if(mRulesType != rules){
             mRulesType = rules;
             onCalculationRulesChange(rules);

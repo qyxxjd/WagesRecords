@@ -2,6 +2,8 @@ package com.classic.wages.ui.rules.monthly;
 
 import android.support.annotation.NonNull;
 import com.classic.wages.entity.MonthlyInfo;
+import com.classic.wages.utils.Util;
+import java.util.List;
 
 /**
  * 应用名称: WagesRecords
@@ -15,5 +17,13 @@ final class MonthlyUtils {
 
     static float getWages(@NonNull MonthlyInfo info) {
         return info.getMonthlyWage() + info.getSubsidy() + info.getBonus() - info.getDeductions();
+    }
+
+    static float getTotalWages(List<MonthlyInfo> list) {
+        float totalWages = 0f;
+        for (MonthlyInfo item : list) {
+            totalWages += getWages(item);
+        }
+        return Util.round(totalWages);
     }
 }

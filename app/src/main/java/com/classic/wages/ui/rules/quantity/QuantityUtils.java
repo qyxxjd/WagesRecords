@@ -1,7 +1,9 @@
 package com.classic.wages.ui.rules.quantity;
 
 import android.support.annotation.NonNull;
+import com.classic.core.utils.DataUtil;
 import com.classic.wages.entity.QuantityInfo;
+import java.util.List;
 
 /**
  * 应用名称: WagesRecords
@@ -16,5 +18,20 @@ final class QuantityUtils {
     static float getWages(@NonNull QuantityInfo info) {
         return info.getUnitPrice() * info.getQuantity() + info.getSubsidy() + info.getBonus() -
                 info.getDeductions();
+    }
+
+    static QuantityWagesDetailEntity calculationTotalWages(List<QuantityInfo> list) {
+        QuantityWagesDetailEntity entity = new QuantityWagesDetailEntity();
+        if(DataUtil.isEmpty(list)) return entity;
+        for (QuantityInfo item : list) {
+            entity.totalQuantity += item.getQuantity();
+            entity.totalNormalWages += item.getQuantity() * item.getUnitPrice();
+            entity.totalBonus += item.getBonus();
+            entity.totalDeductions += item.getDeductions();
+            entity.totalSubsidy += item.getSubsidy();
+            entity.totalWages += (entity.totalNormalWages +
+                    entity.totalBonus + entity.totalSubsidy - entity.totalDeductions);
+        }
+        return entity;
     }
 }

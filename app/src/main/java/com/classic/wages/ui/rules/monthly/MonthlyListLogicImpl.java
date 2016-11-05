@@ -8,7 +8,7 @@ import com.classic.core.utils.DateUtil;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
-import com.classic.wages.ui.rules.base.BaseViewDisplayImpl;
+import com.classic.wages.ui.rules.base.BaseListLogicImpl;
 import com.classic.wages.utils.Util;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -21,9 +21,9 @@ import java.util.Locale;
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午12:03
  */
-public class MonthlyViewDisplayImpl extends BaseViewDisplayImpl<MonthlyInfo> {
+public class MonthlyListLogicImpl extends BaseListLogicImpl<MonthlyInfo> {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM", Locale.CHINA);
-    public MonthlyViewDisplayImpl(@NonNull Context context, @NonNull MonthlyInfoDao dao) {
+    public MonthlyListLogicImpl(@NonNull Context context, @NonNull MonthlyInfoDao dao) {
         super(context, dao, ICalculationRules.RULES_MONTHLY);
     }
 

@@ -4,9 +4,8 @@ import android.support.annotation.NonNull;
 import android.widget.TextView;
 import com.classic.core.utils.DataUtil;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
-import com.classic.wages.ui.rules.IWagesCalculation;
+import com.classic.wages.ui.rules.IMainLogic;
 import com.classic.wages.utils.RxUtil;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -22,13 +21,13 @@ import rx.functions.Func1;
  * 创 建 人：续写经典
  * 创建时间：16/10/23 下午1:33
  */
-public abstract class BaseWagesCalculationImpl<T> implements IWagesCalculation {
+public abstract class BaseMainLogicImpl<T> implements IMainLogic {
 
     private IDao<T> mDao;
 
-    protected abstract float getWages(@NonNull T t);
+    protected abstract float getTotalWages(List<T> list);
 
-    public BaseWagesCalculationImpl(@NonNull IDao<T> dao) {
+    public BaseMainLogicImpl(@NonNull IDao<T> dao) {
         this.mDao = dao;
     }
 
@@ -48,7 +47,8 @@ public abstract class BaseWagesCalculationImpl<T> implements IWagesCalculation {
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
         observable.flatMap(new Func1<List<T>, Observable<Float>>() {
                         @Override public Observable<Float> call(List<T> list) {
-                            return Observable.just(getTotalWages(list));
+                            return Observable.just(DataUtil.isEmpty(list) ?
+                                                   0f : getTotalWages(list));
                         }
                     })
                   .compose(RxUtil.<Float>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
@@ -61,12 +61,4 @@ public abstract class BaseWagesCalculationImpl<T> implements IWagesCalculation {
                   }, RxUtil.ERROR_ACTION);
     }
 
-    protected float getTotalWages(List<T> list){
-        float totalWages = 0f;
-        if(DataUtil.isEmpty(list)) return totalWages;
-        for (T item : list) {
-            totalWages += getWages(item);
-        }
-        return MoneyUtil.newInstance(totalWages).round(Consts.DEFAULT_SCALE).create().floatValue();
-    }
 }

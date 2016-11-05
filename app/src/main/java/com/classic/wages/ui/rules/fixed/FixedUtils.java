@@ -2,8 +2,8 @@ package com.classic.wages.ui.rules.fixed;
 
 import android.support.annotation.NonNull;
 import com.classic.core.utils.DataUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.entity.WorkInfo;
+import com.classic.wages.ui.rules.base.BaseWagesDetailEntity;
 import com.classic.wages.utils.Util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,11 +43,34 @@ final class FixedUtils {
                 - info.getDeductions();
         return normalWage;
     }
-
-
-    static float getPreferencesValue(@NonNull SharedPreferencesUtil spUtil,
-                                     String key, String defultValue){
-        return Float.valueOf(spUtil.getStringValue(key, defultValue));
+    static BaseWagesDetailEntity getTotalWagesByFixedDay(List<WorkInfo> list, float hourlyWage,
+                                                         float fixedHours,
+                                                         float overtimeHourlyWage) {
+        final BaseWagesDetailEntity entity = new BaseWagesDetailEntity();
+        if(DataUtil.isEmpty(list)){ return entity; }
+        for (WorkInfo item : list) {
+            final float hours = Util.ms2hour(item.getEndTime() - item.getStartingTime());
+            if(item.getMultiple() > 0f){
+                entity.totalHolidayHours += hours;
+                //每条数据的节假日倍数可能不同，总工资只能在这里算
+                entity.totalHolidayWages += hours * hourlyWage * item.getMultiple();
+            } else if(hours > fixedHours){
+                entity.totalOvertimeHours += (hours - fixedHours);
+                entity.totalNormalHours += fixedHours;
+            } else {
+                entity.totalNormalHours += hours;
+            }
+            entity.totalBonus += item.getBonus();
+            entity.totalDeductions += item.getDeductions();
+            entity.totalSubsidy += item.getSubsidy();
+        }
+        entity.totalNormalWages = entity.totalNormalHours * hourlyWage;
+        entity.totalOvertimeWages = entity.totalOvertimeHours * overtimeHourlyWage;
+        //正常工资 + 节假日工资 + 加班工资 + 奖金 + 补助 - 扣款
+        entity.totalWages = entity.totalNormalWages + entity.totalHolidayWages +
+                entity.totalOvertimeWages +
+                entity.totalBonus + entity.totalSubsidy - entity.totalDeductions;
+        return entity;
     }
 
     static float getDayWagesByFixedMonth(@NonNull WorkInfo info, float hourlyWage) {
@@ -61,35 +84,34 @@ final class FixedUtils {
                 - info.getDeductions();
     }
 
-    static float getMonthWages(List<WorkInfo> list, float hourlyWage, float fixedHours,
-                               float overtimeHourlyWage) {
-        if(DataUtil.isEmpty(list)) return 0f;
-        float monthTotalHours = 0f; //月工作总时长
-        float monthOtherWage = 0f; //其它工资(奖金、补助、扣款)
-        float monthOvertimeWage = 0f; //加班工资
-        float monthHolidaysWage = 0f; //节假日工资
-        float monthNormalWage = 0f; //正常工资
-
-        float dayHours = 0f;
-        float itemOtherWage = 0f;
+    static BaseWagesDetailEntity getMonthWages(List<WorkInfo> list, float hourlyWage,
+                                               float fixedHours, float overtimeHourlyWage) {
+        final BaseWagesDetailEntity entity = new BaseWagesDetailEntity();
+        if(DataUtil.isEmpty(list)){ return entity; }
         for (WorkInfo item : list) {
-            dayHours = Util.ms2hour(item.getEndTime() - item.getStartingTime());
-            itemOtherWage = item.getSubsidy() + item.getBonus() - item.getDeductions();
+            final float hours = Util.ms2hour(item.getEndTime() - item.getStartingTime());
             if(item.getMultiple() > 0f){
-                monthHolidaysWage += (dayHours * hourlyWage * item.getMultiple() + itemOtherWage);
+                entity.totalHolidayHours += hours;
+                //每条数据的节假日倍数可能不同，总工资只能在这里算
+                entity.totalHolidayWages += hours * hourlyWage * item.getMultiple();
             } else {
-                monthTotalHours += dayHours;
-                monthOtherWage += itemOtherWage;
+                entity.totalNormalHours += hours;
             }
+            entity.totalBonus += item.getBonus();
+            entity.totalDeductions += item.getDeductions();
+            entity.totalSubsidy += item.getSubsidy();
         }
-        if(monthTotalHours > fixedHours){ //有加班的情况
-            monthNormalWage = fixedHours * hourlyWage;
-            monthOvertimeWage = (monthTotalHours - fixedHours) * overtimeHourlyWage;
-            return monthNormalWage + monthOvertimeWage + monthHolidaysWage + monthOtherWage;
+        if(entity.totalNormalHours > fixedHours){
+            entity.totalOvertimeHours = entity.totalNormalHours - fixedHours;
+            entity.totalNormalHours = fixedHours;
         }
-        //无加班的情况
-        monthNormalWage = monthTotalHours * hourlyWage;
-        return monthNormalWage + monthHolidaysWage + monthOtherWage;
+        entity.totalNormalWages = entity.totalNormalHours * hourlyWage;
+        entity.totalOvertimeWages = entity.totalOvertimeHours * overtimeHourlyWage;
+        //正常工资 + 节假日工资 + 加班工资 + 奖金 + 补助 - 扣款
+        entity.totalWages = entity.totalNormalWages + entity.totalHolidayWages +
+                entity.totalOvertimeWages +
+                entity.totalBonus + entity.totalSubsidy - entity.totalDeductions;
+        return entity;
     }
 
     static float getTotalWages(HashMap<String, List<WorkInfo>> map,
@@ -98,7 +120,7 @@ final class FixedUtils {
         float totalWages = 0f;
         for(String key : map.keySet()){
             List<WorkInfo> list = map.get(key);
-            totalWages += getMonthWages(list, hourlyWage, fixedHours, overtimeHourlyWage);
+            totalWages += getMonthWages(list, hourlyWage, fixedHours, overtimeHourlyWage).totalWages;
         }
         return totalWages;
     }
@@ -119,4 +141,6 @@ final class FixedUtils {
         }
         return map;
     }
+
+
 }

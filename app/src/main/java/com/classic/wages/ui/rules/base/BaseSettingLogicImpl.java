@@ -9,9 +9,8 @@ import android.widget.TextView;
 import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.SharedPreferencesUtil;
 import com.classic.wages.ui.activity.MainActivity;
-import com.classic.wages.ui.rules.IRulesContentViewDisplay;
+import com.classic.wages.ui.rules.ISettingLogic;
 import com.classic.wages.utils.Util;
 import java.lang.ref.WeakReference;
 
@@ -23,12 +22,11 @@ import java.lang.ref.WeakReference;
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午8:38
  */
-public abstract class BaseRulesContentViewDisplay implements IRulesContentViewDisplay,
+public abstract class BaseSettingLogicImpl implements ISettingLogic,
         View.OnClickListener{
 
     private   WeakReference<Activity> mActivity;
     private   View                    mRootView;
-    protected SharedPreferencesUtil   mSpUtil;
     protected Context                 mAppContext;
 
     protected View     mItem1Layout;
@@ -41,12 +39,10 @@ public abstract class BaseRulesContentViewDisplay implements IRulesContentViewDi
     protected TextView mItem2Value;
     protected TextView mItem3Value;
 
-    public BaseRulesContentViewDisplay(@NonNull Activity activity,
-                                       @NonNull View rulesContentView,
-                                       @NonNull SharedPreferencesUtil spUtil) {
+    public BaseSettingLogicImpl(@NonNull Activity activity,
+                                @NonNull View rulesContentView) {
         mActivity = new WeakReference<>(activity);
         mRootView = rulesContentView;
-        mSpUtil = spUtil;
         mAppContext = mActivity.get().getApplicationContext();
         initView();
     }
