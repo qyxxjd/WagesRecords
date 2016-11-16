@@ -153,6 +153,8 @@ public class MainActivity extends AppBaseActivity {
                 }
                 changeFragment(R.id.main_content, mSettingFragment);
                 break;
+            default:
+                break;
         }
     }
 

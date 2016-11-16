@@ -29,6 +29,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 case 3:
                     update3(db);
                     break;
+                default:
+                    break;
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {

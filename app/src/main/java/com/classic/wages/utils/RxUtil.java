@@ -14,7 +14,7 @@ import rx.schedulers.Schedulers;
  */
 public final class RxUtil {
 
-    public static Observable.Transformer THREAD_TRANSFORMER = new Observable.Transformer() {
+    public static final Observable.Transformer THREAD_TRANSFORMER = new Observable.Transformer() {
         @Override public Object call(Object observable) {
             return ((Observable) observable).subscribeOn(Schedulers.newThread())
                                             .unsubscribeOn(Schedulers.newThread())
@@ -22,7 +22,7 @@ public final class RxUtil {
         }
     };
 
-    public static Observable.Transformer THREAD_ON_UI_TRANSFORMER = new Observable.Transformer() {
+    public static final Observable.Transformer THREAD_ON_UI_TRANSFORMER = new Observable.Transformer() {
         @Override public Object call(Object observable) {
             return ((Observable) observable).subscribeOn(Schedulers.newThread())
                                             .unsubscribeOn(Schedulers.newThread())
@@ -30,7 +30,7 @@ public final class RxUtil {
         }
     };
 
-    public static Action1<Throwable> ERROR_ACTION = new Action1<Throwable>() {
+    public static final Action1<Throwable> ERROR_ACTION = new Action1<Throwable>() {
         @Override public void call(Throwable throwable) {
             if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
                 throwable.printStackTrace();

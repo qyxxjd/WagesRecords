@@ -52,7 +52,10 @@ public final class PgyerUtil {
                         .negativeText(R.string.cancel)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override public void onClick(MaterialDialog dialog, DialogAction which) {
-                                startDownloadTask(act, appBean.getDownloadURL());
+                                final Activity act = reference.get();
+                                if (null != act) {
+                                    startDownloadTask(act, appBean.getDownloadURL());
+                                }
                             }
                         }).show();
             }
@@ -74,9 +77,10 @@ public final class PgyerUtil {
     public static void feedback(Activity activity){
         WeakReference<Activity> reference = new WeakReference<>(activity);
         Activity act = reference.get();
-        if(null == act) { return; }
         try {
-            PgyFeedback.getInstance().showDialog(act);
+            if(null != act){
+                PgyFeedback.getInstance().showDialog(act);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

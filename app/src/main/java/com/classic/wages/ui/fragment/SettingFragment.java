@@ -75,7 +75,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .title(getRulesDetailTitle())
                 .titleColorRes(R.color.primary_text)
                 .backgroundColorRes(R.color.white)
-                .content(R.string.setting_rules_description)
+                .content(Util.getString(mAppContext, R.string.setting_rules_description))
                 .contentColorRes(R.color.secondary_text)
                 .positiveText(R.string.confirm)
                 .show();

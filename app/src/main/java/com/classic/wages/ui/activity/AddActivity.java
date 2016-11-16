@@ -115,6 +115,8 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
             case ICalculationRules.RULES_PIZZAHUT:
                 fragment = AddFragment.newInstance(mType, mBasicInfo);
                 break;
+            default:
+                break;
         }
         if(null == fragment){
             throw new IllegalArgumentException("Illegal argument!");

@@ -63,6 +63,7 @@ public final class Util {
                 color = R.color.week5;
                 break;
             case 6:
+            default:
                 color = R.color.week6;
                 break;
         }

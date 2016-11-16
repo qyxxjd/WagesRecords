@@ -80,6 +80,8 @@ public abstract class BaseSettingLogicImpl implements ISettingLogic,
             case R.id.setting_rules_item3_layout:
                 onItem3LayoutClick();
                 break;
+            default:
+                break;
         }
     }
 
@@ -109,6 +111,8 @@ public abstract class BaseSettingLogicImpl implements ISettingLogic,
     }
 
     protected void notifyRecalculation(){
-        ((MainActivity)mActivity.get()).notifyRecalculation();
+        if(null != mActivity.get()){
+            ((MainActivity)mActivity.get()).notifyRecalculation();
+        }
     }
 }

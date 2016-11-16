@@ -89,7 +89,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
     };
 
-    private final class LicensesAdapter extends CommonRecyclerAdapter<LicenseItem>{
+    private static final class LicensesAdapter extends CommonRecyclerAdapter<LicenseItem>{
 
         LicensesAdapter(Context context, int layoutResId, List<LicenseItem> data) {
             super(context, layoutResId, data);

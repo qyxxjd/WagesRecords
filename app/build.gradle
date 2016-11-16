@@ -62,7 +62,5 @@ dependencies {
     compile rootProject.ext.pgyer
 
     debugCompile rootProject.ext.leakCanaryDebug
-    debugCompile rootProject.ext.blockCanaryDebug
     releaseCompile rootProject.ext.leakCanaryRelease
-    releaseCompile rootProject.ext.blockCanaryRelease
 }

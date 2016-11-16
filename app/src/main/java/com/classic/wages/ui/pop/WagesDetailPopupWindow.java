@@ -45,7 +45,7 @@ public class WagesDetailPopupWindow extends PopupWindow {
         }
     }
 
-    private class Adapter extends CommonAdapter<String> {
+    private static final class Adapter extends CommonAdapter<String> {
 
         Adapter(Context context, List<String> data) {
             super(context, R.layout.item_wages_detail, data);

@@ -29,8 +29,7 @@ final class QuantityUtils {
             entity.totalBonus += item.getBonus();
             entity.totalDeductions += item.getDeductions();
             entity.totalSubsidy += item.getSubsidy();
-            entity.totalWages += (entity.totalNormalWages +
-                    entity.totalBonus + entity.totalSubsidy - entity.totalDeductions);
+            entity.totalWages += getWages(item);
         }
         return entity;
     }
