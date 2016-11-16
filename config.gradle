@@ -1,4 +1,4 @@
-def supportVersion = "25.0.0"
+def supportVersion = "25.0.1"
 def butterknifeVersion = "8.4.0"
 def leakCanaryVersion = "1.5"
 def dagger2Version = "2.7"
@@ -13,8 +13,8 @@ ext {
             applicationId    : "cn.qy.util.activity",
             minSdkVersion    : 16,
             targetSdkVersion : 25,
-            versionCode      : 23,
-            versionName      : "5.0.1"
+            versionCode      : 24,
+            versionName      : "5.0.2"
     ]
 
     //官方库
@@ -35,7 +35,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.2.1"
+    rxJava = "io.reactivex:rxjava:1.2.2"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
     rxPermissions = "com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar"
     rxBinding = "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
@@ -64,7 +64,7 @@ ext {
     picasso = "com.squareup.picasso:picasso:2.5.2"
     circleImageView = "de.hdodenhof:circleimageview:2.1.0"
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
-    materialDialog = "com.afollestad.material-dialogs:core:0.9.0.2"
+    materialDialog = "com.afollestad.material-dialogs:core:0.9.1.0"
     bottomBar = "com.roughike:bottom-bar:2.0.2"
     navigationTabBar = "com.github.devlight.navigationtabbar:navigationtabbar:1.2.5"
     materialEditText = "com.rengwuxian.materialedittext:library:2.1.4"
