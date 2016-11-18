@@ -7,7 +7,6 @@ import com.classic.wages.di.components.AppComponent;
 import com.classic.wages.di.components.DaggerAppComponent;
 import com.classic.wages.di.modules.AppModule;
 import com.classic.wages.di.modules.DbModule;
-import com.squareup.leakcanary.LeakCanary;
 
 public class WagesApplication extends Application {
     private static SharedPreferencesUtil sPreferencesUtil;
@@ -17,10 +16,10 @@ public class WagesApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
         sPreferencesUtil = new SharedPreferencesUtil(this, Consts.SP_NAME);
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
+        //if (LeakCanary.isInAnalyzerProcess(this)) {
+        //    return;
+        //}
+        //LeakCanary.install(this);
         mAppComponent = DaggerAppComponent.builder()
                                           .appModule(new AppModule(this))
                                           .dbModule(new DbModule())
