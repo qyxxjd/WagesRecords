@@ -3,13 +3,15 @@ package com.classic.wages.ui.rules.pizzahut;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.ToastUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.rules.base.BaseSettingLogicImpl;
+import com.classic.wages.utils.MoneyUtil;
+import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
+
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords

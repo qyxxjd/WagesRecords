@@ -1,7 +1,9 @@
 package com.classic.wages.utils;
 
 import android.text.TextUtils;
-import com.orhanobut.logger.Logger;
+
+import com.elvishew.xlog.XLog;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -14,19 +16,11 @@ import rx.schedulers.Schedulers;
  */
 public final class RxUtil {
 
-    public static final Observable.Transformer THREAD_TRANSFORMER = new Observable.Transformer() {
+    public static final Observable.Transformer IO_ON_UI_TRANSFORMER = new Observable.Transformer() {
         @Override public Object call(Object observable) {
-            return ((Observable) observable).subscribeOn(Schedulers.newThread())
-                                            .unsubscribeOn(Schedulers.newThread())
-                                            .observeOn(Schedulers.newThread());
-        }
-    };
-
-    public static final Observable.Transformer THREAD_ON_UI_TRANSFORMER = new Observable.Transformer() {
-        @Override public Object call(Object observable) {
-            return ((Observable) observable).subscribeOn(Schedulers.newThread())
-                                            .unsubscribeOn(Schedulers.newThread())
-                                            .observeOn(AndroidSchedulers.mainThread());
+            return ((Observable)observable).subscribeOn(Schedulers.io())
+                                           .unsubscribeOn(Schedulers.io())
+                                           .observeOn(AndroidSchedulers.mainThread());
         }
     };
 
@@ -34,12 +28,13 @@ public final class RxUtil {
         @Override public void call(Throwable throwable) {
             if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
                 throwable.printStackTrace();
-                Logger.e(throwable.getMessage());
+                XLog.e(throwable.getMessage());
             }
         }
     };
 
     public static <T> Observable.Transformer<T, T> applySchedulers(Observable.Transformer transformer) {
-        return (Observable.Transformer<T, T>) transformer;
+        //noinspection unchecked
+        return (Observable.Transformer<T, T>)transformer;
     }
 }

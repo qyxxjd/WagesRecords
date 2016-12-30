@@ -4,14 +4,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import com.classic.core.utils.CloseUtil;
+
 import com.classic.wages.db.table.MonthlyInfoTable;
 import com.classic.wages.entity.MonthlyInfo;
-import com.orhanobut.logger.Logger;
+import com.classic.wages.utils.CloseUtil;
+import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -50,14 +53,16 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
 
     @Override public int update(@NonNull MonthlyInfo monthlyInfo) {
         return mDatabase.update(MonthlyInfoTable.TABLE_NAME, convert(monthlyInfo, true),
-                MonthlyInfoTable.COLUMN_ID + "=" + monthlyInfo.getId());
+                                MonthlyInfoTable.COLUMN_ID + "=" + monthlyInfo.getId());
     }
 
-    @Override public int delete(long id) {
+    @Override
+    public int delete(long id) {
         return mDatabase.delete(MonthlyInfoTable.TABLE_NAME, MonthlyInfoTable.COLUMN_ID + "=" + id);
     }
 
-    @Override public Observable<List<MonthlyInfo>> query(String year, String month) {
+    @Override
+    public Observable<List<MonthlyInfo>> query(String year, String month) {
         return queryListBySql(getSql(year, month));
     }
 
@@ -87,43 +92,47 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
         return sb.toString();
     }
 
-    @Override public Observable<List<MonthlyInfo>> queryCurrentMonth() {
+    @Override
+    public Observable<List<MonthlyInfo>> queryCurrentMonth() {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ")
-                                        .append(MonthlyInfoTable.TABLE_NAME)
-                                        .append(" WHERE ")
-                                        .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
-                                        .append(" between datetime('now','start of month','+1 second') ")
-                                        .append("AND datetime('now','start of month','+1 month','-1 second')")
-                                        //.append(" ORDER BY ")
-                                        //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-                                        //.append(" DESC ")
+                .append(MonthlyInfoTable.TABLE_NAME)
+                .append(" WHERE ")
+                .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
+                .append(" between datetime('now','start of month','+1 second') ")
+                .append("AND datetime('now','start of month','+1 month','-1 second')")
+                //.append(" ORDER BY ")
+                //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+                //.append(" DESC ")
                 ;
         return queryListBySql(sb.toString());
     }
 
-    @Override public Observable<List<MonthlyInfo>> queryCurrentYear() {
+    @Override
+    public Observable<List<MonthlyInfo>> queryCurrentYear() {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ")
-                                        .append(MonthlyInfoTable.TABLE_NAME)
-                                        .append(" WHERE strftime('%Y',")
-                                        .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
-                                        .append(")=strftime('%Y',date('now')) ")
-                                        //.append(" ORDER BY ")
-                                        //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-                                        //.append(" DESC ")
+                .append(MonthlyInfoTable.TABLE_NAME)
+                .append(" WHERE strftime('%Y',")
+                .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
+                .append(")=strftime('%Y',date('now')) ")
+                //.append(" ORDER BY ")
+                //.append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+                //.append(" DESC ")
                 ;
         return queryListBySql(sb.toString());
     }
 
-    @Override public Observable<List<MonthlyInfo>> queryAll() {
+    @Override
+    public Observable<List<MonthlyInfo>> queryAll() {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ")
-                                        .append(MonthlyInfoTable.TABLE_NAME)
-                                        .append(" ORDER BY ")
-                                        .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-                                        .append(" DESC ");
+                .append(MonthlyInfoTable.TABLE_NAME)
+                .append(" ORDER BY ")
+                .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+                .append(" DESC ");
         return queryListBySql(sb.toString());
     }
 
-    @Override public Observable<List<String>> queryYears() {
+    @Override
+    public Observable<List<String>> queryYears() {
         //no impl
         return null;
     }
@@ -132,7 +141,8 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
     private Observable<List<MonthlyInfo>> queryListBySql(String sql) {
         return mDatabase.createQuery(MonthlyInfoTable.TABLE_NAME, sql)
                         .map(new Func1<SqlBrite.Query, List<MonthlyInfo>>() {
-                            @Override public List<MonthlyInfo> call(SqlBrite.Query query) {
+                            @Override
+                            public List<MonthlyInfo> call(SqlBrite.Query query) {
                                 return convert(query.run());
                             }
                         });
@@ -156,25 +166,26 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
     }
 
     private List<MonthlyInfo> convert(Cursor cursor) {
-        if(null == cursor) return null;
+        if (null == cursor) {
+            return null;
+        }
         List<MonthlyInfo> list = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
-                list.add(new MonthlyInfo(cursor.getLong(
-                        cursor.getColumnIndex(MonthlyInfoTable.COLUMN_ID)),
-                        cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_CREATE_TIME)),
-                        cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_TIME)),
-                        cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_WAGE)),
-                        cursor.getInt(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_WEEK)),
-                        cursor.getString(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_FORMAT_TIME)),
-                        cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MULTIPLE)),
-                        cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_SUBSIDY)),
-                        cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_BONUS)),
-                        cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_DEDUCTIONS)),
-                        cursor.getString(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_REMARK))));
+                list.add(new MonthlyInfo(cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_ID)),
+                                         cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_CREATE_TIME)),
+                                         cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_TIME)),
+                                         cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_WAGE)),
+                                         cursor.getInt(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_WEEK)),
+                                         cursor.getString(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_FORMAT_TIME)),
+                                         cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MULTIPLE)),
+                                         cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_SUBSIDY)),
+                                         cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_BONUS)),
+                                         cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_DEDUCTIONS)),
+                                         cursor.getString(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_REMARK))));
             }
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            XLog.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }

@@ -3,6 +3,7 @@ package com.classic.wages.ui.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,16 +11,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.BindView;
-import cn.qy.util.activity.R;
+
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.adapter.interfaces.ImageLoad;
-import com.classic.core.utils.IntentUtil;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import cn.qy.util.activity.R;
 
 
 /**
@@ -61,7 +64,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
     }
 
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
-        IntentUtil.browser(mActivity, LICENSE_ARRAY.get(position).projectUrl);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(LICENSE_ARRAY.get(position).projectUrl)));
     }
 
     private static class LicenseItem {

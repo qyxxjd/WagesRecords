@@ -3,9 +3,11 @@ package com.classic.wages.ui.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import butterknife.ButterKnife;
-import com.classic.core.fragment.BaseFragment;
+
+import com.classic.android.base.BaseFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
+
+import butterknife.ButterKnife;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

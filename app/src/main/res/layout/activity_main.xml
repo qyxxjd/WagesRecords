@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +9,8 @@
     tools:context="com.classic.wages.ui.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <include layout="@layout/toolbar"/>
@@ -29,10 +30,10 @@
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_gravity="bottom"
         app:ntb_animation_duration="100"
-        app:ntb_titled="true"
-        app:ntb_title_mode="active"
-        app:ntb_inactive_color="#f06292"
         app:ntb_bg_color="@color/colorPrimary"
-        app:ntb_title_size="@dimen/font_small"/>
+        app:ntb_inactive_color="#f06292"
+        app:ntb_title_mode="active"
+        app:ntb_title_size="@dimen/font_small"
+        app:ntb_titled="true"/>
 
 </android.support.design.widget.CoordinatorLayout>

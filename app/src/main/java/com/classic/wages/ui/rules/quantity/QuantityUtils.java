@@ -1,8 +1,10 @@
 package com.classic.wages.ui.rules.quantity;
 
 import android.support.annotation.NonNull;
-import com.classic.core.utils.DataUtil;
+
 import com.classic.wages.entity.QuantityInfo;
+import com.classic.wages.utils.DataUtil;
+
 import java.util.List;
 
 /**

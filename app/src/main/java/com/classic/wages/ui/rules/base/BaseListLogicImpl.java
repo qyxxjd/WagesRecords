@@ -4,23 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
-import com.classic.core.utils.ConversionUtil;
-import com.classic.core.utils.DataUtil;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.rules.IListLogic;
 import com.classic.wages.ui.widget.CircularDrawable;
+import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
-import com.orhanobut.logger.Logger;
+import com.elvishew.xlog.XLog;
+
 import java.util.List;
+
+import cn.qy.util.activity.R;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -51,7 +54,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         this.mAppContext = context.getApplicationContext();
         this.mDao = dao;
         this.mRules = rules;
-        mRadius = ConversionUtil.dp2px(context, 24);
+        mRadius = dp2px(context, 24);
     }
 
     @Override public List<T> getData() {
@@ -68,10 +71,10 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(String year, String month) {
-        Logger.d("onDataQuery:"+year+","+month);
+        XLog.d("onDataQuery:" + year + "," + month);
         Observable<List<T>> observable = mDao.query(year, month);
         if(null != observable){
-            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                       .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
         }
     }
@@ -111,10 +114,6 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
             onItemUpdate(helper, item, position);
         }
 
-        public List<T> getData(){
-            return mData;
-        }
-
         @Override public void call(List<T> list) {
             if(DataUtil.isEmpty(list)){
                 clear();
@@ -126,5 +125,10 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
 
     protected CircularDrawable getCircularDrawable(int color){
         return Util.getCircularDrawable(Util.getColor(mAppContext, color), mRadius);
+    }
+
+    private int dp2px(@NonNull Context context, float dpVal) {
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
+                                              context.getResources().getDisplayMetrics());
     }
 }

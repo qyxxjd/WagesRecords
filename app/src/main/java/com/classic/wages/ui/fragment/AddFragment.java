@@ -7,14 +7,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.bigkoo.pickerview.TimePickerView;
-import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.EditTextUtil;
-import com.classic.core.utils.ToastUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.WorkInfoDao;
@@ -22,10 +18,18 @@ import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.Date;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -222,7 +226,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             mHolidayThree.setChecked(true);
         } else if (workInfo.getMultiple() > ZERO) {
             mHolidayCustom.setChecked(true);
-            EditTextUtil.setText(mHolidayCustomValue, String.valueOf(workInfo.getMultiple()));
+            setText(mHolidayCustomValue, String.valueOf(workInfo.getMultiple()));
             mHolidayCustomValue.setVisibility(View.VISIBLE);
         }
     }
@@ -246,5 +250,13 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             return false;
         }
         return true;
+    }
+
+    /**
+     * 设置文本，并将光标移动到文本末尾
+     */
+    private void setText(@NonNull EditText editText, @NonNull String text) {
+        editText.setText(text);
+        editText.setSelection(text.length());
     }
 }

@@ -1,7 +1,8 @@
 package com.classic.wages.app;
 
 import android.app.Application;
-import com.classic.core.utils.SharedPreferencesUtil;
+
+import com.classic.android.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.di.components.AppComponent;
 import com.classic.wages.di.components.DaggerAppComponent;

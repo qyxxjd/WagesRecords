@@ -8,21 +8,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.widget.EditText;
-import cn.qy.util.activity.R;
-import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.MoneyUtil;
+
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
+
 import java.util.Calendar;
 import java.util.WeakHashMap;
+
+import cn.qy.util.activity.R;
 
 /**
  * @author 续写经典
  * @date 2013/12/14
  */
-@SuppressWarnings({ "deprecation", "StringBufferReplaceableByString" })
-public final class Util {
+@SuppressWarnings({"deprecation", "StringBufferReplaceableByString"}) public final class Util {
     private static final WeakHashMap<Integer, CircularDrawable> DRAWABLE_MAP = new WeakHashMap<>();
 
     /**
@@ -42,7 +42,7 @@ public final class Util {
      * 根据日期获取颜色
      */
     public static int getColorByWeek(int week) {
-        int color = 0;
+        int color;
         switch (week) {
             case 0:
                 color = R.color.week0;
@@ -72,58 +72,59 @@ public final class Util {
 
     /**
      * 格式化星期
+     *
      * @param week
      * @return
      */
-    public static String formatWeek(int week){
+    public static String formatWeek(int week) {
         return Consts.FORMAT_WEEKS[week];
     }
 
-    public static String formatWages(Number number){
+    public static String formatWages(Number number) {
         return new StringBuilder("￥").append(MoneyUtil.replace(number)).toString();
     }
-    public static String formatHours(Number number){
+
+    public static String formatHours(Number number) {
         return new StringBuilder().append(MoneyUtil.replace(number)).append(" H").toString();
     }
 
-    public static String formatTimeBetween(long startTime, long endTime){
-        return new StringBuilder(DateUtil.formatDate(DateUtil.FORMAT_TIME, startTime))
-                .append(" - ")
-                .append(DateUtil.formatDate(DateUtil.FORMAT_TIME, endTime))
-                .toString();
+    public static String formatTimeBetween(long startTime, long endTime) {
+        return new StringBuilder(DateUtil.formatDate(DateUtil.FORMAT_TIME, startTime)).append(" - ")
+                                                                                      .append(DateUtil.formatDate(
+                                                                                              DateUtil.FORMAT_TIME,
+                                                                                              endTime))
+                                                                                      .toString();
     }
 
-    public static float round(float value){
-        return MoneyUtil.newInstance(value)
-                        .round(Consts.DEFAULT_SCALE)
-                        .create()
-                        .floatValue();
+    public static float round(float value) {
+        return MoneyUtil.newInstance(value).round(Consts.DEFAULT_SCALE).create().floatValue();
     }
 
-    @SuppressWarnings("StringBufferReplaceableByString")
-    public static String formatWageDetail(@NonNull String label, float value){
-        return new StringBuilder()
-                .append(label)
-                .append(Consts.WAGES_DETAIL_SEPARATOR)
-                .append(MoneyUtil.replace(value))
-                .toString();
+    public static String formatWageDetail(@NonNull String label, float value) {
+        return new StringBuilder().append(label)
+                                  .append(Consts.WAGES_DETAIL_SEPARATOR)
+                                  .append(MoneyUtil.replace(value))
+                                  .toString();
     }
 
     /**
      * 毫秒转小时
+     *
      * @param ms
      * @return
      */
-    public static float ms2hour(long ms){
+    public static float ms2hour(long ms) {
         return ms2hour(ms, Consts.DEFAULT_SCALE);
     }
+
     /**
      * 毫秒转小时
+     *
      * @param ms
      * @param scale 精度
      * @return
      */
-    public static float ms2hour(long ms, int scale){
+    public static float ms2hour(long ms, int scale) {
         return MoneyUtil.newInstance(ms).divide(Consts.HOUR_2_MS, scale).create().floatValue();
     }
 
@@ -132,8 +133,8 @@ public final class Util {
         return TextUtils.isEmpty(number) ? 0f : Float.valueOf(number);
     }
 
-    public static CircularDrawable getCircularDrawable(int color, float radius){
-        if(!DRAWABLE_MAP.containsKey(color)){
+    public static CircularDrawable getCircularDrawable(int color, float radius) {
+        if (!DRAWABLE_MAP.containsKey(color)) {
             CircularDrawable drawable = new CircularDrawable(color, radius);
             DRAWABLE_MAP.put(color, drawable);
             return drawable;
@@ -141,41 +142,48 @@ public final class Util {
         return DRAWABLE_MAP.get(color);
     }
 
-    public static Drawable getDrawable(@NonNull Context ctx, @DrawableRes int resId){
+    public static Drawable getDrawable(@NonNull Context ctx, @DrawableRes int resId) {
         //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         //    return ctx.getResources().getDrawable(resId);
         //}
         //return ctx.getDrawable(resId);
         return ctx.getResources().getDrawable(resId);
     }
-    public static int getColor(@NonNull Context ctx, @ColorRes int colorId){
+
+    public static int getColor(@NonNull Context ctx, @ColorRes int colorId) {
         //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         //    return ctx.getResources().getColor(colorId);
         //}
         //return ctx.getColor(colorId);
         return ctx.getResources().getColor(colorId);
     }
-    public static String getString(@NonNull Context ctx, @StringRes int resId, Object... params){
+
+    public static String getString(@NonNull Context ctx, @StringRes int resId, Object... params) {
         //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
         //    return ctx.getResources().getString(resId, params);
         //}
         //return ctx.getString(resId, params);
         return ctx.getResources().getString(resId, params);
     }
-    public static String getPreferencesString(String key, String defultValue){
-        return WagesApplication.getPreferencesUtil().getStringValue(key, defultValue);
+
+    public static String getPreferencesString(String key, String defaultValue) {
+        return WagesApplication.getPreferencesUtil().getStringValue(key, defaultValue);
     }
-    public static float getPreferencesFloat(String key, String defultValue){
-        return Float.valueOf(WagesApplication.getPreferencesUtil().getStringValue(key,
-                defultValue));
+
+    public static float getPreferencesFloat(String key, String defaultValue) {
+        return Float.valueOf(WagesApplication.getPreferencesUtil().getStringValue(key, defaultValue));
     }
-    public static int getPreferencesInt(String key, int defultValue){
-        return WagesApplication.getPreferencesUtil().getIntValue(key, defultValue);
+
+    public static int getPreferencesInt(String key, int defaultValue) {
+        return WagesApplication.getPreferencesUtil().getIntValue(key, defaultValue);
     }
-    public static void putPreferencesString(String key, String value){
+
+    public static void putPreferencesString(String key, String value) {
         WagesApplication.getPreferencesUtil().putStringValue(key, value);
     }
-    public static void putPreferencesInt(String key, int value){
+
+    public static void putPreferencesInt(String key, int value) {
         WagesApplication.getPreferencesUtil().putIntValue(key, value);
     }
+
 }

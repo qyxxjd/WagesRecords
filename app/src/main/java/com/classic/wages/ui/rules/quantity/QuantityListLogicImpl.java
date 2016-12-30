@@ -2,14 +2,16 @@ package com.classic.wages.ui.rules.quantity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import cn.qy.util.activity.R;
+
 import com.classic.adapter.BaseAdapterHelper;
-import com.classic.core.utils.DateUtil;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.base.BaseListLogicImpl;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
+
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -33,7 +35,7 @@ public class QuantityListLogicImpl extends BaseListLogicImpl<QuantityInfo> {
         final int color = Util.getColorByWeek(item.getWeek());
         helper.setText(R.id.quantity_item_week, Util.formatWeek(item.getWeek()))
               .setText(R.id.quantity_item_date,
-                      DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getWorkTime()))
+                       DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getWorkTime()))
               .setTextColorRes(R.id.quantity_item_date, color)
               .setText(R.id.quantity_item_title, item.getTitle())
               .setTextColorRes(R.id.quantity_item_title, color)

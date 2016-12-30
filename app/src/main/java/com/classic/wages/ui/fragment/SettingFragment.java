@@ -2,16 +2,16 @@ package com.classic.wages.ui.fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.classic.core.permissions.AfterPermissionGranted;
-import com.classic.core.permissions.EasyPermissions;
-import com.classic.core.utils.AppInfoUtil;
-import com.classic.core.utils.IntentUtil;
+import com.classic.android.permissions.AfterPermissionGranted;
+import com.classic.android.permissions.EasyPermissions;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.activity.OpenSourceLicensesActivity;
@@ -23,10 +23,15 @@ import com.classic.wages.ui.rules.basic.DefaultSettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
-import com.classic.wages.utils.PgyerUtil;
+import com.classic.wages.utils.PgyUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -67,7 +72,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mRulesSpinner.setSelectedIndex(mRulesType);
         refreshUIByRules(mRulesType);
-        PgyerUtil.setDialogStyle("#2196F3", "#FFFFFF");
+        PgyUtil.setDialogStyle("#2196F3", "#FFFFFF");
     }
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
@@ -84,15 +89,15 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         return new StringBuilder()
                 .append(mAppContext.getResources().getString(R.string.setting_rules_detail))
                 .append("  v")
-                .append(AppInfoUtil.getVersionName(mAppContext))
+                .append(getVersionName(mAppContext))
                 .toString();
     }
 
     @OnClick(R.id.setting_update) public void onUpdateClick(){
-        PgyerUtil.checkUpdate(mActivity, true);
+        PgyUtil.checkUpdate(mActivity, true);
     }
     @OnClick(R.id.setting_share) public void onShareClick(){
-        IntentUtil.shareText(mActivity, getString(R.string.share_title),
+        shareText(mActivity, getString(R.string.share_title),
                 getString(R.string.share_subject), getString(R.string.share_content));
     }
     @OnClick(R.id.setting_feedback) public void onFeedbackClick(){
@@ -146,7 +151,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @AfterPermissionGranted(REQUEST_CODE_FEEDBACK)
     private void checkRecordAudioPermissions(){
         if (EasyPermissions.hasPermissions(mAppContext, FEEDBACK_PERMISSION)) {
-            PgyerUtil.feedback(mActivity);
+            PgyUtil.feedback(mActivity);
         } else {
             EasyPermissions.requestPermissions(this, Consts.FEEDBACK_PERMISSIONS_DESCRIBE,
                     REQUEST_CODE_FEEDBACK, FEEDBACK_PERMISSION);
@@ -156,14 +161,37 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @Override public void onPermissionsGranted(int requestCode, List<String> perms) {
         super.onPermissionsGranted(requestCode, perms);
         if(requestCode == REQUEST_CODE_FEEDBACK){
-            PgyerUtil.feedback(mActivity);
+            PgyUtil.feedback(mActivity);
         }
     }
 
     @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
         super.onPermissionsDenied(requestCode, perms);
         if(requestCode == REQUEST_CODE_FEEDBACK){
-            PgyerUtil.feedback(mActivity);
+            PgyUtil.feedback(mActivity);
         }
+    }
+
+    private void shareText(@NonNull Context context, @NonNull String title, @NonNull String subject,
+                           @NonNull String content) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intent, title));
+    }
+
+    private String getVersionName(@NonNull Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
+            if (null != info) {
+                return info.versionName;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

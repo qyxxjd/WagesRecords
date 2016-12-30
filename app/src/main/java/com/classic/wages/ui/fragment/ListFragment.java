@@ -13,11 +13,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
-import com.classic.core.utils.DataUtil;
-import com.classic.core.utils.DateUtil;
+
+import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
@@ -40,12 +37,19 @@ import com.classic.wages.ui.rules.pizzahut.PizzaHutListLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutWagesDetailLogicImpl;
 import com.classic.wages.ui.rules.quantity.QuantityListLogicImpl;
 import com.classic.wages.ui.rules.quantity.QuantityWagesDetailLogicImpl;
-import com.classic.wages.utils.HidingScrollListener;
+import com.classic.wages.utils.DataUtil;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 import rx.functions.Action1;
 
 import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
@@ -103,7 +107,7 @@ public class ListFragment extends AppBaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addOnScrollListener(new HidingScrollListener() {
+        mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
             @Override public void onHide() {
                 mFab.animate().translationY(mFab.getHeight()).setInterpolator(new AccelerateInterpolator(2));
             }
@@ -120,7 +124,7 @@ public class ListFragment extends AppBaseFragment {
             return;
         }
         mWorkInfoDao.queryYears()
-                    .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+                    .compose(RxUtil.<List<String>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                     .subscribe(new Action1<List<String>>() {
                         @Override public void call(List<String> strings) {
                             spinnerDataChange(strings);

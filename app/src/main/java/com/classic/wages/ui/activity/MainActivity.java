@@ -4,24 +4,28 @@ import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import butterknife.BindView;
-import cn.qy.util.activity.BuildConfig;
-import cn.qy.util.activity.R;
-import com.classic.core.BasicConfig;
-import com.classic.core.permissions.AfterPermissionGranted;
-import com.classic.core.permissions.AppSettingsDialog;
-import com.classic.core.permissions.EasyPermissions;
-import com.classic.core.utils.DoubleClickExitHelper;
+
+import com.classic.android.BasicProject;
+import com.classic.android.permissions.AfterPermissionGranted;
+import com.classic.android.permissions.AppSettingsDialog;
+import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.utils.DoubleClickExitHelper;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
 import com.classic.wages.ui.fragment.SettingFragment;
-import com.classic.wages.utils.PgyerUtil;
+import com.classic.wages.utils.PgyUtil;
 import com.classic.wages.utils.Util;
+import com.elvishew.xlog.LogLevel;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import cn.qy.util.activity.BuildConfig;
+import cn.qy.util.activity.R;
 
 
 public class MainActivity extends AppBaseActivity {
@@ -54,8 +58,8 @@ public class MainActivity extends AppBaseActivity {
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
         checkStoragePermissions();
         initTabBar(savedInstanceState);
-        PgyerUtil.register(mAppContext);
-        PgyerUtil.checkUpdate(mActivity, false);
+        PgyUtil.register(mAppContext);
+        PgyUtil.checkUpdate(mActivity, false);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_STORAGE) private void checkStoragePermissions() {
@@ -88,11 +92,11 @@ public class MainActivity extends AppBaseActivity {
     }
 
     private void init() {
-        if (BuildConfig.DEBUG) {
-            BasicConfig.getInstance(mAppContext).initDir().initLog(true);
-        } else {
-            BasicConfig.getInstance(mAppContext).init();
-        }
+        BasicProject.config(new BasicProject.Builder()
+                                    .setDebug(BuildConfig.DEBUG)
+                                    .setRootDirectoryName(Consts.DIR_NAME)
+                                    .setExceptionHandler(mAppContext)
+                                    .setLog(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE));
     }
 
     private void initTabBar(Bundle savedInstanceState) {
@@ -126,7 +130,7 @@ public class MainActivity extends AppBaseActivity {
 
     @Override public void unRegister() {
         super.unRegister();
-        PgyerUtil.destroy();
+        PgyUtil.destroy();
     }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {

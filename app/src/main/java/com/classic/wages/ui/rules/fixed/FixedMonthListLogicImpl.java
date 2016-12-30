@@ -2,15 +2,17 @@ package com.classic.wages.ui.rules.fixed;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import cn.qy.util.activity.R;
+
 import com.classic.adapter.BaseAdapterHelper;
-import com.classic.core.utils.DateUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.base.BaseListLogicImpl;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
+
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords

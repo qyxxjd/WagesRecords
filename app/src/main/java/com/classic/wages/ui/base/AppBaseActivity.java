@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.classic.android.base.BaseActivity;
+import com.umeng.analytics.MobclickAgent;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.qy.util.activity.R;
-import com.classic.core.activity.BaseActivity;
-import com.umeng.analytics.MobclickAgent;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

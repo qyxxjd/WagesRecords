@@ -6,13 +6,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.bigkoo.pickerview.TimePickerView;
-import com.classic.core.utils.DateUtil;
-import com.classic.core.utils.MoneyUtil;
-import com.classic.core.utils.ToastUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
@@ -20,10 +15,19 @@ import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.MoneyUtil;
+import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.Date;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords

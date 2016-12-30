@@ -1,6 +1,6 @@
 package com.classic.wages.entity;
 
-import com.classic.core.utils.DateUtil;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
 
 /**
@@ -21,7 +21,7 @@ public class MonthlyInfo extends BasicInfo {
     public void setMonthlyTime(long monthlyTime) {
         this.monthlyTime = monthlyTime;
         setWeek(Util.getDayOfWeek(monthlyTime));
-        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT, monthlyTime));
+        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, monthlyTime));
     }
     /** 月工资 */
     public float getMonthlyWage() {

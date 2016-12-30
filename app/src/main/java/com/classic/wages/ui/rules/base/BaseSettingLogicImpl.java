@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.widget.TextView;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.classic.core.utils.MoneyUtil;
 import com.classic.wages.ui.activity.MainActivity;
 import com.classic.wages.ui.rules.ISettingLogic;
+import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.Util;
+
 import java.lang.ref.WeakReference;
+
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords

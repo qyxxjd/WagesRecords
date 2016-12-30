@@ -2,16 +2,19 @@ package com.classic.wages.ui.rules.monthly;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import cn.qy.util.activity.R;
+
 import com.classic.adapter.BaseAdapterHelper;
-import com.classic.core.utils.DateUtil;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.base.BaseListLogicImpl;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -35,7 +38,7 @@ public class MonthlyListLogicImpl extends BaseListLogicImpl<MonthlyInfo> {
         final int color = Util.getColorByWeek(item.getWeek());
         helper.setText(R.id.monthly_item_week, Util.formatWeek(item.getWeek()))
               .setText(R.id.monthly_item_date,
-                      DateUtil.formatDate(FORMAT, item.getMonthlyTime()))
+                       DateUtil.formatDate(FORMAT, item.getMonthlyTime()))
               .setTextColorRes(R.id.monthly_item_date, color)
               .setText(R.id.monthly_item_wages, Util.formatWages(MonthlyUtils.getWages(item)))
               .setTextColorRes(R.id.monthly_item_wages, color);

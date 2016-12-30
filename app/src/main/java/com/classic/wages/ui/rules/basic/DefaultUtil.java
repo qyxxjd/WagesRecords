@@ -1,10 +1,12 @@
 package com.classic.wages.ui.rules.basic;
 
 import android.support.annotation.NonNull;
-import com.classic.core.utils.DataUtil;
+
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.ui.rules.base.BaseWagesDetailEntity;
+import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.Util;
+
 import java.util.List;
 
 /**

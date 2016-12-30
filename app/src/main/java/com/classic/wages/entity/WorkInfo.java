@@ -1,6 +1,6 @@
 package com.classic.wages.entity;
 
-import com.classic.core.utils.DateUtil;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
 
 /**
@@ -33,7 +33,7 @@ public class WorkInfo extends BasicInfo {
     public void setStartingTime(long startingTime) {
         this.startingTime = startingTime;
         setWeek(Util.getDayOfWeek(startingTime));
-        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT, startingTime));
+        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, startingTime));
     }
 
     public WorkInfo(long startingTime, long endTime) {

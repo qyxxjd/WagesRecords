@@ -4,14 +4,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import com.classic.core.utils.CloseUtil;
+
 import com.classic.wages.db.table.WorkInfoTable;
 import com.classic.wages.entity.WorkInfo;
-import com.orhanobut.logger.Logger;
+import com.classic.wages.utils.CloseUtil;
+import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -167,7 +170,7 @@ public class WorkInfoDao implements IDao<WorkInfo> {
                         cursor.getString(cursor.getColumnIndex(WorkInfoTable.COLUMN_REMARK))));
             }
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            XLog.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }
@@ -182,7 +185,7 @@ public class WorkInfoDao implements IDao<WorkInfo> {
                 list.add(cursor.getString(0));
             }
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            XLog.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }

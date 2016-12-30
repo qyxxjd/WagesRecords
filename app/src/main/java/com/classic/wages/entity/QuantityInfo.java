@@ -1,6 +1,6 @@
 package com.classic.wages.entity;
 
-import com.classic.core.utils.DateUtil;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
 
 /**
@@ -24,7 +24,7 @@ public class QuantityInfo extends BasicInfo {
     public void setWorkTime(long workTime) {
         this.workTime = workTime;
         setWeek(Util.getDayOfWeek(workTime));
-        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT, workTime));
+        setFormatTime(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, workTime));
     }
     /** 计件物品名称 */
     public String getTitle() {

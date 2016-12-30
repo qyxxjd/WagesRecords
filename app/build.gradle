@@ -13,9 +13,9 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
-        manifestPlaceholders = [PGYER_APPID: properties.getProperty("PGYER_APPID"),
-                                UMENG_APPKEY: properties.getProperty("UMENG_APPKEY"),
-                                UMENG_CHANNEL: "pgyer",
+        manifestPlaceholders = [PGYER_APPID   : properties.getProperty("PGYER_APPID"),
+                                UMENG_APPKEY  : properties.getProperty("UMENG_APPKEY"),
+                                UMENG_CHANNEL : "pgyer",
                                 APPLICATION_ID: rootProject.ext.android.applicationId
         ]
     }

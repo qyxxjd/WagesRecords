@@ -4,14 +4,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import com.classic.core.utils.CloseUtil;
+
 import com.classic.wages.db.table.QuantityInfoTable;
 import com.classic.wages.entity.QuantityInfo;
-import com.orhanobut.logger.Logger;
+import com.classic.wages.utils.CloseUtil;
+import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -50,7 +53,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
 
     @Override public int update(@NonNull QuantityInfo quantityInfo) {
         return mDatabase.update(QuantityInfoTable.TABLE_NAME, convert(quantityInfo, true),
-                QuantityInfoTable.COLUMN_ID + "=" + quantityInfo.getId());
+                                QuantityInfoTable.COLUMN_ID + "=" + quantityInfo.getId());
     }
 
     @Override public int delete(long id) {
@@ -159,7 +162,9 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
     }
 
     private List<QuantityInfo> convert(Cursor cursor) {
-        if(null == cursor) return null;
+        if (null == cursor) {
+            return null;
+        }
         List<QuantityInfo> list = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
@@ -179,7 +184,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
                         cursor.getString(cursor.getColumnIndex(QuantityInfoTable.COLUMN_REMARK))));
             }
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            XLog.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }
@@ -187,14 +192,16 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
     }
 
     private List<String> convertYears(Cursor cursor) {
-        if(null == cursor) return null;
+        if (null == cursor) {
+            return null;
+        }
         List<String> list = new ArrayList<>();
         try {
             while (cursor.moveToNext()) {
                 list.add(cursor.getString(0));
             }
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            XLog.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }

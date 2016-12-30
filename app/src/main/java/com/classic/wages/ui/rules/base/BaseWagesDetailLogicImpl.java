@@ -29,7 +29,7 @@ public abstract class BaseWagesDetailLogicImpl<T extends BasicInfo> implements I
     @Override public void onDisplay(@NonNull final Activity activity, @NonNull final View targetView, final List<T> list) {
         mWeakReference = new WeakReference<>(activity);
         Observable.just(convert(list))
-                  .compose(RxUtil.<List<String>>applySchedulers(RxUtil.THREAD_ON_UI_TRANSFORMER))
+                  .compose(RxUtil.<List<String>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
                   .subscribe(new Action1<List<String>>() {
                       @Override public void call(List<String> items) {
                           if(null != mWeakReference && mWeakReference.get() != null){

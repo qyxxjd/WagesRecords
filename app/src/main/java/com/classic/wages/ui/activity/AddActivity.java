@@ -8,14 +8,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import cn.qy.util.activity.R;
-import com.classic.core.fragment.BaseFragment;
+
+import com.classic.android.base.BaseFragment;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.AddFragment;
 import com.classic.wages.ui.fragment.AddMonthlyFragment;
 import com.classic.wages.ui.fragment.AddQuantityFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
+
+import cn.qy.util.activity.R;
 
 
 /**
