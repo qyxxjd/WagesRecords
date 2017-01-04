@@ -23,3 +23,9 @@
   at java.lang.reflect.Method.invoke(Native Method)
   at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:886)
   at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:776)
+
+2. 修复2017年数据不显示
+
+3. 添加自定义查询功能
+
+4. 添加本地数据备份、导入功能
