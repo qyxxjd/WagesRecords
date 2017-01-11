@@ -18,7 +18,7 @@ package com.classic.wages.di.modules;
 import android.app.Application;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
-
+import cn.qy.util.activity.BuildConfig;
 import com.classic.wages.db.DbHelper;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
@@ -26,16 +26,12 @@ import com.classic.wages.db.dao.WorkInfoDao;
 import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
-
-import javax.inject.Singleton;
-
-import cn.qy.util.activity.BuildConfig;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Singleton;
 import rx.schedulers.Schedulers;
 
 /**
- *
  * 文件描述：数据库相关实例生成
  * 创 建 人：续写经典
  * 创建时间：16/6/5 下午2:07
@@ -46,16 +42,18 @@ import rx.schedulers.Schedulers;
         return new DbHelper(application);
     }
 
-    @Provides @Singleton SqlBrite provideSqlBrite() {
-        return new SqlBrite.Builder()
-                           .logger(new SqlBrite.Logger() {
-                                @Override public void log(String message) {
-                                    if(!TextUtils.isEmpty(message)){
-                                        XLog.d(message);
-                                    }
-                                }
-                           })
-                           .build();
+    @SuppressWarnings("CheckResult") @Provides @Singleton SqlBrite provideSqlBrite() {
+        final SqlBrite.Builder builder = new SqlBrite.Builder();
+        if (BuildConfig.DEBUG) {
+            builder.logger(new SqlBrite.Logger() {
+                @Override public void log(String message) {
+                    if (!TextUtils.isEmpty(message)) {
+                        XLog.d(message);
+                    }
+                }
+            });
+        }
+        return builder.build();
     }
 
     @Provides @Singleton BriteDatabase provideDatabase(SqlBrite sqlBrite, SQLiteOpenHelper helper) {

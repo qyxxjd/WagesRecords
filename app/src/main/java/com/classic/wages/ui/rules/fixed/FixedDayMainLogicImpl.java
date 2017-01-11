@@ -36,6 +36,6 @@ public class FixedDayMainLogicImpl extends BaseMainLogicImpl<WorkInfo> {
     @Override protected float getTotalWages(List<WorkInfo> list) {
         BaseWagesDetailEntity entity = FixedUtils.getTotalWagesByFixedDay(list, mHourlyWage,
                 mFixedHours, mOvertimeHourlyWage);
-        return Util.round(entity.totalWages);
+        return entity.totalWages;
     }
 }

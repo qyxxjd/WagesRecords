@@ -51,7 +51,7 @@ public class FixedDayListLogicImpl extends BaseListLogicImpl<WorkInfo> {
               .setText(R.id.list_item_time, Util.formatTimeBetween(
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
-              .setText(R.id.list_item_wages, Util.formatWages(FixedUtils.getDayWagesByFixedDay(
+              .setText(R.id.list_item_wages, formatWages(FixedUtils.getDayWagesByFixedDay(
                       item, mHourlyWage, mFixedHours, mOvertimeHourlyWage)))
               .setTextColorRes(R.id.list_item_wages, color)
               .setText(R.id.list_item_hours, Util.formatHours(Util.ms2hour(

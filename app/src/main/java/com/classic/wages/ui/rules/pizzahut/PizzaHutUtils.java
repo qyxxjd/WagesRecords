@@ -31,7 +31,7 @@ final class PizzaHutUtils {
     //小于4小时 : 休息0小时,带薪0小时 
     //晚上22点后享受晚班津贴 
 
-    static PizzaHutWagesDetailEntity calculationDayWages(
+    static PizzaHutWagesDetailEntity getDayWages(
             @NonNull WorkInfo info, float hourlyWage, float restHourlyWage, float nightSubsidy) {
         PizzaHutWagesDetailEntity entity = new PizzaHutWagesDetailEntity();
         //总工作时长
@@ -85,12 +85,12 @@ final class PizzaHutUtils {
         return 0f;
     }
 
-    static PizzaHutWagesDetailEntity calculationTotalWages(List<WorkInfo> list, float hourlyWage,
-                                                           float restHourlyWage, float nightSubsidy) {
+    static PizzaHutWagesDetailEntity getTotalWages(List<WorkInfo> list, float hourlyWage,
+                                                   float restHourlyWage, float nightSubsidy) {
         PizzaHutWagesDetailEntity entity = new PizzaHutWagesDetailEntity();
         if(DataUtil.isEmpty(list)) return entity;
         for (WorkInfo item : list) {
-            PizzaHutWagesDetailEntity subItem = calculationDayWages(item, hourlyWage, restHourlyWage,
+            PizzaHutWagesDetailEntity subItem = getDayWages(item, hourlyWage, restHourlyWage,
                     nightSubsidy);
             entity.totalNormalHours += subItem.totalNormalHours;
             entity.totalNormalWages += subItem.totalNormalWages;

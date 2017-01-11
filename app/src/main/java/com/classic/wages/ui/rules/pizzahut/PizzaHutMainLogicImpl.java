@@ -35,7 +35,7 @@ public class PizzaHutMainLogicImpl extends BaseMainLogicImpl<WorkInfo> {
     @SuppressWarnings("ConstantConditions")
     @Override
     protected float getTotalWages(List<WorkInfo> list) {
-        return Util.round(PizzaHutUtils.calculationTotalWages(list, mHourlyWage, mRestHourlyWage,
-                mNightSubsidy).totalWages);
+        return PizzaHutUtils.getTotalWages(list, mHourlyWage, mRestHourlyWage,
+                mNightSubsidy).totalWages;
     }
 }

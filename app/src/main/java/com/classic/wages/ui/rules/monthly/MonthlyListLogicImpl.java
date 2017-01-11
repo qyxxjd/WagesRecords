@@ -40,7 +40,7 @@ public class MonthlyListLogicImpl extends BaseListLogicImpl<MonthlyInfo> {
               .setText(R.id.monthly_item_date,
                        DateUtil.formatDate(FORMAT, item.getMonthlyTime()))
               .setTextColorRes(R.id.monthly_item_date, color)
-              .setText(R.id.monthly_item_wages, Util.formatWages(MonthlyUtils.getWages(item)))
+              .setText(R.id.monthly_item_wages, formatWages(MonthlyUtils.getWages(item)))
               .setTextColorRes(R.id.monthly_item_wages, color);
         helper.getView(R.id.monthly_item_week)
               .setBackground(getCircularDrawable(color));

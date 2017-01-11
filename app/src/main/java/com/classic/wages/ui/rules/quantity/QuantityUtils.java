@@ -22,7 +22,7 @@ final class QuantityUtils {
                 info.getDeductions();
     }
 
-    static QuantityWagesDetailEntity calculationTotalWages(List<QuantityInfo> list) {
+    static QuantityWagesDetailEntity getTotalWages(List<QuantityInfo> list) {
         QuantityWagesDetailEntity entity = new QuantityWagesDetailEntity();
         if(DataUtil.isEmpty(list)) return entity;
         for (QuantityInfo item : list) {

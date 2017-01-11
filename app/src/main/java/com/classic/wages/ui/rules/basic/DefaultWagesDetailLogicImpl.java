@@ -21,7 +21,7 @@ public class DefaultWagesDetailLogicImpl extends BaseWagesDetailLogicImpl<WorkIn
 
     @Override protected List<String> convert(List<WorkInfo> list) {
         float hourlyWage = Util.getPreferencesFloat(Consts.SP_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        return toList(DefaultUtil.calculationTotalWages(list, hourlyWage));
+        return toList(DefaultUtil.getTotalWages(list, hourlyWage));
     }
 
     private List<String> toList(@NonNull BaseWagesDetailEntity entity){

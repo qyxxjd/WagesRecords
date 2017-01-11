@@ -45,7 +45,7 @@ public class DefaultListLogicImpl extends BaseListLogicImpl<WorkInfo> {
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
               .setText(R.id.list_item_wages,
-                       Util.formatWages(DefaultUtil.getDayWages(item, mHourlyWage)))
+                       formatWages(DefaultUtil.getDayWages(item, mHourlyWage)))
               .setTextColorRes(R.id.list_item_wages, color)
               .setText(R.id.list_item_hours, Util.formatHours(DefaultUtil.getDayHours(item)))
               .setTextColorRes(R.id.list_item_hours, color);

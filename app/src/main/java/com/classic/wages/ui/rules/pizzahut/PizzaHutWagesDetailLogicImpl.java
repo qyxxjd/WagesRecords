@@ -25,7 +25,7 @@ public class PizzaHutWagesDetailLogicImpl extends BaseWagesDetailLogicImpl<WorkI
                 Consts.SP_PIZZA_HUT_REST_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
         final float nightSubsidy = Util.getPreferencesFloat(
                 Consts.SP_PIZZA_HUT_NIGHT_SUBSIDY, Consts.DEFAULT_NIGHT_SUBSIDY);
-        return toList(PizzaHutUtils.calculationTotalWages(list, hourlyWage, restHourlyWage, nightSubsidy));
+        return toList(PizzaHutUtils.getTotalWages(list, hourlyWage, restHourlyWage, nightSubsidy));
     }
 
     private List<String> toList(@NonNull PizzaHutWagesDetailEntity entity){

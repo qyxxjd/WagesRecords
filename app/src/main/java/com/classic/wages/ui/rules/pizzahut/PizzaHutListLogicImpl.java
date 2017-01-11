@@ -52,7 +52,7 @@ public class PizzaHutListLogicImpl extends BaseListLogicImpl<WorkInfo> {
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
               .setText(R.id.list_item_wages,
-                       Util.formatWages(PizzaHutUtils.calculationDayWages(item,
+                       formatWages(PizzaHutUtils.getDayWages(item,
                                mHourlyWage, mRestHourlyWage, mNightSubsidy).totalWages))
               .setTextColorRes(R.id.list_item_wages, color)
               .setText(R.id.list_item_hours, Util.formatHours(Util.ms2hour(

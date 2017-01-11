@@ -26,6 +26,6 @@ public class DefaultMainLogicImpl extends BaseMainLogicImpl<WorkInfo> {
     }
 
     @Override protected float getTotalWages(List<WorkInfo> list) {
-        return Util.round(DefaultUtil.calculationTotalWages(list, mHourlyWage).totalWages);
+        return DefaultUtil.getTotalWages(list, mHourlyWage).totalWages;
     }
 }

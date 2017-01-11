@@ -2,7 +2,6 @@ package com.classic.wages.ui.rules.monthly;
 
 import android.support.annotation.NonNull;
 import com.classic.wages.entity.MonthlyInfo;
-import com.classic.wages.utils.Util;
 import java.util.List;
 
 /**
@@ -24,6 +23,6 @@ final class MonthlyUtils {
         for (MonthlyInfo item : list) {
             totalWages += getWages(item);
         }
-        return Util.round(totalWages);
+        return totalWages;
     }
 }

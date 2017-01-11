@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.rules.base.BaseMainLogicImpl;
-import com.classic.wages.utils.Util;
 import java.util.List;
 
 /**
@@ -22,6 +21,6 @@ public class QuantityMainLogicImpl extends BaseMainLogicImpl<QuantityInfo> {
     }
 
     @Override protected float getTotalWages(List<QuantityInfo> list) {
-        return Util.round(QuantityUtils.calculationTotalWages(list).totalWages);
+        return QuantityUtils.getTotalWages(list).totalWages;
     }
 }

@@ -24,16 +24,16 @@ public class FixedMonthMainLogicImpl extends BaseMainLogicImpl<WorkInfo> {
 
     public FixedMonthMainLogicImpl(@NonNull WorkInfoDao dao) {
         super(dao);
-        mHourlyWage = Util.getPreferencesFloat(
-                Consts.SP_FIXED_MONTH_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        mFixedHours = Util.getPreferencesFloat(
-                Consts.SP_FIXED_MONTH_FIXED_HOURS, Consts.DEFAULT_MONTH_FIXED_HOURS);
-        mOvertimeHourlyWage = Util.getPreferencesFloat(
-                Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
+        mHourlyWage = Util.getPreferencesFloat(Consts.SP_FIXED_MONTH_HOURLY_WAGE,
+                Consts.DEFAULT_HOURLY_WAGE);
+        mFixedHours = Util.getPreferencesFloat(Consts.SP_FIXED_MONTH_FIXED_HOURS,
+                Consts.DEFAULT_MONTH_FIXED_HOURS);
+        mOvertimeHourlyWage = Util.getPreferencesFloat(Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE,
+                Consts.DEFAULT_HOURLY_WAGE);
     }
 
     @Override protected float getTotalWages(List<WorkInfo> list) {
-        return Util.round(FixedUtils.getTotalWages(FixedUtils.convert(list),
-                        mHourlyWage, mFixedHours, mOvertimeHourlyWage));
+        return FixedUtils.getTotalWages(FixedUtils.convert(list), mHourlyWage, mFixedHours,
+                mOvertimeHourlyWage);
     }
 }

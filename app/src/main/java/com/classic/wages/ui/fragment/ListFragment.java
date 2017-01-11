@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
-
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
@@ -42,14 +44,8 @@ import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-
 import java.util.List;
-
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
 import rx.functions.Action1;
 
 import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
@@ -78,6 +74,7 @@ public class ListFragment extends AppBaseFragment {
     private IWagesDetailLogic mWagesDetailLogic;
     private String            mFilterYear;
     private String            mFilterMonth;
+    private int               mOffset;
     private int               mRulesType = -1;
 
     public static ListFragment newInstance() {
@@ -91,10 +88,12 @@ public class ListFragment extends AppBaseFragment {
     @Override public void onAttach(Context context) {
         super.onAttach(context);
         ((WagesApplication) mActivity.getApplicationContext()).getAppComponent().inject(this);
+
     }
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
+        mOffset = Util.dp2px(mAppContext, 144);
         mYearsSpinner.setItems(Consts.YEARS);
         mMonthsSpinner.setItems(Consts.MONTHS);
         mYearsSpinner.setOnItemSelectedListener(mYearSelectedListener);
@@ -109,7 +108,7 @@ public class ListFragment extends AppBaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
             @Override public void onHide() {
-                mFab.animate().translationY(mFab.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+                mFab.animate().translationY(mOffset).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override public void onShow() {
@@ -230,11 +229,8 @@ public class ListFragment extends AppBaseFragment {
             = new MaterialSpinner.OnItemSelectedListener<String>() {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-            mFilterMonth = formatMonth(item);
+            mFilterMonth = item;
             mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
-    private String formatMonth(String month){
-        return month.length() == 1 ? ("0" + month) : month;
-    }
 }

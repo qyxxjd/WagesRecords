@@ -7,9 +7,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 import com.bigkoo.pickerview.TimePickerView;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
@@ -22,14 +23,8 @@ import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
-
 import java.util.Date;
-
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -208,16 +203,16 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         mEndTimeHint.setVisibility(View.VISIBLE);
 
         if(workInfo.getBonus() > ZERO){
-            mBonus.setText(String.valueOf(workInfo.getBonus()));
+            Util.setText(mBonus, workInfo.getBonus());
         }
         if(workInfo.getDeductions() > ZERO){
-            mDeductions.setText(String.valueOf(workInfo.getDeductions()));
+            Util.setText(mDeductions, workInfo.getDeductions());
         }
         if(workInfo.getSubsidy() > ZERO){
-            mSubsidy.setText(String.valueOf(workInfo.getSubsidy()));
+            Util.setText(mSubsidy, workInfo.getSubsidy());
         }
         if(!TextUtils.isEmpty(workInfo.getRemark())){
-            mRemark.setText(workInfo.getRemark());
+            Util.setText(mRemark, workInfo.getRemark());
         }
 
         if (workInfo.getMultiple() == 2f) {
@@ -226,7 +221,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             mHolidayThree.setChecked(true);
         } else if (workInfo.getMultiple() > ZERO) {
             mHolidayCustom.setChecked(true);
-            setText(mHolidayCustomValue, String.valueOf(workInfo.getMultiple()));
+            Util.setText(mHolidayCustomValue, workInfo.getMultiple());
             mHolidayCustomValue.setVisibility(View.VISIBLE);
         }
     }
@@ -252,11 +247,4 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         return true;
     }
 
-    /**
-     * 设置文本，并将光标移动到文本末尾
-     */
-    private void setText(@NonNull EditText editText, @NonNull String text) {
-        editText.setText(text);
-        editText.setSelection(text.length());
-    }
 }

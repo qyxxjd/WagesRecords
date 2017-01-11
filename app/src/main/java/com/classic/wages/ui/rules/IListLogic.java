@@ -25,7 +25,7 @@ public interface IListLogic<T extends BasicInfo> {
     /**
      * 数据查询回调
      * @param year 查询的年份，null代表全部
-     * @param month 查询的月份，null代表全部
+     * @param month 查询的月份，null代表全部(1-9月份需要在前面加0)
      */
     void onDataQuery(String year, String month);
 }

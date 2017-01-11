@@ -24,15 +24,11 @@ final class DefaultUtil {
     }
 
     static float getDayWages(@NonNull WorkInfo workInfo, float hourlyWage){
-        return Util.round(calculationDayWages(workInfo, hourlyWage));
-    }
-
-    private static float calculationDayWages(@NonNull WorkInfo workInfo, float hourlyWage){
         return getDayHours(workInfo) * hourlyWage * (workInfo.getMultiple() > 0f ? workInfo.getMultiple() : 1)
                + workInfo.getBonus() + workInfo.getSubsidy() - workInfo.getDeductions();
     }
 
-    static BaseWagesDetailEntity calculationTotalWages(List<WorkInfo> list, float hourlyWage){
+    static BaseWagesDetailEntity getTotalWages(List<WorkInfo> list, float hourlyWage){
         final BaseWagesDetailEntity entity = new BaseWagesDetailEntity();
         if(!DataUtil.isEmpty(list)){
             long holidayTime = 0L;

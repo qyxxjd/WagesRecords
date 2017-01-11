@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 import com.bigkoo.pickerview.TimePickerView;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
@@ -16,18 +18,11 @@ import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.utils.DateUtil;
-import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
-
 import java.util.Date;
-
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -161,19 +156,19 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
         mCurrentTime = info.getMonthlyTime();
         mMonthlyTime.setText(DateUtil.formatDate(FORMAT, mCurrentTime));
         mMonthlyTimeHint.setVisibility(View.VISIBLE);
-        mMonthlyWage.setText(MoneyUtil.replace(info.getMonthlyWage()));
+        Util.setText(mMonthlyWage, info.getMonthlyWage());
 
         if(info.getBonus() > ZERO){
-            mBonus.setText(MoneyUtil.replace(info.getBonus()));
+            Util.setText(mBonus, info.getBonus());
         }
         if(info.getDeductions() > ZERO){
-            mDeductions.setText(MoneyUtil.replace(info.getDeductions()));
+            Util.setText(mDeductions, info.getDeductions());
         }
         if(info.getSubsidy() > ZERO){
-            mSubsidy.setText(MoneyUtil.replace(info.getSubsidy()));
+            Util.setText(mSubsidy, info.getSubsidy());
         }
         if(!TextUtils.isEmpty(info.getRemark())){
-            mRemark.setText(info.getRemark());
+            Util.setText(mRemark, info.getRemark());
         }
     }
 

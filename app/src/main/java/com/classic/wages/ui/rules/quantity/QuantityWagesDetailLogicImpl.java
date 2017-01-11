@@ -18,7 +18,7 @@ import java.util.List;
 public class QuantityWagesDetailLogicImpl extends BaseWagesDetailLogicImpl<QuantityInfo> {
 
     @Override protected List<String> convert(List<QuantityInfo> list) {
-        return toList(QuantityUtils.calculationTotalWages(list));
+        return toList(QuantityUtils.getTotalWages(list));
     }
 
     private List<String> toList(@NonNull QuantityWagesDetailEntity entity){

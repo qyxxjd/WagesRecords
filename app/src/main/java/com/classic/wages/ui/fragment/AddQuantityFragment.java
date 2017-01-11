@@ -169,19 +169,19 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
         mWorkTimeHint.setVisibility(View.VISIBLE);
         mTitle.setText(info.getTitle());
         mCount.setText(MoneyUtil.replace(info.getQuantity()));
-        mUnitPrice.setText(MoneyUtil.replace(info.getUnitPrice()));
+        Util.setText(mUnitPrice, info.getUnitPrice());
 
         if(info.getBonus() > ZERO){
-            mBonus.setText(MoneyUtil.replace(info.getBonus()));
+            Util.setText(mBonus, info.getBonus());
         }
         if(info.getDeductions() > ZERO){
-            mDeductions.setText(MoneyUtil.replace(info.getDeductions()));
+            Util.setText(mDeductions, info.getDeductions());
         }
         if(info.getSubsidy() > ZERO){
-            mSubsidy.setText(MoneyUtil.replace(info.getSubsidy()));
+            Util.setText(mSubsidy, info.getSubsidy());
         }
         if(!TextUtils.isEmpty(info.getRemark())){
-            mRemark.setText(info.getRemark());
+            Util.setText(mRemark, info.getRemark());
         }
     }
 

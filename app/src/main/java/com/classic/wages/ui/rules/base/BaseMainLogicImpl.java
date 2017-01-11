@@ -3,6 +3,7 @@ package com.classic.wages.ui.rules.base;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
+import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.ui.rules.IMainLogic;
 import com.classic.wages.utils.DataUtil;
@@ -25,7 +26,6 @@ import rx.functions.Func1;
  * 创建时间：16/10/23 下午1:33
  */
 public abstract class BaseMainLogicImpl<T> implements IMainLogic {
-
     private IDao<T> mDao;
 
     protected abstract float getTotalWages(List<T> list);
@@ -46,7 +46,7 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
         calculation(mDao.queryAll(), tv);
     }
 
-    protected void calculation(Observable<List<T>> observable, TextView tv){
+    private void calculation(Observable<List<T>> observable, TextView tv){
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
         observable.flatMap(new Func1<List<T>, Observable<Float>>() {
                         @Override public Observable<Float> call(List<T> list) {
@@ -58,7 +58,7 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
                   .subscribe(new Action1<Float>() {
                       @Override public void call(Float wages) {
                           if(weakReference.get() != null){
-                              weakReference.get().setText(MoneyUtil.replace(wages));
+                              weakReference.get().setText(MoneyUtil.replace(wages, Consts.DEFAULT_SCALE));
                           }
                       }
                   }, RxUtil.ERROR_ACTION);

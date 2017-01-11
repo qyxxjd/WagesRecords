@@ -14,6 +14,7 @@ import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonAdapter;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.LineGridView;
+import com.classic.wages.utils.MoneyUtil;
 import java.util.List;
 
 /**
@@ -54,7 +55,8 @@ public class WagesDetailPopupWindow extends PopupWindow {
         @Override public void onUpdate(BaseAdapterHelper helper, String item, int position) {
             final String[] items = item.split(Consts.WAGES_DETAIL_SEPARATOR);
             helper.setText(R.id.item_wages_detail_label, items[0])
-                  .setText(R.id.item_wages_detail_value, items[1]);
+                  .setText(R.id.item_wages_detail_value, MoneyUtil.replace(items[1],
+                          Consts.DEFAULT_SCALE));
         }
     }
 }

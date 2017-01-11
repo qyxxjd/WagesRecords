@@ -1,9 +1,6 @@
 package com.classic.wages.utils;
 
 import android.text.TextUtils;
-
-import com.elvishew.xlog.XLog;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -28,7 +25,6 @@ public final class RxUtil {
         @Override public void call(Throwable throwable) {
             if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
                 throwable.printStackTrace();
-                XLog.e(throwable.getMessage());
             }
         }
     };

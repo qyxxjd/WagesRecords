@@ -7,6 +7,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.widget.EditText;
 
 import com.classic.wages.app.WagesApplication;
@@ -80,10 +81,6 @@ import cn.qy.util.activity.R;
         return Consts.FORMAT_WEEKS[week];
     }
 
-    public static String formatWages(Number number) {
-        return new StringBuilder("￥").append(MoneyUtil.replace(number)).toString();
-    }
-
     public static String formatHours(Number number) {
         return new StringBuilder().append(MoneyUtil.replace(number)).append(" H").toString();
     }
@@ -94,10 +91,6 @@ import cn.qy.util.activity.R;
                                                                                               DateUtil.FORMAT_TIME,
                                                                                               endTime))
                                                                                       .toString();
-    }
-
-    public static float round(float value) {
-        return MoneyUtil.newInstance(value).round(Consts.DEFAULT_SCALE).create().floatValue();
     }
 
     public static String formatWageDetail(@NonNull String label, float value) {
@@ -186,4 +179,20 @@ import cn.qy.util.activity.R;
         WagesApplication.getPreferencesUtil().putIntValue(key, value);
     }
 
+    /**
+     * 设置文本，并将光标移动到文本末尾
+     */
+    public static void setText(@NonNull EditText editText, @NonNull String text) {
+        editText.setText(text);
+        editText.setSelection(text.length());
+    }
+
+    public static void setText(@NonNull EditText editText, Number number) {
+        setText(editText, MoneyUtil.replace(number));
+    }
+
+    public static int dp2px(@NonNull Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
+                context.getResources().getDisplayMetrics());
+    }
 }

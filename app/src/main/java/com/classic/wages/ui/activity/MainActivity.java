@@ -4,7 +4,9 @@ import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
-
+import butterknife.BindView;
+import cn.qy.util.activity.BuildConfig;
+import cn.qy.util.activity.R;
 import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.AppSettingsDialog;
@@ -19,13 +21,8 @@ import com.classic.wages.utils.PgyUtil;
 import com.classic.wages.utils.Util;
 import com.elvishew.xlog.LogLevel;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import cn.qy.util.activity.BuildConfig;
-import cn.qy.util.activity.R;
 
 
 public class MainActivity extends AppBaseActivity {
@@ -128,8 +125,8 @@ public class MainActivity extends AppBaseActivity {
         }
     }
 
-    @Override public void unRegister() {
-        super.unRegister();
+    @Override protected void onStop() {
+        super.onStop();
         PgyUtil.destroy();
     }
 
@@ -170,5 +167,4 @@ public class MainActivity extends AppBaseActivity {
             mListFragment.onRecalculation();
         }
     }
-
 }
