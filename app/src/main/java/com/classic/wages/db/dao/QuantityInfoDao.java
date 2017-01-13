@@ -4,17 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.classic.wages.db.table.QuantityInfoTable;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.utils.CloseUtil;
 import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -26,7 +24,7 @@ import rx.functions.Func1;
  * 创 建 人：续写经典
  * 创建时间：16/10/27 下午7:20
  */
-public class QuantityInfoDao implements IDao<QuantityInfo> {
+public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
     private BriteDatabase mDatabase;
 
     public QuantityInfoDao(@NonNull BriteDatabase database) {
@@ -206,5 +204,17 @@ public class QuantityInfoDao implements IDao<QuantityInfo> {
             CloseUtil.close(cursor);
         }
         return list;
+    }
+
+    @Override public boolean backup(File file) {
+        //TODO
+
+        return false;
+    }
+
+    @Override public boolean restore(File file) {
+        //TODO
+
+        return false;
     }
 }

@@ -13,6 +13,14 @@ import rx.schedulers.Schedulers;
  */
 public final class RxUtil {
 
+    public static final Observable.Transformer IO_TRANSFORMER = new Observable.Transformer() {
+        @Override public Object call(Object observable) {
+            return ((Observable)observable).subscribeOn(Schedulers.io())
+                                           .unsubscribeOn(Schedulers.io())
+                                           .observeOn(Schedulers.io());
+        }
+    };
+
     public static final Observable.Transformer IO_ON_UI_TRANSFORMER = new Observable.Transformer() {
         @Override public Object call(Object observable) {
             return ((Observable)observable).subscribeOn(Schedulers.io())

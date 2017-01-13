@@ -12,13 +12,14 @@ import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
 
-public class WorkInfoDao implements IDao<WorkInfo> {
+public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
     private BriteDatabase mDatabase;
 
     public WorkInfoDao(@NonNull BriteDatabase database) {
@@ -190,5 +191,17 @@ public class WorkInfoDao implements IDao<WorkInfo> {
             CloseUtil.close(cursor);
         }
         return list;
+    }
+
+    @Override public boolean backup(File file) {
+        //TODO
+
+        return false;
+    }
+
+    @Override public boolean restore(File file) {
+        //TODO
+
+        return false;
     }
 }

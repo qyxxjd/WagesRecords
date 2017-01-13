@@ -12,6 +12,7 @@ import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import rx.functions.Func1;
  * 创 建 人：续写经典
  * 创建时间：16/10/27 下午7:19
  */
-public class MonthlyInfoDao implements IDao<MonthlyInfo> {
+public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
     private BriteDatabase mDatabase;
 
     public MonthlyInfoDao(@NonNull BriteDatabase database) {
@@ -190,5 +191,17 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo> {
             CloseUtil.close(cursor);
         }
         return list;
+    }
+
+    @Override public boolean backup(File file) {
+        //TODO
+
+        return false;
+    }
+
+    @Override public boolean restore(File file) {
+        //TODO
+
+        return false;
     }
 }
