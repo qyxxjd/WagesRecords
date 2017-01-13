@@ -11,10 +11,10 @@ public interface IBackup {
     /**
      * 备份数据
      */
-    boolean backup(File file);
+    void backup(File file);
 
     /**
      * 恢复数据
      */
-    boolean restore(File file);
+    void restore(File file);
 }

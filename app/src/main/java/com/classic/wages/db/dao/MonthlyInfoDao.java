@@ -4,19 +4,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import com.classic.wages.db.table.MonthlyInfoTable;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.utils.CloseUtil;
+import com.classic.wages.utils.RxUtil;
 import com.elvishew.xlog.XLog;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
-
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -193,15 +194,36 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
         return list;
     }
 
-    @Override public boolean backup(File file) {
-        //TODO
-
-        return false;
+    @Override public void backup(final File file) {
+        if(null == file || !file.exists()) {
+            return;
+        }
+        queryAll().compose(RxUtil.<List<MonthlyInfo>>applySchedulers(RxUtil.IO_TRANSFORMER))
+                  .subscribe(new Action1<List<MonthlyInfo>>() {
+                      @Override public void call(List<MonthlyInfo> list) {
+                          FileWriter fileWriter = null;
+                          try {
+                              fileWriter = new FileWriter(file, true);
+                              for (MonthlyInfo item : list) {
+                                  fileWriter.write(convertString(item));
+                              }
+                          } catch (IOException e) {
+                              e.printStackTrace();
+                          } finally {
+                              CloseUtil.close(fileWriter);
+                          }
+                      }
+                  }, RxUtil.ERROR_ACTION);
     }
 
-    @Override public boolean restore(File file) {
+    private int convertString(MonthlyInfo item) {
         //TODO
 
-        return false;
+        return 0;
+    }
+
+    @Override public void restore(File file) {
+        //TODO
+
     }
 }

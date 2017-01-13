@@ -206,15 +206,13 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
         return list;
     }
 
-    @Override public boolean backup(File file) {
+    @Override public void backup(File file) {
         //TODO
 
-        return false;
     }
 
-    @Override public boolean restore(File file) {
+    @Override public void restore(File file) {
         //TODO
 
-        return false;
     }
 }
