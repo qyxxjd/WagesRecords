@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_normal"
+    android:paddingRight="@dimen/margin_normal"
+    android:background="@color/white">
+
+  <TextView style="@style/QueryTypeText"
+      android:id="@+id/query_type_month"
+      tools:drawableLeft="@drawable/ic_selected"
+      tools:drawableStart="@drawable/ic_selected"
+      android:drawablePadding="@dimen/margin_small"
+      android:text="@string/query.month"/>
+
+  <View style="@style/Divider" />
+
+  <TextView style="@style/QueryTypeText"
+      android:id="@+id/query_type_date"
+      android:drawablePadding="@dimen/margin_small"
+      android:text="@string/query.date"/>
+
+</LinearLayout>

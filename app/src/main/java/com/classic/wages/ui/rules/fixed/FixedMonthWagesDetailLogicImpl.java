@@ -26,7 +26,7 @@ public class FixedMonthWagesDetailLogicImpl extends BaseWagesDetailLogicImpl<Wor
                 Consts.SP_FIXED_MONTH_FIXED_HOURS, Consts.DEFAULT_MONTH_FIXED_HOURS);
         final float overtimeHourlyWage = Util.getPreferencesFloat(
                 Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        return toList(FixedUtils.getMonthWages(list, hourlyWage, fixedHours,
+        return toList(FixedUtils.getTotalWages(list, hourlyWage, fixedHours,
                 overtimeHourlyWage));
     }
 

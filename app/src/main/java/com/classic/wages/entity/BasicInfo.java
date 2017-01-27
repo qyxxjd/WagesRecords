@@ -16,6 +16,7 @@ public class BasicInfo implements Serializable{
     private float  multiple;  //节假日多倍工资
     private String formatTime; //用于sql日期函数查询
     private String remark;
+    private long   lastUpdateTime; //最后更新时间
 
     public long getId() {
         return id;
@@ -101,5 +102,15 @@ public class BasicInfo implements Serializable{
     /** 备注 */
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    /** 最后更新时间 */
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    /** 最后更新时间 */
+    public void setLastUpdateTime(long lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

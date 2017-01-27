@@ -22,7 +22,11 @@ public interface IDao<T> {
 
     int delete(long id);
 
+    T query(long createTime);
+
     Observable<List<T>> query(String year, String month);
+
+    Observable<List<T>> query(long startTime, long endTime);
 
     Observable<List<T>> queryCurrentMonth();
 

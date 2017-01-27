@@ -39,7 +39,7 @@ import cn.qy.util.activity.R;
  */
 public class AddQuantityFragment extends AppBaseFragment implements AddActivity.Listener,
                                                             TimePickerView.OnTimeSelectListener {
-
+    private static final String FORMAT   = "yyyy-MM-dd HH:mm";
     private static final float  ZERO     = 0f;
 
     @BindView(R.id.add_quantity_time_hint)  TextView         mWorkTimeHint;
@@ -88,7 +88,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
 
     @Override public void onTimeSelect(Date date) {
         mCurrentTime = date.getTime();
-        mWorkTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, mCurrentTime));
+        mWorkTime.setText(DateUtil.formatDate(FORMAT, mCurrentTime));
         mWorkTimeHint.setVisibility(View.VISIBLE);
     }
 
@@ -122,6 +122,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
             mQuantityInfo.setQuantity(count);
             mQuantityInfo.setUnitrice(unitPrice);
             updateInfo(mQuantityInfo);
+            mQuantityInfo.setLastUpdateTime(System.currentTimeMillis());
             if(mQuantityInfoDao.update(mQuantityInfo) > 0){
                 ToastUtil.showToast(mAppContext, R.string.modify_success);
                 mActivity.finish();
@@ -165,7 +166,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
 
     private void setValues(@NonNull QuantityInfo info){
         mCurrentTime = info.getWorkTime();
-        mWorkTime.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, mCurrentTime));
+        mWorkTime.setText(DateUtil.formatDate(FORMAT, mCurrentTime));
         mWorkTimeHint.setVisibility(View.VISIBLE);
         mTitle.setText(info.getTitle());
         mCount.setText(MoneyUtil.replace(info.getQuantity()));

@@ -32,7 +32,7 @@ public class MonthlyInfo extends BasicInfo {
         this.monthlyWage = monthlyWage;
     }
 
-    public MonthlyInfo() {}
+    public MonthlyInfo() { }
 
     public MonthlyInfo(long monthlyTime, float monthlyWage) {
         this.monthlyWage = monthlyWage;
@@ -40,9 +40,10 @@ public class MonthlyInfo extends BasicInfo {
         setMonthlyTime(monthlyTime);
     }
 
-    public MonthlyInfo(long id, long createTime, long monthlyTime, float monthlyWage, int week,
-                       String formatTime, float multiple, float subsidy, float bonus,
-                       float deductions, String remark) {
+    public MonthlyInfo(long id, long createTime, int week,
+                       float multiple, float subsidy, float bonus,
+                       float deductions, String formatTime, String remark, long lastUpdateTime,
+                       long monthlyTime, float monthlyWage) {
         this.monthlyTime = monthlyTime;
         this.monthlyWage = monthlyWage;
         setId(id);
@@ -54,5 +55,6 @@ public class MonthlyInfo extends BasicInfo {
         setDeductions(deductions);
         setFormatTime(formatTime);
         setRemark(remark);
+        setLastUpdateTime(lastUpdateTime);
     }
 }

@@ -1,23 +1,24 @@
 package com.classic.wages.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.EditText;
-
+import cn.qy.util.activity.R;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
-
 import java.util.Calendar;
 import java.util.WeakHashMap;
-
-import cn.qy.util.activity.R;
 
 /**
  * @author 续写经典
@@ -195,4 +196,48 @@ import cn.qy.util.activity.R;
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal,
                 context.getResources().getDisplayMetrics());
     }
+
+    /**
+     * 文件选择
+     *
+     * @param activity
+     * @param mimeType mime类型
+     * @param title 文件选择标题
+     * @param fileChooserCode startActivityForResult requestCode
+     * @param activityNotFoundHint 未找到系统默认文件选择错误提示
+     */
+    public static void showFileChooser(@NonNull Fragment activity, String mimeType,
+                                       CharSequence title, int fileChooserCode,
+                                       String activityNotFoundHint) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType(mimeType);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        try {
+            activity.startActivityForResult(Intent.createChooser(intent, title), fileChooserCode);
+        } catch (android.content.ActivityNotFoundException ex) {
+            ToastUtil.showToast(activity.getContext(), activityNotFoundHint);
+        }
+    }
+
+    /**
+     * 打开目录
+     *
+     * @param activity
+     * @param mimeType mime类型
+     * @param title 标题
+     */
+    public static void showDirectory(@NonNull Activity activity, @NonNull String path,
+                                     String mimeType, CharSequence title) {
+        //Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(path);
+        intent.setDataAndType(uri, mimeType);
+        try {
+            activity.startActivity(Intent.createChooser(intent, title));
+        } catch (android.content.ActivityNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 }

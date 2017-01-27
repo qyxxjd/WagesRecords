@@ -25,6 +25,8 @@ public class WorkInfoTable implements IBasicColumn {
           .append(" datetime, ")
           .append(COLUMN_CREATE_TIME)
           .append(" integer not null, ")
+          .append(COLUMN_LAST_UPDATE_TIME)
+          .append(" integer default 0, ")
           .append(COLUMN_WEEK)
           .append(" integer, ")
           .append(COLUMN_MULTIPLE)
@@ -44,10 +46,19 @@ public class WorkInfoTable implements IBasicColumn {
 
     public static ArrayList<String> getUpdateSql3(){
         ArrayList<String> sqlArray = new ArrayList<>();
-        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_SUBSIDY+" float");
-        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_BONUS+" float");
-        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_DEDUCTIONS+" float");
-        sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_REMARK+" text");
+        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_SUBSIDY+" float");
+        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_BONUS+" float");
+        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_DEDUCTIONS+" float");
+        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_REMARK+" text");
+
+        sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_SUBSIDY, " float"));
+        sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_BONUS, " float"));
+        sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_DEDUCTIONS, " float"));
+        sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_REMARK, " text"));
         return sqlArray;
+    }
+
+    public static String getUpdateSql4(){
+        return SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_LAST_UPDATE_TIME, " integer default 0");
     }
 }

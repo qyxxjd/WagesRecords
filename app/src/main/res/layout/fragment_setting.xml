@@ -40,6 +40,22 @@
 
         <LinearLayout style="@style/Setting.Layout"
             android:layout_marginTop="@dimen/margin_large"
+            android:background="@drawable/white_radius_bg" >
+
+            <TextView style="@style/Setting.ItemMenu"
+                android:id="@+id/setting_backup"
+                android:text="@string/setting.backup"/>
+
+            <View style="@style/Main.Line" />
+
+            <TextView style="@style/Setting.ItemMenu"
+                android:id="@+id/setting_restore"
+                android:text="@string/setting.restore"/>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/Setting.Layout"
+            android:layout_marginTop="@dimen/margin_large"
             android:layout_marginBottom="@dimen/bottom_bar_height"
             android:background="@drawable/white_radius_bg" >
 
@@ -72,5 +88,6 @@
                 android:text="@string/setting.licenses"/>
 
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

@@ -79,6 +79,15 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         }
     }
 
+    @Override public void onDataQuery(long startTime, long endTime) {
+        XLog.d("onDataQuery:" + startTime + "," + endTime);
+        Observable<List<T>> observable = mDao.query(startTime, endTime);
+        if (null != observable) {
+            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                      .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
+        }
+    }
+
     @Override public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int position) {
         AddActivity.start((Activity) mContext, AddActivity.TYPE_MODIFY, mRules,
                 mAdapter.getItem(position));

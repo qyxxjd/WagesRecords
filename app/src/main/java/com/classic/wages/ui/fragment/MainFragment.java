@@ -58,8 +58,8 @@ public class MainFragment extends AppBaseFragment {
     @TargetApi(Build.VERSION_CODES.DONUT) @Override
     public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-
-        onFragmentShow();
+        mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        onCalculationRulesChange(mRulesType);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
@@ -96,8 +96,8 @@ public class MainFragment extends AppBaseFragment {
     }
 
     @Override public void onFragmentShow() {
-        super.onFragmentShow();
         final int rules = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        //ToastUtil.showToast(mAppContext, "oldType:"+mRulesType+",newType:"+rules);
         if(mRulesType != rules){
             mRulesType = rules;
             onCalculationRulesChange(rules);

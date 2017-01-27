@@ -1,6 +1,7 @@
 package com.classic.wages.ui.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -166,5 +167,9 @@ public class MainActivity extends AppBaseActivity {
         if(null != mListFragment){
             mListFragment.onRecalculation();
         }
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

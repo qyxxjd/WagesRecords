@@ -46,4 +46,5 @@
     <dimen name="licenses_title_font">20sp</dimen>
 
     <dimen name="item_content_left_margin">64dp</dimen>
+    <dimen name="query_layout_height">80dp</dimen>
 </resources>

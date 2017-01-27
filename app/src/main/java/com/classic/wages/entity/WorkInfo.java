@@ -47,8 +47,10 @@ public class WorkInfo extends BasicInfo {
         setMultiple(multiple);
     }
 
-    public WorkInfo(long id, long startingTime, long endTime, long createTime, int week, float multiple,
-                    String formatTime, float subsidy, float bonus, float deductions, String remark) {
+    public WorkInfo(long id, long createTime, int week,
+                    float multiple, float subsidy, float bonus,
+                    float deductions, String formatTime, String remark, long lastUpdateTime,
+                    long startingTime, long endTime) {
         this.startingTime = startingTime;
         this.endTime = endTime;
         setId(id);
@@ -60,6 +62,7 @@ public class WorkInfo extends BasicInfo {
         setDeductions(deductions);
         setFormatTime(formatTime);
         setRemark(remark);
+        setLastUpdateTime(lastUpdateTime);
     }
 
 

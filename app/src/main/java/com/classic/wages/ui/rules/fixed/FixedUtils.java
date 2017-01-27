@@ -116,6 +116,29 @@ final class FixedUtils {
         return entity;
     }
 
+    static BaseWagesDetailEntity getTotalWages(List<WorkInfo> list, float hourlyWage,
+                                               float fixedHours, float overtimeHourlyWage) {
+        final BaseWagesDetailEntity entity = new BaseWagesDetailEntity();
+        if(DataUtil.isEmpty(list)) return entity;
+        HashMap<String, List<WorkInfo>> map = convert(list);
+        for(String key : map.keySet()){
+            List<WorkInfo> items = map.get(key);
+            BaseWagesDetailEntity monthWagesDetail = getMonthWages(items, hourlyWage, fixedHours,
+                    overtimeHourlyWage);
+            entity.totalBonus += monthWagesDetail.totalBonus;
+            entity.totalDeductions += monthWagesDetail.totalDeductions;
+            entity.totalSubsidy += monthWagesDetail.totalSubsidy;
+            entity.totalHolidayHours += monthWagesDetail.totalHolidayHours;
+            entity.totalHolidayWages += monthWagesDetail.totalHolidayWages;
+            entity.totalNormalHours += monthWagesDetail.totalNormalHours;
+            entity.totalNormalWages += monthWagesDetail.totalNormalWages;
+            entity.totalOvertimeHours += monthWagesDetail.totalOvertimeHours;
+            entity.totalOvertimeWages += monthWagesDetail.totalOvertimeWages;
+            entity.totalWages += monthWagesDetail.totalWages;
+        }
+        return entity;
+    }
+
     static float getTotalWages(HashMap<String, List<WorkInfo>> map,
                                float hourlyWage, float fixedHours, float overtimeHourlyWage){
         if(DataUtil.isEmpty(map)) return 0f;

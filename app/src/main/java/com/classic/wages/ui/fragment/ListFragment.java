@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,18 +14,22 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import com.bigkoo.pickerview.TimePickerView;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
+import com.classic.wages.consts.QueryType;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.activity.MainActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.ui.pop.QueryTypeSelectionPopupWindow;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.IListLogic;
 import com.classic.wages.ui.rules.IWagesDetailLogic;
@@ -39,14 +44,11 @@ import com.classic.wages.ui.rules.pizzahut.PizzaHutListLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutWagesDetailLogicImpl;
 import com.classic.wages.ui.rules.quantity.QuantityListLogicImpl;
 import com.classic.wages.ui.rules.quantity.QuantityWagesDetailLogicImpl;
-import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.DateUtil;
-import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import java.util.List;
+import java.util.Date;
 import javax.inject.Inject;
-import rx.functions.Action1;
 
 import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
 
@@ -58,17 +60,20 @@ import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午5:54
  */
-public class ListFragment extends AppBaseFragment {
+public class ListFragment extends AppBaseFragment implements TimePickerView.OnTimeSelectListener{
 
     @BindView(R.id.query_months_spinner) MaterialSpinner      mMonthsSpinner;
     @BindView(R.id.query_years_spinner)  MaterialSpinner      mYearsSpinner;
-    @BindView(R.id.query_spinner_layout) LinearLayout         mSpinnerLayout;
+    @BindView(R.id.query_month_layout)   LinearLayout         mQueryMonthLayout;
+    @BindView(R.id.query_date_layout)    LinearLayout         mQueryDateLayout;
     @BindView(R.id.recycler_view)        RecyclerView         mRecyclerView;
     @BindView(R.id.fab)                  FloatingActionButton mFab;
+    @BindView(R.id.add_start_time)       TextView             mStartTimeView;
+    @BindView(R.id.add_end_time)         TextView             mEndTimeView;
 
-    @Inject WorkInfoDao           mWorkInfoDao;
-    @Inject MonthlyInfoDao        mMonthlyInfoDao;
-    @Inject QuantityInfoDao       mQuantityInfoDao;
+    @Inject WorkInfoDao     mWorkInfoDao;
+    @Inject MonthlyInfoDao  mMonthlyInfoDao;
+    @Inject QuantityInfoDao mQuantityInfoDao;
 
     private IListLogic        mListLogic;
     private IWagesDetailLogic mWagesDetailLogic;
@@ -76,6 +81,15 @@ public class ListFragment extends AppBaseFragment {
     private String            mFilterMonth;
     private int               mOffset;
     private int               mRulesType = -1;
+
+    private int            mQueryType = QueryType.QUERY_TYPE_MONTH;
+    /** 当前是否选择的开始时间 */
+    private boolean        isChooseStartTime;
+    /** 当前选择的开始时间 */
+    private Long           mCurrentStartTime;
+    /** 当前选择的结束时间 */
+    private Long           mCurrentEndTime;
+    private TimePickerView mTimePickerView;
 
     public static ListFragment newInstance() {
         return new ListFragment();
@@ -115,59 +129,66 @@ public class ListFragment extends AppBaseFragment {
                 mFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
             }
         });
+        //mQueryType = WagesApplication.getPreferencesUtil().getIntValue(Consts.SP_QUERY_TYPE,
+        //        QueryType.QUERY_TYPE_MONTH);
+        refreshQueryTypeLayout(mQueryType);
+        mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
+        onCalculationRulesChange(mRulesType);
+        queryData(mQueryType, mRulesType);
+    }
 
-        mRulesType = WagesApplication.getPreferencesUtil()
-                                     .getIntValue(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
-        if(mRulesType == ICalculationRules.RULES_MONTHLY){
-            onCalculationRulesChange(mRulesType);
-            return;
+    private void refreshQueryTypeLayout(int type) {
+        final boolean hasMonthlyRules = mRulesType == ICalculationRules.RULES_MONTHLY;
+        mQueryMonthLayout.setVisibility(
+                !hasMonthlyRules && type == QueryType.QUERY_TYPE_MONTH ? View.VISIBLE : View.GONE);
+        mQueryDateLayout.setVisibility(
+                !hasMonthlyRules && type == QueryType.QUERY_TYPE_DATE ? View.VISIBLE : View.GONE);
+        if(!hasMonthlyRules && type == QueryType.QUERY_TYPE_DATE) {
+            refreshDateLayout();
         }
-        mWorkInfoDao.queryYears()
-                    .compose(RxUtil.<List<String>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                    .subscribe(new Action1<List<String>>() {
-                        @Override public void call(List<String> strings) {
-                            spinnerDataChange(strings);
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override public void call(Throwable throwable) {
-                            spinnerDataChange(null);
-                        }
-                    });
     }
 
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.wages_detail_menu, menu);
+        inflater.inflate(R.menu.list_menu, menu);
     }
 
+    //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         if(mRulesType == ICalculationRules.RULES_MONTHLY) return false;
-        if(mWagesDetailLogic != null && mListLogic != null){
-            mWagesDetailLogic.onDisplay(mActivity, ((MainActivity)mActivity).getToolbar(),
-                    mListLogic.getData());
+        switch (item.getItemId()) {
+            case R.id.action_query:
+                QueryTypeSelectionPopupWindow queryTypeSelectionPopupWindow =
+                new QueryTypeSelectionPopupWindow(mActivity, mQueryType, new QueryTypeSelectionPopupWindow.Listener() {
+                    @Override public void onQueryTypeChange(@QueryType int type) {
+                        //WagesApplication.getPreferencesUtil().putIntValue(Consts.SP_QUERY_TYPE,
+                        //        type);
+                        mQueryType = type;
+                        refreshQueryTypeLayout(mQueryType);
+                    }
+                });
+                final Toolbar toolbar = ((MainActivity)mActivity).getToolbar();
+                //queryTypeSelectionPopupWindow.showAsDropDown(toolbar, 0, 0, Gravity.RIGHT);
+                queryTypeSelectionPopupWindow.showAsDropDown(toolbar, toolbar.getWidth()
+                        - queryTypeSelectionPopupWindow.getWidth(), 0);
+                return true;
+            case R.id.action_wages_detail:
+                if(mWagesDetailLogic != null && mListLogic != null){
+                    mWagesDetailLogic.onDisplay(mActivity, ((MainActivity)mActivity).getToolbar(),
+                            mListLogic.getData());
+                }
+                return true;
+            default:
+                return false;
         }
-        return true;
-    }
-
-    private void spinnerDataChange(List<String> items){
-        if(DataUtil.isEmpty(items)){
-            onCalculationRulesChange(mRulesType);
-            return;
-        }
-        mYearsSpinner.setItems(items);
-        mYearsSpinner.setSelectedIndex(0);
-        mFilterYear = mYearsSpinner.getText().toString();
-        onCalculationRulesChange(mRulesType);
     }
 
     @Override public void onCalculationRulesChange(int rules) {
         final boolean hasMonthlyRules = rules == ICalculationRules.RULES_MONTHLY;
-        mSpinnerLayout.setVisibility(hasMonthlyRules ? View.GONE : View.VISIBLE);
         setHasOptionsMenu(!hasMonthlyRules);
         if(hasMonthlyRules){
             mListLogic = new MonthlyListLogicImpl(mActivity, mMonthlyInfoDao);
             mRecyclerView.setAdapter(mListLogic.getAdapter());
-            mListLogic.onDataQuery(null, null);
             return;
         }
 
@@ -195,13 +216,13 @@ public class ListFragment extends AppBaseFragment {
                 break;
         }
         mRecyclerView.setAdapter(mListLogic.getAdapter());
-        mListLogic.onDataQuery(mFilterYear, mFilterMonth);
     }
 
     @Override public void onRecalculation() {
         int rulesType = mRulesType;
         mRulesType = -1;
         onCalculationRulesChange(rulesType);
+        queryData(mQueryType, mRulesType);
     }
 
     @OnClick(R.id.fab) public void onFabClick(){
@@ -214,7 +235,9 @@ public class ListFragment extends AppBaseFragment {
         if(mRulesType != rules){
             mRulesType = rules;
             onCalculationRulesChange(rules);
+            queryData(mQueryType, mRulesType);
         }
+        refreshQueryTypeLayout(mQueryType);
     }
 
     private final MaterialSpinner.OnItemSelectedListener<String> mYearSelectedListener
@@ -222,7 +245,8 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterYear = item;
-            mListLogic.onDataQuery(mFilterYear, mFilterMonth);
+            queryData(mQueryType, mRulesType);
+            //mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
     private final MaterialSpinner.OnItemSelectedListener<String> mMonthSelectedListener
@@ -230,7 +254,69 @@ public class ListFragment extends AppBaseFragment {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
             mFilterMonth = item;
-            mListLogic.onDataQuery(mFilterYear, mFilterMonth);
+            queryData(mQueryType, mRulesType);
+            //mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
+
+
+    @Override public void onTimeSelect(Date date) {
+        if (isChooseStartTime) {
+            mCurrentStartTime = date.getTime();
+        } else {
+            mCurrentEndTime = date.getTime();
+        }
+        //ToastUtil.showToast(mAppContext, DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, date.getTime()));
+        refreshDateLayout();
+        queryData(mQueryType, mRulesType);
+    }
+
+    private void refreshDateLayout() {
+        if(null != mCurrentStartTime && null != mCurrentEndTime &&
+                mCurrentStartTime > mCurrentEndTime) {
+            // 开始时间大于结束时间时，进行交换处理
+            final long temp = mCurrentStartTime;
+            mCurrentStartTime = mCurrentEndTime;
+            mCurrentEndTime = temp;
+        }
+        if(null != mCurrentStartTime) {
+            mStartTimeView.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, mCurrentStartTime));
+        }
+        if(null != mCurrentEndTime) {
+            mEndTimeView.setText(DateUtil.formatDate(DateUtil.FORMAT_DATE, mCurrentEndTime));
+        }
+    }
+
+    private void queryData(int queryType, int rulesType) {
+        if(null == mListLogic) { return; }
+        if(rulesType == ICalculationRules.RULES_MONTHLY) {
+            mListLogic.onDataQuery(null, null);
+        } else if(queryType == QueryType.QUERY_TYPE_DATE && null != mCurrentStartTime &&
+                null != mCurrentEndTime) {
+            // 选择的时间是一天的开始时间，需要加1
+            final long time = DateUtil.getAddDay(mCurrentEndTime, 1).getTime();
+            mListLogic.onDataQuery(mCurrentStartTime, time);
+        } else if (queryType == QueryType.QUERY_TYPE_MONTH) {
+            mListLogic.onDataQuery(mFilterYear, mFilterMonth);
+        }
+    }
+
+    private void showDatePicker(Date date) {
+        mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.YEAR_MONTH_DAY);
+        mTimePickerView.setCyclic(false);
+        mTimePickerView.setCancelable(false);
+        mTimePickerView.setOnTimeSelectListener(this);
+        mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
+        mTimePickerView.setTime(date);
+        mTimePickerView.show();
+    }
+
+    @OnClick(R.id.add_start_time) void onStartTimeClick(){
+        isChooseStartTime = true;
+        showDatePicker(null==mCurrentStartTime ? new Date() : new Date(mCurrentStartTime));
+    }
+    @OnClick(R.id.add_end_time) void onEndTimeClick(){
+        isChooseStartTime = false;
+        showDatePicker(null==mCurrentEndTime ? new Date() : new Date(mCurrentEndTime));
+    }
 }

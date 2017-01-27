@@ -17,6 +17,8 @@ public class MonthlyInfoTable implements IBasicColumn{
           .append(" integer Primary Key AUTOINCREMENT, ")
           .append(COLUMN_CREATE_TIME)
           .append(" integer not null, ")
+          .append(COLUMN_LAST_UPDATE_TIME)
+          .append(" integer default 0, ")
           .append(COLUMN_FORMAT_TIME)
           .append(" datetime, ")
           .append(COLUMN_MONTHLY_TIME)
@@ -38,5 +40,9 @@ public class MonthlyInfoTable implements IBasicColumn{
           .append(")");
 
         return sb.toString();
+    }
+
+    public static String getUpdateSql4(){
+        return SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_LAST_UPDATE_TIME, " integer default 0");
     }
 }

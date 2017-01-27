@@ -111,6 +111,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
             mMonthlyInfo.setMonthlyTime(mCurrentTime);
             mMonthlyInfo.setMonthlyWage(monthlyWage);
             updateInfo(mMonthlyInfo);
+            mMonthlyInfo.setLastUpdateTime(System.currentTimeMillis());
             if(mMonthlyInfoDao.update(mMonthlyInfo) > 0){
                 ToastUtil.showToast(mAppContext, R.string.modify_success);
                 mActivity.finish();

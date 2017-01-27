@@ -17,10 +17,6 @@ public class WagesApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
         sPreferencesUtil = new SharedPreferencesUtil(this, Consts.SP_NAME);
-        //if (LeakCanary.isInAnalyzerProcess(this)) {
-        //    return;
-        //}
-        //LeakCanary.install(this);
         mAppComponent = DaggerAppComponent.builder()
                                           .appModule(new AppModule(this))
                                           .dbModule(new DbModule())

@@ -3,9 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.AddConsumerActivity">
 
-    <item android:id="@+id/action_add"
+    <item android:id="@+id/action_query"
+        android:title="@string/query"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_query"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_wages_detail"
         android:title="@string/wages.detail"
-        android:orderInCategory="80"
+        android:orderInCategory="2"
         android:icon="@drawable/ic_wages_detail"
         app:showAsAction="ifRoom" />
 

@@ -1,5 +1,6 @@
 package com.classic.wages.consts;
 
+import com.classic.wages.utils.DateUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Consts {
     public static final String CANCEL                        = "取消";
 
     public static final int          MIN_YEAR = 2010;
-    public static final int          MAX_YEAR = 2050;
+    public static final int          MAX_YEAR = DateUtil.getYear() + 1;
     public static final List<String> YEARS    = new ArrayList<>();
     public static final List<String> MONTHS   = new ArrayList<>();
     static {
@@ -87,4 +88,14 @@ public class Consts {
     public static final String SP_PIZZA_HUT_NIGHT_SUBSIDY    = "pizzaHutNightSubsidy";
 
     public static final String WAGES_DETAIL_SEPARATOR = "----";
+    public static final String BACKUP_SEPARATOR       = WAGES_DETAIL_SEPARATOR;
+    public static final String BACKUP_PREFIX          = DIR_NAME;
+    public static final String BACKUP_SUFFIX          = ".backup";
+
+    public static final String EMPTY_CONTENT          = "empty";
+    public static final String LINE_FEED              = "\n";
+    public static final String CHARTSET               = "UTF-8";
+
+    public static final String SP_QUERY_TYPE     = "queryType";
+
 }

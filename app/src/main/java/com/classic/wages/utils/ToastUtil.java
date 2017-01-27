@@ -2,6 +2,7 @@ package com.classic.wages.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.widget.Toast;
 
 /**
@@ -20,7 +21,15 @@ public final class ToastUtil {
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
-    public static void showToast(@NonNull Context context, int resId) {
-        Toast.makeText(context, context.getResources().getText(resId), Toast.LENGTH_SHORT).show();
+    public static void showToast(@NonNull Context context, @StringRes int resId) {
+        Toast.makeText(context, resId, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showLongToast(@NonNull Context context, @NonNull String text) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showLongToast(@NonNull Context context, @StringRes int resId) {
+        Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
     }
 }

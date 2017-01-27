@@ -148,4 +148,12 @@
         <item name="android:layout_gravity">end|center_vertical</item>
         <item name="android:textColor">@color/secondary_text</item>
     </style>
+    <style name="QueryTypeText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/item_height_small</item>
+        <item name="android:gravity">center_vertical|right</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
 </resources>

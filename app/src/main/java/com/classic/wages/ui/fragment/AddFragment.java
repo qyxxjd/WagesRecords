@@ -68,7 +68,6 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
     private Long           mCurrentEndTime;
     private TimePickerView mTimePickerView;
 
-
     public static AddFragment newInstance(@AddActivity.AddTypes int type, BasicInfo basicInfo) {
         Bundle args = new Bundle();
         args.putInt(AddActivity.PARAMS_TYPE, type);
@@ -145,6 +144,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             mWorkInfo.setStartingTime(mCurrentStartTime);
             mWorkInfo.setEndTime(mCurrentEndTime);
             updateWorkInfo(mWorkInfo);
+            mWorkInfo.setLastUpdateTime(System.currentTimeMillis());
             if(mWorkInfoDao.update(mWorkInfo) > 0){
                 ToastUtil.showToast(mAppContext, R.string.modify_success);
                 mActivity.finish();

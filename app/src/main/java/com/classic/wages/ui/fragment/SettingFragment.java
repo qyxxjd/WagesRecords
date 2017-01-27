@@ -1,19 +1,30 @@
 package com.classic.wages.ui.fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
-
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.EasyPermissions;
+import com.classic.android.utils.SDCardUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
+import com.classic.wages.db.dao.IBackup;
+import com.classic.wages.db.dao.MonthlyInfoDao;
+import com.classic.wages.db.dao.QuantityInfoDao;
+import com.classic.wages.db.dao.WorkInfoDao;
 import com.classic.wages.ui.activity.OpenSourceLicensesActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.dialog.AuthorDialog;
@@ -24,14 +35,21 @@ import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
 import com.classic.wages.utils.PgyUtil;
+import com.classic.wages.utils.RxUtil;
+import com.classic.wages.utils.ToastUtil;
+import com.classic.wages.utils.UriUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+import java.util.Locale;
+import javax.inject.Inject;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * 应用名称: WagesRecords
@@ -44,9 +62,14 @@ import cn.qy.util.activity.R;
 public class SettingFragment extends AppBaseFragment implements MaterialSpinner.OnItemSelectedListener<String>{
     private static final int REQUEST_CODE_FEEDBACK  = 201;
     private static final String FEEDBACK_PERMISSION = Manifest.permission.RECORD_AUDIO;
+    private static final int FILE_CHOOSER_CODE      = 1001;
 
     @BindView(R.id.setting_rules_spinner) MaterialSpinner mRulesSpinner;
     @BindView(R.id.setting_rules_content) View            mRulesContentView;
+
+    @Inject WorkInfoDao     mWorkInfoDao;
+    @Inject MonthlyInfoDao  mMonthlyInfoDao;
+    @Inject QuantityInfoDao mQuantityInfoDao;
 
     private int           mRulesType;
     private AuthorDialog  mAuthorDialog;
@@ -91,6 +114,122 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .append("  v")
                 .append(getVersionName(mAppContext))
                 .toString();
+    }
+
+    @OnClick(R.id.setting_backup) public void onBackup() {
+        final File file = new File(SDCardUtil.getFileDirPath(), createBackupFileName());
+        if(!file.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        final MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
+                .cancelable(false)
+                .title(R.string.setting_backup)
+                .titleColorRes(R.color.primary_text)
+                .backgroundColorRes(R.color.white)
+                .content(R.string.setting_backup_hint)
+                .contentColorRes(R.color.secondary_text)
+                .progress(true, 0)
+                .show();
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override public void call(final Subscriber<? super Boolean> subscriber) {
+                final IBackup.Listener listener = new IBackup.Listener() {
+                    @Override public void onComplete() { }
+
+                    @Override public void onError(Throwable throwable) {
+                        subscriber.onError(throwable);
+                    }
+
+                    @Override public void onProgress(long currentCount, long totalCount) { }
+                };
+                mMonthlyInfoDao.backup(file, listener);
+                mQuantityInfoDao.backup(file, listener);
+                mWorkInfoDao.backup(file, listener);
+                SystemClock.sleep(1000);
+                subscriber.onNext(true);
+            }
+        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                  .subscribe(new Action1<Boolean>() {
+            @Override public void call(Boolean aBoolean) {
+                dialog.dismiss();
+                ToastUtil.showLongToast(mAppContext,
+                        getString(R.string.data_backup_success, file.getAbsolutePath()));
+                //打开文件夹
+                //Util.showDirectory(mActivity, file.getParentFile().getAbsolutePath(), MIME.FILE,
+                //        Util.getString(mAppContext, R.string.setting_backup_directory));
+            }
+        }, new Action1<Throwable>() {
+            @Override public void call(Throwable throwable) {
+                dialog.dismiss();
+                ToastUtil.showToast(mAppContext, R.string.data_backup_failure);
+            }
+        });
+    }
+
+    private void restore(@NonNull String path) {
+        final File file = new File(path);
+        final MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
+                .cancelable(false)
+                .title(R.string.setting_restore)
+                .titleColorRes(R.color.primary_text)
+                .backgroundColorRes(R.color.white)
+                .content(R.string.setting_restore_hint)
+                .contentColorRes(R.color.secondary_text)
+                .progress(true, 0)
+                .show();
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override public void call(final Subscriber<? super Boolean> subscriber) {
+                final IBackup.Listener listener = new IBackup.Listener() {
+                    @Override public void onComplete() { }
+
+                    @Override public void onError(Throwable throwable) {
+                        subscriber.onError(throwable);
+                    }
+
+                    @Override public void onProgress(long currentCount, long totalCount) { }
+                };
+                mMonthlyInfoDao.restore(file, listener);
+                mQuantityInfoDao.restore(file, listener);
+                mWorkInfoDao.restore(file, listener);
+                SystemClock.sleep(1000);
+                subscriber.onNext(true);
+            }
+        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                  .subscribe(new Action1<Boolean>() {
+                      @Override public void call(Boolean aBoolean) {
+                          dialog.dismiss();
+                          ToastUtil.showToast(mAppContext, R.string.data_restore_success);
+                      }
+                  }, new Action1<Throwable>() {
+                      @Override public void call(Throwable throwable) {
+                          dialog.dismiss();
+                          ToastUtil.showToast(mAppContext, R.string.data_restore_failure);
+                      }
+                  });
+    }
+
+    @OnClick(R.id.setting_restore) public void onRestore() {
+        Util.showFileChooser(this, MIME.FILE,
+                Util.getString(mAppContext, R.string.select_backup_file_hint), FILE_CHOOSER_CODE,
+                Util.getString(mAppContext, R.string.not_found_file_manager_hint));
+    }
+
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK && requestCode == FILE_CHOOSER_CODE) {
+            String path = UriUtil.toAbsolutePath(mAppContext, data.getData());
+            if(!TextUtils.isEmpty(path) && path.endsWith(Consts.BACKUP_SUFFIX)) {
+                //ToastUtil.showToast(mAppContext, "select file："+path);
+                restore(path);
+            } else {
+                ToastUtil.showToast(mAppContext, R.string.invalid_backup_file);
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick(R.id.setting_update) public void onUpdateClick(){
@@ -193,5 +332,15 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String createBackupFileName() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder(Consts.BACKUP_PREFIX)
+                .append("_")
+                .append(sdf.format(new Date(System.currentTimeMillis())))
+                .append(Consts.BACKUP_SUFFIX)
+                .toString();
     }
 }

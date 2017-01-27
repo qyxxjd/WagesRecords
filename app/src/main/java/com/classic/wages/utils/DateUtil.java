@@ -3,6 +3,7 @@ package com.classic.wages.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -75,5 +76,28 @@ public final class DateUtil {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         if (dayOfWeek < 0) { dayOfWeek = 0; }
         return (dayNames[dayOfWeek]);
+    }
+
+    /**
+     * 获取N天前、N天后的 日期
+     *
+     * @param nowDate   当前日期;
+     * @param dayAddNum 正数：N天前，负数：N天后;
+     */
+    public static Date getAddDay(Date nowDate, int dayAddNum) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(nowDate);
+        calendar.add(Calendar.DAY_OF_MONTH, dayAddNum);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取N天前、N天后的 日期
+     *
+     * @param nowDate   当前时间戳;
+     * @param dayAddNum 正数：N天前，负数：N天后;
+     */
+    public static Date getAddDay(long nowDate, int dayAddNum) {
+        return getAddDay(new Date(nowDate), dayAddNum);
     }
 }

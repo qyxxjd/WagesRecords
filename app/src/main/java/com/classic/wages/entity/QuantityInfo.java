@@ -61,9 +61,10 @@ public class QuantityInfo extends BasicInfo {
         setWorkTime(workTime);
     }
 
-    public QuantityInfo(long id, long createTime, long workTime, String title, float quantity,
-                        float unitPrice,  int week, float multiple, String formatTime,
-                        float subsidy, float bonus, float deductions, String remark) {
+    public QuantityInfo(long id, long createTime, int week, float multiple,
+                        float subsidy, float bonus, float deductions, String formatTime,
+                        String remark, long lastUpdateTime, long workTime, String title,
+                        float quantity, float unitPrice) {
         this.workTime = workTime;
         this.title = title;
         this.quantity = quantity;
@@ -77,5 +78,6 @@ public class QuantityInfo extends BasicInfo {
         setDeductions(deductions);
         setFormatTime(formatTime);
         setRemark(remark);
+        setLastUpdateTime(lastUpdateTime);
     }
 }

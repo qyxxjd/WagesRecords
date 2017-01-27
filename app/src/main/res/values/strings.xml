@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="add">添加</string>
+    <string name="query">查询</string>
     <string name="update">更新</string>
     <string name="update.dialog.title">版本更新</string>
     <string name="no.update">当前已是最新版本</string>
@@ -30,6 +31,11 @@
     <string name="setting.author">联系作者</string>
     <string name="setting.share">应用分享</string>
     <string name="setting.thanks">感恩鸣谢</string>
+    <string name="setting.backup">备份数据</string>
+    <string name="setting.restore">恢复数据</string>
+    <string name="setting.backup.directory">备份文件存放目录</string>
+    <string name="setting.backup.hint">正在备份数据</string>
+    <string name="setting.restore.hint">正在恢复数据</string>
     <string name="setting.hourly.wage.label">当前时薪</string>
     <string name="setting.rest.hourly.wage.label">带薪休息</string>
     <string name="setting.night.subsidy.label">晚班补贴</string>
@@ -84,6 +90,17 @@
     <string name="share.title">应用分享</string>
     <string name="share.subject">@string/app_name</string>
     <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：https://www.pgyer.com/recordswages</string>
+
+    <string name="select.backup.file.hint">选择备份文件</string>
+    <string name="not.found.file.manager.hint">没有找到文件管理器</string>
+    <string name="invalid.backup.file">无效的备份文件格式!</string>
+    <string name="data.backup.success">备份数据成功!路径:%s</string>
+    <string name="data.backup.failure">备份数据失败!</string>
+    <string name="data.restore.success">恢复数据成功!</string>
+    <string name="data.restore.failure">恢复数据失败!</string>
+
+    <string name="query.month">按月份搜索</string>
+    <string name="query.date">按日期搜索</string>
 
     <string name="setting.licenses">Open Source Licenses</string>
 
