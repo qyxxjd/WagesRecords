@@ -11,15 +11,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.BindView;
-import cn.qy.util.activity.R;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.adapter.interfaces.ImageLoad;
 import com.classic.wages.ui.base.AppBaseActivity;
-import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import cn.qy.util.activity.R;
 
 
 /**
@@ -80,12 +84,15 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
     }
 
-    private static final ImageLoad  PICASSO_IMAGE_LOAD = new ImageLoad() {
+    private static final ImageLoad GLIDE_IMAGE_LOAD = new ImageLoad() {
         @Override public void load(Context context, ImageView imageView, String imageUrl) {
-            Picasso.with(context)
-                   .load(imageUrl)
-                   .placeholder(R.drawable.ic_github)
-                   .into(imageView);
+            Glide.with(context)
+                 .load(imageUrl)
+                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                 .placeholder(R.drawable.ic_github)
+                 .error(R.drawable.ic_github)
+                 .crossFade()
+                 .into(imageView);
         }
     };
 
@@ -96,7 +103,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         }
 
         @Override public void onUpdate(BaseAdapterHelper helper, LicenseItem item, int position) {
-            helper.setImageLoad(PICASSO_IMAGE_LOAD)
+            helper.setImageLoad(GLIDE_IMAGE_LOAD)
                   .setImageUrl(R.id.licenses_item_logo, item.logoUrl)
                   .setText(R.id.licenses_item_title, item.title)
                   .setText(R.id.licenses_item_author, item.author)
@@ -123,24 +130,21 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         LICENSE_ARRAY.add(new LicenseItem("Butter Knife", "Jake Wharton", LICENSE_TYPE_APACHE,
                                           "https://avatars1.githubusercontent.com/u/66577?v=3&s=466",
                                           "https://github.com/JakeWharton/butterknife"));
-        LICENSE_ARRAY.add(new LicenseItem("Picasso", "Square", LICENSE_TYPE_APACHE,
-                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
-                                          "https://github.com/square/picasso"));
-        //LICENSE_ARRAY.add(new LicenseItem("LeakCanary", "Square", LICENSE_TYPE_APACHE,
-        //                                  "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
-        //                                  "https://github.com/square/leakcanary"));
+//        LICENSE_ARRAY.add(new LicenseItem("Picasso", "Square", LICENSE_TYPE_APACHE,
+//                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+//                                          "https://github.com/square/picasso"));
         LICENSE_ARRAY.add(new LicenseItem("SQLBrite", "Square", LICENSE_TYPE_APACHE,
                                           "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
                                           "https://github.com/square/sqlbrite"));
         LICENSE_ARRAY.add(new LicenseItem("Dagger 2", "Google", LICENSE_TYPE_APACHE,
-                                          "https://avatars0.githubusercontent.com/u/1342004?v=3&s=200",
+                                          "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
                                           "https://github.com/google/dagger"));
-        //LICENSE_ARRAY.add(new LicenseItem("AndroidPerformanceMonitor", "MarkZhai", LICENSE_TYPE_APACHE,
-        //                                  "https://avatars3.githubusercontent.com/u/1106500?v=3&s=466",
-        //                                  "https://github.com/markzhai/AndroidPerformanceMonitor"));
-        //LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
-        //                                  "https://avatars3.githubusercontent.com/u/423539?v=3&s=200",
-        //                                  "https://github.com/bumptech/glide"));
+        LICENSE_ARRAY.add(new LicenseItem("EasyPermissions", "Google", LICENSE_TYPE_APACHE,
+                                          "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
+                                          "https://github.com/googlesamples/easypermissions"));
+        LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
+                                          "https://avatars3.githubusercontent.com/u/423539?v=3&s=200",
+                                          "https://github.com/bumptech/glide"));
         LICENSE_ARRAY.add(new LicenseItem("NavigationTabBar", "Devlight", LICENSE_TYPE_APACHE,
                                           "https://avatars2.githubusercontent.com/u/18118313?v=3&s=200",
                                           "https://github.com/DevLight-Mobile-Agency/NavigationTabBar"));
@@ -159,5 +163,8 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
         LICENSE_ARRAY.add(new LicenseItem("PickerView", "Sai", "",
                                           "https://avatars1.githubusercontent.com/u/9945153?v=3&s=466",
                                           "https://github.com/saiwu-bigkoo/Android-PickerView"));
+        LICENSE_ARRAY.add(new LicenseItem("XLog", "Elvis Hew", LICENSE_TYPE_APACHE,
+                                          "https://avatars1.githubusercontent.com/u/3361350?v=3&s=460",
+                                          "https://github.com/elvishew/xLog"));
     }
 }

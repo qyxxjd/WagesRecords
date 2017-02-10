@@ -15,9 +15,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.bigkoo.pickerview.TimePickerView;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.wages.app.WagesApplication;
@@ -47,8 +45,14 @@ import com.classic.wages.ui.rules.quantity.QuantityWagesDetailLogicImpl;
 import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.util.Date;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
 
@@ -79,7 +83,7 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
     private IWagesDetailLogic mWagesDetailLogic;
     private String            mFilterYear;
     private String            mFilterMonth;
-    private int               mOffset;
+    private int               mFabOffset;
     private int               mRulesType = -1;
 
     private int            mQueryType = QueryType.QUERY_TYPE_MONTH;
@@ -107,7 +111,7 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-        mOffset = Util.dp2px(mAppContext, 144);
+//        mFabOffset = Util.dp2px(mAppContext, 144);
         mYearsSpinner.setItems(Consts.YEARS);
         mMonthsSpinner.setItems(Consts.MONTHS);
         mYearsSpinner.setOnItemSelectedListener(mYearSelectedListener);
@@ -122,7 +126,10 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addOnScrollListener(new CommonRecyclerAdapter.AbsScrollControl() {
             @Override public void onHide() {
-                mFab.animate().translationY(mOffset).setInterpolator(new AccelerateInterpolator(2));
+                if (mFabOffset == 0) {
+                    mFabOffset = mFab.getHeight() + mFab.getBottom();
+                }
+                mFab.animate().translationY(mFabOffset).setInterpolator(new AccelerateInterpolator(2));
             }
 
             @Override public void onShow() {
