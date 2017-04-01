@@ -45,7 +45,8 @@ public final class PgyUtil {
             return;
         }
         final WeakReference<Activity> reference = new WeakReference<>(activity);
-        PgyUpdateManager.register(activity, new UpdateManagerListener() {
+        final String provider = Util.getString(activity.getApplication(), R.string.file_provider);
+        PgyUpdateManager.register(activity, provider, new UpdateManagerListener() {
             @Override public void onUpdateAvailable(final String result) {
                 final Activity act = reference.get();
                 if (null == act) { return; }
@@ -63,13 +64,13 @@ public final class PgyUtil {
                                                                                  DialogAction which) {
                                                        final Activity act = reference.get();
                                                        if (null != act) {
-                                                           //蒲公英SDK在Android N上崩溃，需要处理
-                                                           if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                                                          //蒲公英SDK在Android N上崩溃，需要处理
+                                                          if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                                                                startDownloadTask(act, appBean.getDownloadURL());
-                                                           } else {
-                                                               download(act.getApplicationContext(),
-                                                                        appBean.getDownloadURL());
-                                                           }
+                                                          } else {
+                                                              download(act.getApplicationContext(),
+                                                                       appBean.getDownloadURL());
+                                                          }
                                                        }
                                                    }
                                                })

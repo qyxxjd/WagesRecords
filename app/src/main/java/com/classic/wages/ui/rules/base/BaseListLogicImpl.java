@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.BaseAdapterHelper;
@@ -18,11 +18,14 @@ import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.rules.IListLogic;
 import com.classic.wages.ui.widget.CircularDrawable;
 import com.classic.wages.utils.DataUtil;
+import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
-import com.elvishew.xlog.XLog;
+
 import java.util.List;
+
+import cn.qy.util.activity.R;
 import rx.Observable;
 import rx.functions.Action1;
 
@@ -71,7 +74,6 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(String year, String month) {
-        XLog.d("onDataQuery:" + year + "," + month);
         Observable<List<T>> observable = mDao.query(year, formatMonth(month));
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
@@ -80,7 +82,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(long startTime, long endTime) {
-        XLog.d("onDataQuery:" + startTime + "," + endTime);
+        LogUtil.d("onDataQuery:" + startTime + "," + endTime);
         Observable<List<T>> observable = mDao.query(startTime, endTime);
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))

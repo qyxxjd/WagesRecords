@@ -4,15 +4,17 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.table.MonthlyInfoTable;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
-import com.elvishew.xlog.XLog;
+import com.classic.wages.utils.LogUtil;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -220,7 +223,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
                 list.add(cursorToMonthlyInfo(cursor));
             }
         } catch (Exception e) {
-            XLog.e(e.getMessage());
+            LogUtil.e(e.getMessage());
         } finally {
             CloseUtil.close(cursor);
         }

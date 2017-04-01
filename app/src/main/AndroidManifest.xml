@@ -52,7 +52,6 @@
             android:authorities="${APPLICATION_ID}.provider"
             android:grantUriPermissions="true"
             android:exported="false"
-            tools:replace="android:authorities"
             >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

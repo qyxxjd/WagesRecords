@@ -19,8 +19,16 @@
         android:layout_marginStart="@dimen/item_content_left_margin"
         android:layout_marginTop="@dimen/margin_normal"
         android:textSize="@dimen/font_large"
-        tools:text="2013-8-1"
+        tools:text="2013-08-01"
         />
+
+    <TextView style="@style/List.ItemText"
+        android:id="@+id/quantity_item_quantity"
+        android:layout_marginLeft="168dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="12dp"
+        android:maxLength="6"
+        tools:text="999999" />
 
     <TextView style="@style/List.ItemText"
         android:id="@+id/quantity_item_title"

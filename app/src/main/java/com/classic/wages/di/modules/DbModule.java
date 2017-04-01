@@ -17,18 +17,20 @@ package com.classic.wages.di.modules;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
-import cn.qy.util.activity.BuildConfig;
+
 import com.classic.wages.db.DbHelper;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
-import com.elvishew.xlog.XLog;
+import com.classic.wages.utils.LogUtil;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
+import javax.inject.Singleton;
+
+import cn.qy.util.activity.BuildConfig;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 import rx.schedulers.Schedulers;
 
 /**
@@ -47,9 +49,7 @@ import rx.schedulers.Schedulers;
         if (BuildConfig.DEBUG) {
             builder.logger(new SqlBrite.Logger() {
                 @Override public void log(String message) {
-                    if (!TextUtils.isEmpty(message)) {
-                        XLog.d(message);
-                    }
+                    LogUtil.d(message);
                 }
             });
         }
