@@ -1,4 +1,4 @@
-def supportVersion = "25.3.0"
+def supportVersion = "25.3.1"
 def butterknifeVersion = "8.5.1"
 def dagger2Version = "2.10"
 
@@ -31,7 +31,7 @@ ext {
     butterknifeCompiler = "com.jakewharton:butterknife-compiler:${butterknifeVersion}"
 
     //Rx家族，响应式编程
-    rxJava = "io.reactivex:rxjava:1.2.7"
+    rxJava = "io.reactivex:rxjava:1.2.9"
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
 
     //数据库
