@@ -6,6 +6,8 @@
 列表页面添加全部显示功能
 
 2017-07-04
+按天添加工资，考虑加班情况，工资几小时？
+
 fix:
 1. BaseListLogicImpl.onDataQuery(BaseListLogicImpl.java:74) --> IllegalStateException: Do you forget to initialize XLog?
 2. java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
@@ -43,4 +45,4 @@ fix:
    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1114)
    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2467)
    
-按天添加工资，考虑加班情况，工资几小时？
+

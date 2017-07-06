@@ -34,19 +34,18 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        def requested = details.requested
-        if (requested.group == 'com.android.support') {
-            if (!requested.name.startsWith("multidex")) {
-                details.useVersion '25.3.1'
-            }
-        }
-    }
-}
+//configurations.all {
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        def requested = details.requested
+//        if (requested.group == 'com.android.support') {
+//            if (!requested.name.startsWith("multidex")) {
+//                details.useVersion '25.3.1'
+//            }
+//        }
+//    }
+//}
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.supportAppcompatV7
     compile rootProject.ext.supportRecyclerView
     compile rootProject.ext.supportCardView
@@ -60,7 +59,6 @@ dependencies {
     compile rootProject.ext.pickerView
     compile rootProject.ext.navigationTabBar
     compile rootProject.ext.circleImageView
-    compile rootProject.ext.glide
 
     compile rootProject.ext.rxJava
     compile rootProject.ext.rxAndroid
@@ -68,8 +66,10 @@ dependencies {
 
     compile rootProject.ext.butterknife
     compile rootProject.ext.dagger2
+    compile rootProject.ext.glide
     annotationProcessor rootProject.ext.butterknifeCompiler
     annotationProcessor rootProject.ext.dagger2Compiler
+    annotationProcessor rootProject.ext.glideCompiler
 
     compile rootProject.ext.umeng
     compile rootProject.ext.pgyer

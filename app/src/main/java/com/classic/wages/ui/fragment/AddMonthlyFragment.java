@@ -6,12 +6,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.bigkoo.pickerview.TimePickerView;
 import com.classic.wages.app.WagesApplication;
-import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.MonthlyInfo;
@@ -21,8 +18,14 @@ import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
 import java.util.Date;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -81,7 +84,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
         initParams();
     }
 
-    @Override public void onTimeSelect(Date date) {
+    @Override public void onTimeSelect(Date date, View view) {
         mCurrentTime = date.getTime();
         mMonthlyTime.setText(DateUtil.formatDate(FORMAT, mCurrentTime));
         mMonthlyTimeHint.setVisibility(View.VISIBLE);
@@ -131,12 +134,15 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
     }
 
     private void showDatePicker(Date date) {
-        mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
-        mTimePickerView.setCyclic(false);
-        mTimePickerView.setCancelable(false);
-        mTimePickerView.setOnTimeSelectListener(this);
-        mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        mTimePickerView.setTime(date);
+        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
+        // mTimePickerView.setCyclic(false);
+        // mTimePickerView.setCancelable(false);
+        // mTimePickerView.setOnTimeSelectListener(this);
+        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
+        // mTimePickerView.setTime(date);
+        // mTimePickerView.show();
+
+        mTimePickerView = createTimePickerView(mActivity, this, date.getTime());
         mTimePickerView.show();
     }
 

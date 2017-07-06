@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.classic.wages.app.WagesApplication;
-import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.QuantityInfo;
@@ -86,7 +85,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
         initParams();
     }
 
-    @Override public void onTimeSelect(Date date) {
+    @Override public void onTimeSelect(Date date, View view) {
         mCurrentTime = date.getTime();
         mWorkTime.setText(DateUtil.formatDate(FORMAT, mCurrentTime));
         mWorkTimeHint.setVisibility(View.VISIBLE);
@@ -142,12 +141,15 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     }
 
     private void showDatePicker(Date date) {
-        mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
-        mTimePickerView.setCyclic(false);
-        mTimePickerView.setCancelable(false);
-        mTimePickerView.setOnTimeSelectListener(this);
-        mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        mTimePickerView.setTime(date);
+        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
+        // mTimePickerView.setCyclic(false);
+        // mTimePickerView.setCancelable(false);
+        // mTimePickerView.setOnTimeSelectListener(this);
+        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
+        // mTimePickerView.setTime(date);
+        // mTimePickerView.show();
+
+        mTimePickerView = createTimePickerView(mActivity, this, date.getTime());
         mTimePickerView.show();
     }
 

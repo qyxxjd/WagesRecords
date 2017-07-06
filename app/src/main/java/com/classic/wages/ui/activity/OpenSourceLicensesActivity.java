@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
 import com.classic.adapter.interfaces.ImageLoad;
@@ -86,13 +88,13 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
 
     private static final ImageLoad GLIDE_IMAGE_LOAD = new ImageLoad() {
         @Override public void load(Context context, ImageView imageView, String imageUrl) {
-            Glide.with(context)
-                 .load(imageUrl)
-                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                 .placeholder(R.drawable.ic_github)
-                 .error(R.drawable.ic_github)
-                 .crossFade()
-                 .into(imageView);
+            RequestOptions options = new RequestOptions().centerInside()
+                                                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                                         .skipMemoryCache(true) // 跳过内存缓存
+                                                         .priority(Priority.HIGH)
+                                                         .placeholder(R.drawable.ic_github)
+                                                         .error(R.drawable.ic_github);
+            Glide.with(context).load(imageUrl).apply(options).into(imageView);
         }
     };
 

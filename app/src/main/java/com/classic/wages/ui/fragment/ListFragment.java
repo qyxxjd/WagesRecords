@@ -267,7 +267,7 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
     };
 
 
-    @Override public void onTimeSelect(Date date) {
+    @Override public void onTimeSelect(Date date, View view) {
         if (isChooseStartTime) {
             mCurrentStartTime = date.getTime();
         } else {
@@ -309,12 +309,15 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
     }
 
     private void showDatePicker(Date date) {
-        mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.YEAR_MONTH_DAY);
-        mTimePickerView.setCyclic(false);
-        mTimePickerView.setCancelable(false);
-        mTimePickerView.setOnTimeSelectListener(this);
-        mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        mTimePickerView.setTime(date);
+        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.YEAR_MONTH_DAY);
+        // mTimePickerView.setCyclic(false);
+        // mTimePickerView.setCancelable(false);
+        // mTimePickerView.setOnTimeSelectListener(this);
+        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
+        // mTimePickerView.setTime(date);
+        // mTimePickerView.show();
+
+        mTimePickerView = createPickerView(mActivity, this, date.getTime(), false);
         mTimePickerView.show();
     }
 

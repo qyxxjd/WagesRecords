@@ -96,7 +96,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override
-    public void onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
+    public boolean onItemLongClick(RecyclerView.ViewHolder viewHolder, View view, final int position) {
         new MaterialDialog.Builder(mContext).title(R.string.delete)
                                             .titleColorRes(R.color.primary_text)
                                             .backgroundColorRes(R.color.white)
@@ -111,6 +111,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
                                                 }
                                             })
                                             .show();
+        return true;
     }
 
     private final class Adapter extends CommonRecyclerAdapter<T> implements Action1<List<T>> {
