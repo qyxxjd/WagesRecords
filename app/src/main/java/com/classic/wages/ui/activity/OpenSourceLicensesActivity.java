@@ -133,10 +133,10 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
                                           "https://avatars1.githubusercontent.com/u/66577?v=3&s=466",
                                           "https://github.com/JakeWharton/butterknife"));
 //        LICENSE_ARRAY.add(new LicenseItem("Picasso", "Square", LICENSE_TYPE_APACHE,
-//                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+//                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Square.png?raw=true",
 //                                          "https://github.com/square/picasso"));
         LICENSE_ARRAY.add(new LicenseItem("SQLBrite", "Square", LICENSE_TYPE_APACHE,
-                                          "https://avatars2.githubusercontent.com/u/82592?v=3&s=200",
+                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Square.png?raw=true",
                                           "https://github.com/square/sqlbrite"));
         LICENSE_ARRAY.add(new LicenseItem("Dagger 2", "Google", LICENSE_TYPE_APACHE,
                                           "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
@@ -145,7 +145,7 @@ public class OpenSourceLicensesActivity extends AppBaseActivity implements Commo
                                           "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
                                           "https://github.com/googlesamples/easypermissions"));
         LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
-                                          "https://avatars3.githubusercontent.com/u/423539?v=3&s=200",
+                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Glide.png?raw=true",
                                           "https://github.com/bumptech/glide"));
         LICENSE_ARRAY.add(new LicenseItem("NavigationTabBar", "Devlight", LICENSE_TYPE_APACHE,
                                           "https://avatars2.githubusercontent.com/u/18118313?v=3&s=200",
