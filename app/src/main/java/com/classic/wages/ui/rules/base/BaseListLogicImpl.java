@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
+import com.classic.android.rx.RxUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.BasicInfo;
@@ -20,14 +21,13 @@ import com.classic.wages.ui.widget.CircularDrawable;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.MoneyUtil;
-import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.Util;
 
 import java.util.List;
 
 import cn.qy.util.activity.R;
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 /**
  * 应用名称: WagesRecords
@@ -77,7 +77,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         Observable<List<T>> observable = mDao.query(year, formatMonth(month));
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                      .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
+                      .subscribe(getAdapter(), Util.ERROR_ACTION);
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         Observable<List<T>> observable = mDao.query(startTime, endTime);
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                      .subscribe(getAdapter(), RxUtil.ERROR_ACTION);
+                      .subscribe(getAdapter(), Util.ERROR_ACTION);
         }
     }
 
@@ -114,7 +114,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         return true;
     }
 
-    private final class Adapter extends CommonRecyclerAdapter<T> implements Action1<List<T>> {
+    private final class Adapter extends CommonRecyclerAdapter<T> implements Consumer<List<T>> {
 
         Adapter(Context context, int layoutResId) {
             super(context, layoutResId);
@@ -124,7 +124,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
             onItemUpdate(helper, item, position);
         }
 
-        @Override public void call(List<T> list) {
+        @Override public void accept(@io.reactivex.annotations.NonNull List<T> list) throws Exception {
             if (DataUtil.isEmpty(list)) {
                 clear();
             } else {

@@ -12,8 +12,8 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
-import com.squareup.sqlbrite.BriteDatabase;
-import com.squareup.sqlbrite.SqlBrite;
+import com.squareup.sqlbrite2.BriteDatabase;
+import com.squareup.sqlbrite2.SqlBrite;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +24,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * 应用名称: WagesRecords
@@ -188,9 +188,9 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
 
     private Observable<List<MonthlyInfo>> queryListBySql(String sql) {
         return mDatabase.createQuery(MonthlyInfoTable.TABLE_NAME, sql)
-                        .map(new Func1<SqlBrite.Query, List<MonthlyInfo>>() {
-                            @Override
-                            public List<MonthlyInfo> call(SqlBrite.Query query) {
+                        .map(new Function<SqlBrite.Query, List<MonthlyInfo>>() {
+                            @Override public List<MonthlyInfo> apply(
+                                    @io.reactivex.annotations.NonNull SqlBrite.Query query) throws Exception {
                                 return convert(query.run());
                             }
                         });

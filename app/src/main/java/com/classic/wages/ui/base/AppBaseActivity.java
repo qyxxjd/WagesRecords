@@ -1,24 +1,19 @@
 package com.classic.wages.ui.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.classic.android.base.BaseActivity;
+import com.classic.android.base.RxActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.qy.util.activity.R;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
-public abstract class AppBaseActivity extends BaseActivity {
-    @BindView(R.id.toolbar) Toolbar               mToolbar;
-    protected               Context               mAppContext;
-    private                 CompositeSubscription mCompositeSubscription;
+public abstract class AppBaseActivity extends RxActivity {
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     public Toolbar getToolbar() {
         return mToolbar;
@@ -50,19 +45,6 @@ public abstract class AppBaseActivity extends BaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override public void unRegister() {
-        if (null != mCompositeSubscription) {
-            mCompositeSubscription.unsubscribe();
-        }
-    }
-
-    protected void addSubscription(Subscription subscription) {
-        if (null == mCompositeSubscription) {
-            mCompositeSubscription = new CompositeSubscription();
-        }
-        mCompositeSubscription.add(subscription);
     }
 
     @Override protected void onResume() {

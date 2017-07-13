@@ -13,12 +13,16 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.EditText;
-import cn.qy.util.activity.R;
+
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
+
 import java.util.Calendar;
 import java.util.WeakHashMap;
+
+import cn.qy.util.activity.R;
+import io.reactivex.functions.Consumer;
 
 /**
  * @author 续写经典
@@ -26,6 +30,15 @@ import java.util.WeakHashMap;
  */
 @SuppressWarnings({"deprecation", "StringBufferReplaceableByString"}) public final class Util {
     private static final WeakHashMap<Integer, CircularDrawable> DRAWABLE_MAP = new WeakHashMap<>();
+
+    public static final Consumer<Throwable> ERROR_ACTION = new Consumer<Throwable>() {
+        @Override public void accept(@io.reactivex.annotations.NonNull Throwable throwable)
+                throws Exception {
+            if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
+                throwable.printStackTrace();
+            }
+        }
+    };
 
     /**
      * 根据日期获得星期

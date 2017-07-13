@@ -5,7 +5,6 @@ import android.app.Application;
 import com.classic.android.utils.SharedPreferencesUtil;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.di.components.AppComponent;
-import com.classic.wages.di.components.DaggerAppComponent;
 import com.classic.wages.di.modules.AppModule;
 import com.classic.wages.di.modules.DbModule;
 

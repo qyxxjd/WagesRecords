@@ -1,8 +1,10 @@
 package com.classic.wages.db.dao;
 
 import android.support.annotation.NonNull;
+
 import java.util.List;
-import rx.Observable;
+
+import io.reactivex.Observable;
 
 /**
  * 应用名称: WagesRecords

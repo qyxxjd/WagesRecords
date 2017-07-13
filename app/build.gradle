@@ -60,8 +60,8 @@ dependencies {
     compile rootProject.ext.navigationTabBar
     compile rootProject.ext.circleImageView
 
-    compile rootProject.ext.rxJava
-    compile rootProject.ext.rxAndroid
+//    compile rootProject.ext.rxJava
+//    compile rootProject.ext.rxAndroid
     compile rootProject.ext.sqlbrite
 
     compile rootProject.ext.butterknife

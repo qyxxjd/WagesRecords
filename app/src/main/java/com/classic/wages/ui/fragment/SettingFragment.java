@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.qy.util.activity.R;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
 import com.classic.android.permissions.AfterPermissionGranted;
@@ -21,7 +18,6 @@ import com.classic.android.permissions.EasyPermissions;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
-import com.classic.wages.db.dao.IBackup;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
@@ -35,21 +31,23 @@ import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
 import com.classic.wages.utils.PgyUtil;
-import com.classic.wages.utils.RxUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.UriUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.qy.util.activity.R;
 
 /**
  * 应用名称: WagesRecords
@@ -135,39 +133,40 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .contentColorRes(R.color.secondary_text)
                 .progress(true, 0)
                 .show();
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override public void call(final Subscriber<? super Boolean> subscriber) {
-                final IBackup.Listener listener = new IBackup.Listener() {
-                    @Override public void onComplete() { }
-
-                    @Override public void onError(Throwable throwable) {
-                        subscriber.onError(throwable);
-                    }
-
-                    @Override public void onProgress(long currentCount, long totalCount) { }
-                };
-                mMonthlyInfoDao.backup(file, listener);
-                mQuantityInfoDao.backup(file, listener);
-                mWorkInfoDao.backup(file, listener);
-                SystemClock.sleep(1000);
-                subscriber.onNext(true);
-            }
-        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                  .subscribe(new Action1<Boolean>() {
-            @Override public void call(Boolean aBoolean) {
-                dialog.dismiss();
-                ToastUtil.showLongToast(mAppContext,
-                        getString(R.string.data_backup_success, file.getAbsolutePath()));
-                //打开文件夹
-                //Util.showDirectory(mActivity, file.getParentFile().getAbsolutePath(), MIME.FILE,
-                //        Util.getString(mAppContext, R.string.setting_backup_directory));
-            }
-        }, new Action1<Throwable>() {
-            @Override public void call(Throwable throwable) {
-                dialog.dismiss();
-                ToastUtil.showToast(mAppContext, R.string.data_backup_failure);
-            }
-        });
+        // TODO: 2017/7/11
+        // Observable.create(new Observable.OnSubscribe<Boolean>() {
+        //     @Override public void call(final Subscriber<? super Boolean> subscriber) {
+        //         final IBackup.Listener listener = new IBackup.Listener() {
+        //             @Override public void onComplete() { }
+        //
+        //             @Override public void onError(Throwable throwable) {
+        //                 subscriber.onError(throwable);
+        //             }
+        //
+        //             @Override public void onProgress(long currentCount, long totalCount) { }
+        //         };
+        //         mMonthlyInfoDao.backup(file, listener);
+        //         mQuantityInfoDao.backup(file, listener);
+        //         mWorkInfoDao.backup(file, listener);
+        //         SystemClock.sleep(1000);
+        //         subscriber.onNext(true);
+        //     }
+        // }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+        //           .subscribe(new Action1<Boolean>() {
+        //     @Override public void call(Boolean aBoolean) {
+        //         dialog.dismiss();
+        //         ToastUtil.showLongToast(mAppContext,
+        //                 getString(R.string.data_backup_success, file.getAbsolutePath()));
+        //         //打开文件夹
+        //         //Util.showDirectory(mActivity, file.getParentFile().getAbsolutePath(), MIME.FILE,
+        //         //        Util.getString(mAppContext, R.string.setting_backup_directory));
+        //     }
+        // }, new Action1<Throwable>() {
+        //     @Override public void call(Throwable throwable) {
+        //         dialog.dismiss();
+        //         ToastUtil.showToast(mAppContext, R.string.data_backup_failure);
+        //     }
+        // });
     }
 
     private void restore(@NonNull String path) {
@@ -181,35 +180,36 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .contentColorRes(R.color.secondary_text)
                 .progress(true, 0)
                 .show();
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
-            @Override public void call(final Subscriber<? super Boolean> subscriber) {
-                final IBackup.Listener listener = new IBackup.Listener() {
-                    @Override public void onComplete() { }
-
-                    @Override public void onError(Throwable throwable) {
-                        subscriber.onError(throwable);
-                    }
-
-                    @Override public void onProgress(long currentCount, long totalCount) { }
-                };
-                mMonthlyInfoDao.restore(file, listener);
-                mQuantityInfoDao.restore(file, listener);
-                mWorkInfoDao.restore(file, listener);
-                SystemClock.sleep(1000);
-                subscriber.onNext(true);
-            }
-        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                  .subscribe(new Action1<Boolean>() {
-                      @Override public void call(Boolean aBoolean) {
-                          dialog.dismiss();
-                          ToastUtil.showToast(mAppContext, R.string.data_restore_success);
-                      }
-                  }, new Action1<Throwable>() {
-                      @Override public void call(Throwable throwable) {
-                          dialog.dismiss();
-                          ToastUtil.showToast(mAppContext, R.string.data_restore_failure);
-                      }
-                  });
+        // TODO: 2017/7/11  
+        // Observable.create(new Observable.OnSubscribe<Boolean>() {
+        //     @Override public void call(final Subscriber<? super Boolean> subscriber) {
+        //         final IBackup.Listener listener = new IBackup.Listener() {
+        //             @Override public void onComplete() { }
+        //
+        //             @Override public void onError(Throwable throwable) {
+        //                 subscriber.onError(throwable);
+        //             }
+        //
+        //             @Override public void onProgress(long currentCount, long totalCount) { }
+        //         };
+        //         mMonthlyInfoDao.restore(file, listener);
+        //         mQuantityInfoDao.restore(file, listener);
+        //         mWorkInfoDao.restore(file, listener);
+        //         SystemClock.sleep(1000);
+        //         subscriber.onNext(true);
+        //     }
+        // }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+        //           .subscribe(new Action1<Boolean>() {
+        //               @Override public void call(Boolean aBoolean) {
+        //                   dialog.dismiss();
+        //                   ToastUtil.showToast(mAppContext, R.string.data_restore_success);
+        //               }
+        //           }, new Action1<Throwable>() {
+        //               @Override public void call(Throwable throwable) {
+        //                   dialog.dismiss();
+        //                   ToastUtil.showToast(mAppContext, R.string.data_restore_failure);
+        //               }
+        //           });
     }
 
     @OnClick(R.id.setting_restore) public void onRestore() {

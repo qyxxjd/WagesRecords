@@ -1,5 +1,5 @@
 def supportVersion = "25.3.1"
-def butterKnifeVersion = "8.6.0"
+def butterKnifeVersion = "8.7.0"
 def dagger2Version = "2.11"
 def glideVersion = "4.0.0-RC1"
 
@@ -23,7 +23,7 @@ ext {
     supportRecyclerView = "com.android.support:recyclerview-v7:${supportVersion}"
 
     //基础项目
-    basicProject = "com.classic.android:core:1.0"
+    basicProject = "com.classic.android:rxjava:1.9"
 
     //https://github.com/google/dagger
     dagger2 = "com.google.dagger:dagger:${dagger2Version}"
@@ -36,14 +36,13 @@ ext {
     rxAndroid = "io.reactivex:rxandroid:1.2.1"
 
     //数据库
-    sqlbrite = "com.squareup.sqlbrite:sqlbrite:1.1.2"
+    sqlbrite = "com.squareup.sqlbrite2:sqlbrite:2.0.0"
 
     //通用适配器
     commonAdapter = "com.classic.adapter:commonadapter:1.8.1"
 
     glide = "com.github.bumptech.glide:glide:${glideVersion}"
     glideCompiler = "com.github.bumptech.glide:compiler:${glideVersion}"
-    picasso = "com.squareup.picasso:picasso:2.5.2"
     circleImageView = "de.hdodenhof:circleimageview:2.1.0"
     sublimePicker = "com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1"
     materialDialog = "com.afollestad.material-dialogs:core:0.9.4.5"

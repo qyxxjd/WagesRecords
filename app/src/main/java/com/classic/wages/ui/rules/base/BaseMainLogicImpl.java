@@ -3,19 +3,13 @@ package com.classic.wages.ui.rules.base;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
-import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.ui.rules.IMainLogic;
-import com.classic.wages.utils.DataUtil;
-import com.classic.wages.utils.MoneyUtil;
-import com.classic.wages.utils.RxUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * 应用名称: WagesRecords
@@ -48,20 +42,21 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
 
     private void calculation(Observable<List<T>> observable, TextView tv){
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
-        observable.flatMap(new Func1<List<T>, Observable<Float>>() {
-                        @Override public Observable<Float> call(List<T> list) {
-                            return Observable.just(DataUtil.isEmpty(list) ?
-                                                   0f : getTotalWages(list));
-                        }
-                    })
-                  .compose(RxUtil.<Float>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-                  .subscribe(new Action1<Float>() {
-                      @Override public void call(Float wages) {
-                          if(weakReference.get() != null){
-                              weakReference.get().setText(MoneyUtil.replace(wages, Consts.DEFAULT_SCALE));
-                          }
-                      }
-                  }, RxUtil.ERROR_ACTION);
+        // TODO: 2017/7/11
+        // observable.flatMap(new Func1<List<T>, Observable<Float>>() {
+        //                 @Override public Observable<Float> call(List<T> list) {
+        //                     return Observable.just(DataUtil.isEmpty(list) ?
+        //                                            0f : getTotalWages(list));
+        //                 }
+        //             })
+        //           .compose(RxUtil.<Float>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+        //           .subscribe(new Action1<Float>() {
+        //               @Override public void call(Float wages) {
+        //                   if(weakReference.get() != null){
+        //                       weakReference.get().setText(MoneyUtil.replace(wages, Consts.DEFAULT_SCALE));
+        //                   }
+        //               }
+        //           }, RxUtil.ERROR_ACTION);
     }
 
 }

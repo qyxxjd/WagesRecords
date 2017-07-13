@@ -13,8 +13,8 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
-import com.squareup.sqlbrite.BriteDatabase;
-import com.squareup.sqlbrite.SqlBrite;
+import com.squareup.sqlbrite2.BriteDatabase;
+import com.squareup.sqlbrite2.SqlBrite;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,8 +25,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
     private BriteDatabase mDatabase;
@@ -153,8 +153,9 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
                 .append(WorkInfoTable.TABLE_NAME)
                 .toString();
         return mDatabase.createQuery(WorkInfoTable.TABLE_NAME, sql)
-                        .map(new Func1<SqlBrite.Query, List<String>>() {
-                            @Override public List<String> call(SqlBrite.Query query) {
+                        .map(new Function<SqlBrite.Query, List<String>>() {
+                            @Override public List<String> apply(@io.reactivex.annotations.NonNull SqlBrite.Query query)
+                                    throws Exception {
                                 return convertYears(query.run());
                             }
                         });
@@ -188,8 +189,9 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
 
     private Observable<List<WorkInfo>> queryListBySql(String sql) {
         return mDatabase.createQuery(WorkInfoTable.TABLE_NAME, sql)
-                        .map(new Func1<SqlBrite.Query, List<WorkInfo>>() {
-                            @Override public List<WorkInfo> call(SqlBrite.Query query) {
+                        .map(new Function<SqlBrite.Query, List<WorkInfo>>() {
+                            @Override public List<WorkInfo> apply(
+                                    @io.reactivex.annotations.NonNull SqlBrite.Query query) throws Exception {
                                 return convert(query.run());
                             }
                         });

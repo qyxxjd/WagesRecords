@@ -37,7 +37,8 @@ import cn.qy.util.activity.R;
  * 创建时间: 2016/10/26 18:40
  */
 
-public class OpenSourceLicensesActivity extends AppBaseActivity implements CommonRecyclerAdapter.OnItemClickListener{
+@SuppressWarnings("SpellCheckingInspection") public class OpenSourceLicensesActivity extends AppBaseActivity
+        implements CommonRecyclerAdapter.OnItemClickListener{
 
     @BindView(R.id.licenses_recycler_view) RecyclerView mRecyclerView;
 
