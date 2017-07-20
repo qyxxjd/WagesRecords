@@ -11,6 +11,9 @@
 2017-07-15
 添加自定义工资计算周期
 
+2017-07-20
+计件工资添加页面，支持添加多条数据
+
 fix:
 1. BaseListLogicImpl.onDataQuery(BaseListLogicImpl.java:74) --> IllegalStateException: Do you forget to initialize XLog?
 2. java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
