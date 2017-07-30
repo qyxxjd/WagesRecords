@@ -22,6 +22,20 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="ListView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:divider">@color/divider</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+    <style name="ListView.NoDivider">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
     <style name="Main"/>
     <style name="Main.Layout">
         <item name="android:layout_width">match_parent</item>
@@ -120,7 +134,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">@dimen/font_very_small</item>
+        <item name="android:textSize">@dimen/font_small</item>
         <item name="android:visibility">gone</item>
     </style>
     <style name="Add.CheckBox">

@@ -21,19 +21,16 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        />
+        android:layout_marginTop="?attr/actionBarSize"/>
 
-    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
-        android:id="@+id/main_ntb"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_bnv"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:ntb_animation_duration="100"
-        app:ntb_bg_color="@color/colorPrimary"
-        app:ntb_inactive_color="#f06292"
-        app:ntb_title_mode="active"
-        app:ntb_title_size="@dimen/font_small"
-        app:ntb_titled="true"/>
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/main_navigation"
+        app:itemIconTint="@drawable/bnv_item_selector"
+        app:itemTextColor="@drawable/bnv_item_selector"/>
 
 </android.support.design.widget.CoordinatorLayout>

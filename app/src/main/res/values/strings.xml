@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">记工资pro</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="permissions.title">权限申请</string>
+    <string name="permissions.storage.describe">应用需要访问你的存储空间,进行日志存储</string>
+    <string name="permissions.feedback.describe">语音反馈需要使用语音录制权限</string>
 
     <string name="file_provider">cn.qy.util.activity.provider</string>
+
+    <string name="home">首页</string>
+    <string name="list">列表</string>
+    <string name="settings">设置</string>
 
     <string name="add">添加</string>
     <string name="query">查询</string>
@@ -53,7 +60,6 @@
     <string name="hourly.wage.suffix">%s元/小时</string>
     <string name="hours.suffix">%s小时</string>
 
-
     <string name="add.monthly.time">工作时间</string>
     <string name="add.monthly.wage">月工资</string>
     <string name="add.monthly.time.empty">请选择工作时间</string>
@@ -91,6 +97,7 @@
     <string name="author.wx">微信:630404403</string>
     <string name="share.title">应用分享</string>
     <string name="share.subject">@string/app_name</string>
+    <!-- TODO 修改 URL -->
     <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：https://www.pgyer.com/recordswages</string>
 
     <string name="select.backup.file.hint">选择备份文件</string>

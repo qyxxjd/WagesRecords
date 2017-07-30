@@ -196,13 +196,32 @@ import io.reactivex.functions.Consumer;
     /**
      * 设置文本，并将光标移动到文本末尾
      */
-    public static void setText(@NonNull EditText editText, @NonNull String text) {
-        editText.setText(text);
-        editText.setSelection(text.length());
+    public static void setText(@NonNull final EditText editText, @NonNull final String text) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.setText(text);
+                editText.setSelection(text.length());
+            }
+        });
     }
 
     public static void setText(@NonNull EditText editText, Number number) {
         setText(editText, MoneyUtil.replace(number));
+    }
+
+    public static void setFocus(@NonNull final EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.setFocusable(true);
+                editText.setFocusableInTouchMode(true);
+                editText.requestFocus();
+                if (!TextUtils.isEmpty(editText.getText().toString())) {
+                    editText.setSelection(editText.getText().toString().length());
+                }
+            }
+        });
     }
 
     public static int dp2px(@NonNull Context context, float dpVal) {

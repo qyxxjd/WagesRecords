@@ -16,12 +16,6 @@ public class Consts {
     public static final String APK_NAME           = "last.apk";
     public static final String AUTHORITIES_SUFFIX = ".provider";
 
-    public static final String STORAGE_PERMISSIONS_DESCRIBE  = "应用需要访问你的存储空间,进行日志存储";
-    public static final String FEEDBACK_PERMISSIONS_DESCRIBE = "语音反馈需要使用语音录制权限";
-    public static final String APPLY_FOR_PERMISSIONS         = "权限申请";
-    public static final String SETUP                         = "设置";
-    public static final String CANCEL                        = "取消";
-
     public static final int          MIN_YEAR = 2010;
     public static final int          MAX_YEAR = DateUtil.getYear() + 1;
     public static final List<String> YEARS    = new ArrayList<>();

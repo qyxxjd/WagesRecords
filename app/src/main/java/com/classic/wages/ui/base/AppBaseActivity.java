@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.classic.android.base.RxActivity;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,13 +46,13 @@ public abstract class AppBaseActivity extends RxActivity {
         }
     }
 
-    @Override protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
+//    @Override protected void onResume() {
+//        super.onResume();
+//        MobclickAgent.onResume(this);
+//    }
+//
+//    @Override protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPause(this);
+//    }
 }

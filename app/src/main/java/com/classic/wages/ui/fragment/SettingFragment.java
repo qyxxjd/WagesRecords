@@ -30,11 +30,11 @@ import com.classic.wages.ui.rules.basic.DefaultSettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
-import com.classic.wages.utils.PgyUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.UriUtil;
 import com.classic.wages.utils.Util;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.tencent.bugly.beta.Beta;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,7 +93,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mRulesSpinner.setSelectedIndex(mRulesType);
         refreshUIByRules(mRulesType);
-        PgyUtil.setDialogStyle("#2196F3", "#FFFFFF");
+//        PgyUtil.setDialogStyle("#2196F3", "#FFFFFF");
     }
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
@@ -233,7 +233,8 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     }
 
     @OnClick(R.id.setting_update) public void onUpdateClick(){
-        PgyUtil.checkUpdate(mActivity, true);
+//        PgyUtil.checkUpdate(mActivity, true);
+        Beta.checkUpgrade(true,false);
     }
     @OnClick(R.id.setting_share) public void onShareClick(){
         shareText(mActivity, getString(R.string.share_title),
@@ -290,9 +291,9 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @AfterPermissionGranted(REQUEST_CODE_FEEDBACK)
     private void checkRecordAudioPermissions(){
         if (EasyPermissions.hasPermissions(mAppContext, FEEDBACK_PERMISSION)) {
-            PgyUtil.feedback(mActivity);
+//            PgyUtil.feedback(mActivity);
         } else {
-            EasyPermissions.requestPermissions(this, Consts.FEEDBACK_PERMISSIONS_DESCRIBE,
+            EasyPermissions.requestPermissions(this, getString(R.string.permissions_feedback_describe),
                     REQUEST_CODE_FEEDBACK, FEEDBACK_PERMISSION);
         }
     }
@@ -300,14 +301,14 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @Override public void onPermissionsGranted(int requestCode, List<String> perms) {
         super.onPermissionsGranted(requestCode, perms);
         if(requestCode == REQUEST_CODE_FEEDBACK){
-            PgyUtil.feedback(mActivity);
+//            PgyUtil.feedback(mActivity);
         }
     }
 
     @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
         super.onPermissionsDenied(requestCode, perms);
         if(requestCode == REQUEST_CODE_FEEDBACK){
-            PgyUtil.feedback(mActivity);
+//            PgyUtil.feedback(mActivity);
         }
     }
 

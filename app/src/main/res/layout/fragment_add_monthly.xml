@@ -14,7 +14,6 @@
         <TextView
             style="@style/Add.DateHint"
             android:id="@+id/add_monthly_time_hint"
-            android:textSize="@dimen/font_normal"
             android:text="@string/add.monthly.time"/>
 
         <TextView

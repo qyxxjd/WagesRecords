@@ -3,8 +3,10 @@ package com.classic.wages.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
@@ -14,13 +16,17 @@ import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
+import com.classic.wages.ui.pop.TemplatePopupWindow;
+import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,8 +44,8 @@ import cn.qy.util.activity.R;
  */
 public class AddQuantityFragment extends AppBaseFragment implements AddActivity.Listener,
                                                             TimePickerView.OnTimeSelectListener {
-    private static final String FORMAT   = "yyyy-MM-dd HH:mm";
-    private static final float  ZERO     = 0f;
+    private static final String FORMAT = "yyyy-MM-dd HH:mm";
+    private static final float ZERO    = 0f;
 
     @BindView(R.id.add_quantity_time_hint)  TextView         mWorkTimeHint;
     @BindView(R.id.add_quantity_time)       TextView         mWorkTime;
@@ -50,6 +56,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     @BindView(R.id.add_deductions)          MaterialEditText mDeductions;
     @BindView(R.id.add_subsidy)             MaterialEditText mSubsidy;
     @BindView(R.id.add_remark)              MaterialEditText mRemark;
+    @BindView(R.id.add_template)            ImageButton      mTemplate;
 
     @Inject QuantityInfoDao mQuantityInfoDao;
 
@@ -58,6 +65,8 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     /** 当前选择的开始时间 */
     private Long           mCurrentTime;
     private TimePickerView mTimePickerView;
+
+    private List<QuantityInfo> mTemplateList;
 
 
     public static AddQuantityFragment newInstance(@AddActivity.AddTypes int type, BasicInfo basicInfo) {
@@ -93,6 +102,63 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
 
     @OnClick(R.id.add_quantity_time) void onWorkTimeClick(){
         showDatePicker(null== mCurrentTime ? new Date() : new Date(mCurrentTime));
+    }
+
+    @OnClick(R.id.add_template) void onTemplateClick(){
+        if (DataUtil.isEmpty(mTemplateList)) {
+            loadTemplate();
+            return;
+        }
+        togglePopWindow();
+    }
+
+    private void loadTemplate() {
+        // TODO
+        // 1. 查询已添加的物品列表
+        // 2. 按添加次数倒叙排列
+        // 3. togglePopWindow()
+
+        // Test code
+        mTemplateList = new ArrayList<>();
+        for (int i = 0; i < 21; i++) {
+            QuantityInfo info = new QuantityInfo(System.currentTimeMillis(),
+                    "有什么好用的Android Studio的插件值得推荐？" + (i+1), 1, 2);
+            mTemplateList.add(info);
+        }
+        togglePopWindow();
+    }
+
+    private TemplatePopupWindow mTemplatePopupWindow;
+    private void togglePopWindow() {
+        if (null == mTemplatePopupWindow) {
+            final TemplatePopupWindow.Listener listener = new TemplatePopupWindow.Listener() {
+                @Override
+                public void onDismiss() {
+                    mTemplate.setImageResource(R.drawable.ic_arrow_down);
+                }
+
+                @Override
+                public void onItemClick(RecyclerView.ViewHolder viewHolder, View view, int i) {
+                    if (i < mTemplateList.size()) {
+                        refreshByTemplate(mTemplateList.get(i));
+                    }
+                }
+            };
+            mTemplatePopupWindow = new TemplatePopupWindow.Builder()
+                    .activity(mActivity)
+                    .dataSource(mTemplateList)
+                    .listener(listener)
+                    .build();
+        }
+        mTemplatePopupWindow.show(mTitle);
+        mTemplate.setImageResource(mTemplatePopupWindow != null && mTemplatePopupWindow.isShowing() ?
+                R.drawable.ic_arrow_up : R.drawable.ic_arrow_down);
+    }
+
+    private void refreshByTemplate(@NonNull QuantityInfo info) {
+        mTitle.setText(info.getTitle());
+        Util.setText(mUnitPrice, info.getUnitPrice());
+        Util.setFocus(mCount);
     }
 
     @Override public void onAdd() {
@@ -186,6 +252,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
         if(!TextUtils.isEmpty(info.getRemark())){
             Util.setText(mRemark, info.getRemark());
         }
+        Util.setFocus(mCount);
     }
 
     private boolean checkParams() {

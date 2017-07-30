@@ -2,44 +2,42 @@ package com.classic.wages.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
-import butterknife.BindView;
-import cn.qy.util.activity.BuildConfig;
-import cn.qy.util.activity.R;
+import android.view.MenuItem;
+
 import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
 import com.classic.android.permissions.AppSettingsDialog;
 import com.classic.android.permissions.EasyPermissions;
 import com.classic.android.utils.DoubleClickExitHelper;
 import com.classic.wages.consts.Consts;
+import com.classic.wages.consts.PrivateConsts;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.ListFragment;
 import com.classic.wages.ui.fragment.MainFragment;
 import com.classic.wages.ui.fragment.SettingFragment;
-import com.classic.wages.utils.PgyUtil;
-import com.classic.wages.utils.Util;
+import com.classic.wages.utils.BottomNavigationViewHelper;
 import com.elvishew.xlog.LogLevel;
-import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
-import java.util.ArrayList;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+
 import java.util.List;
+
+import butterknife.BindView;
+import cn.qy.util.activity.BuildConfig;
+import cn.qy.util.activity.R;
 
 
 public class MainActivity extends AppBaseActivity {
-    private static final int    TAB_MAIN      = 0;
-    private static final int    TAB_LIST      = 1;
-    private static final int    TAB_SETTING   = 2;
-    private static final String TITLE_MAIN    = "首页";
-    private static final String TITLE_LIST    = "列表";
-    private static final String TITLE_SETTING = "设置";
-
     private static final int      REQUEST_CODE_STORAGE  = 101;
     private static final int      REQUEST_CODE_SETTINGS = 102;
     private static final String[] STORAGE_PERMISSIONS   = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE };
 
-    @BindView(R.id.main_ntb) NavigationTabBar navigationTabBar;
+    @BindView(R.id.main_bnv) BottomNavigationView mBottomNavigationView;
 
     private MainFragment          mMainFragment;
     private ListFragment          mListFragment;
@@ -56,15 +54,15 @@ public class MainActivity extends AppBaseActivity {
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
         checkStoragePermissions();
         initTabBar(savedInstanceState);
-        PgyUtil.register(mAppContext);
-        PgyUtil.checkUpdate(mActivity, false);
+//        PgyUtil.register(mAppContext);
+//        PgyUtil.checkUpdate(mActivity, false);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_STORAGE) private void checkStoragePermissions() {
         if (EasyPermissions.hasPermissions(this, STORAGE_PERMISSIONS)) {
             init();
         } else {
-            EasyPermissions.requestPermissions(this, Consts.STORAGE_PERMISSIONS_DESCRIBE,
+            EasyPermissions.requestPermissions(this, getString(R.string.permissions_storage_describe),
                     REQUEST_CODE_STORAGE, STORAGE_PERMISSIONS);
         }
     }
@@ -79,13 +77,14 @@ public class MainActivity extends AppBaseActivity {
     @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
         super.onPermissionsDenied(requestCode, perms);
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this, Consts.STORAGE_PERMISSIONS_DESCRIBE)
-                                 .setTitle(Consts.APPLY_FOR_PERMISSIONS)
-                                 .setPositiveButton(Consts.SETUP)
-                                 .setNegativeButton(Consts.CANCEL, null)
-                                 .setRequestCode(REQUEST_CODE_SETTINGS)
-                                 .build()
-                                 .show();
+            new AppSettingsDialog.Builder(this)
+                    .setRationale(R.string.permissions_storage_describe)
+                    .setTitle(R.string.permissions_title)
+                    .setRequestCode(REQUEST_CODE_SETTINGS)
+                    .setPositiveButton(R.string.settings)
+                    .setNegativeButton(R.string.cancel)
+                    .build()
+                    .show();
         }
     }
 
@@ -95,69 +94,63 @@ public class MainActivity extends AppBaseActivity {
                                     .setRootDirectoryName(Consts.DIR_NAME)
                                     .setExceptionHandler(mAppContext)
                                     .setLog(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE));
+        initBugly();
     }
 
+    private void initBugly() {
+        // 升级检查周期设置, 60s内SDK不重复向后台请求策略, 默认为0s
+        Beta.upgradeCheckPeriod = 60 * 1000;
+        // 设置通知栏大图标
+        // Beta.largeIconId = R.drawable.ic_launcher;
+        // 设置状态栏小图标
+        // Beta.smallIconId = R.drawable.ic_launcher;
+        // 关闭热更新能力
+        Beta.enableHotfix = false;
+        Bugly.init(getApplicationContext(), PrivateConsts.BUGLY_APP_ID, BuildConfig.DEBUG);
+    }
+
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    if (null == mMainFragment) {
+                        mMainFragment = MainFragment.newInstance();
+                    }
+                    changeFragment(R.id.main_content, mMainFragment);
+                    return true;
+                case R.id.navigation_list:
+                    if (null == mListFragment) {
+                        mListFragment = ListFragment.newInstance();
+                    }
+                    changeFragment(R.id.main_content, mListFragment);
+                    return true;
+                case R.id.navigation_settings:
+                    if (null == mSettingFragment) {
+                        mSettingFragment = SettingFragment.newInstance();
+                    }
+                    changeFragment(R.id.main_content, mSettingFragment);
+                    return true;
+            }
+            return false;
+        }
+    };
     private void initTabBar(Bundle savedInstanceState) {
-        final int color = Color.parseColor("#FF4081");
-        final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
-        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_main), color)
-                           .title(TITLE_MAIN).build());
-        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_list), color)
-                           .title(TITLE_LIST).build());
-        models.add(new NavigationTabBar.Model.Builder(Util.getDrawable(mAppContext, R.drawable.ic_setting), color)
-                           .title(TITLE_SETTING).build());
-
-        navigationTabBar.setModels(models);
-        navigationTabBar.setBehaviorEnabled(true);
-        navigationTabBar.setOnTabBarSelectedIndexListener(
-                new NavigationTabBar.OnTabBarSelectedIndexListener() {
-                    @Override
-                    public void onStartTabSelected(final NavigationTabBar.Model model, final int index) {
-
-                    }
-
-                    @Override
-                    public void onEndTabSelected(final NavigationTabBar.Model model, final int index) {
-                        onTabSelected(index);
-                    }
-                });
-        if(null == savedInstanceState){
-            navigationTabBar.setModelIndex(TAB_MAIN);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.enableShiftMode(mBottomNavigationView, true);
+        if (null == savedInstanceState) {
+            mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
         }
     }
 
-    @Override protected void onStop() {
-        super.onStop();
-        PgyUtil.destroy();
-    }
+//    @Override protected void onStop() {
+//        super.onStop();
+//        PgyUtil.destroy();
+//    }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mDoubleClickExitHelper.onKeyDown(keyCode, event);
-    }
-
-    private void onTabSelected(int index) {
-        switch (index) {
-            case TAB_MAIN:
-                if (null == mMainFragment) {
-                    mMainFragment = MainFragment.newInstance();
-                }
-                changeFragment(R.id.main_content, mMainFragment);
-                break;
-            case TAB_LIST:
-                if (null == mListFragment) {
-                    mListFragment = ListFragment.newInstance();
-                }
-                changeFragment(R.id.main_content, mListFragment);
-                break;
-            case TAB_SETTING:
-                if (null == mSettingFragment) {
-                    mSettingFragment = SettingFragment.newInstance();
-                }
-                changeFragment(R.id.main_content, mSettingFragment);
-                break;
-            default:
-                break;
-        }
     }
 
     public void notifyRecalculation() {

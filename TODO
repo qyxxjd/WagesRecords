@@ -17,42 +17,8 @@
 2017-07-28
 计件工资月工资信息 添加每种类型的总数量
 
+2017-07-29
+分享内容的 URL 修改
 
-fix:
-1. BaseListLogicImpl.onDataQuery(BaseListLogicImpl.java:74) --> IllegalStateException: Do you forget to initialize XLog?
-2. java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-   at android.support.v4.app.FragmentManagerImpl.checkStateLoss(FragmentManager.java:1538)
-   at android.support.v4.app.FragmentManagerImpl.enqueueAction(FragmentManager.java:1556)
-   at android.support.v4.app.BackStackRecord.commitInternal(BackStackRecord.java:696)
-   at android.support.v4.app.BackStackRecord.commit(BackStackRecord.java:662)
-   at com.classic.core.activity.BaseActivity.changeFragment(BaseActivity.java:153)
-   at com.classic.wages.ui.activity.MainActivity.onTabSelected(MainActivity.java:148)
-   at com.classic.wages.ui.activity.MainActivity.access$000(MainActivity.java:27)
-   at com.classic.wages.ui.activity.MainActivity$1.onEndTabSelected(MainActivity.java:119)
-   at com.gigamole.navigationtabbar.ntb.NavigationTabBar$9.onAnimationEnd(NavigationTabBar.java:727)
-   
-3. Date: Fri Jun 23 18:29:37 GMT+08:00 2017
-   java.lang.RuntimeException: Unable to start activity ComponentInfo{cn.qy.util.activity/com.classic.wages.ui.activity.AddActivity}: java.lang.RuntimeException: Package manager has died
-   at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2514)
-   at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2574)
-   at android.app.ActivityThread.access$1000(ActivityThread.java:166)
-   at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1411)
-   at android.os.Handler.dispatchMessage(Handler.java:102)
-   at android.os.Looper.loop(Looper.java:148)
-   at android.app.ActivityThread.main(ActivityThread.java:5563)
-   at java.lang.reflect.Method.invoke(Native Method)
-   at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:853)
-   at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:737)
-   Caused by: java.lang.RuntimeException: Package manager has died
-   at android.app.ApplicationPackageManager.getActivityInfo(ApplicationPackageManager.java:344)
-   at android.support.v4.app.NavUtils.getParentActivityName(NavUtils.java:301)
-   at android.support.v4.app.NavUtils.getParentActivityName(NavUtils.java:281)
-   at android.support.v7.app.AppCompatDelegateImplV9.onCreate(AppCompatDelegateImplV9.java:157)
-   at android.support.v7.app.AppCompatDelegateImplV14.onCreate(AppCompatDelegateImplV14.java:60)
-   at android.support.v7.app.AppCompatActivity.onCreate(AppCompatActivity.java:76)
-   at com.classic.android.base.BaseActivity.onCreate(BaseActivity.java:36)
-   at android.app.Activity.performCreate(Activity.java:6309)
-   at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1114)
-   at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2467)
    
 

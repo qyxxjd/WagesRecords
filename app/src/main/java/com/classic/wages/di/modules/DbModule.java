@@ -40,8 +40,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 @Module public final class DbModule {
 
-    @Provides @Singleton SQLiteOpenHelper provideOpenHelper(Application application) {
-        return new DbHelper(application);
+    private final Application mApplication;
+
+    public DbModule(Application application) {
+        this.mApplication = application;
+    }
+
+    @Provides @Singleton SQLiteOpenHelper provideOpenHelper() {
+        return new DbHelper(mApplication);
     }
 
     @SuppressWarnings("CheckResult") @Provides @Singleton SqlBrite provideSqlBrite() {

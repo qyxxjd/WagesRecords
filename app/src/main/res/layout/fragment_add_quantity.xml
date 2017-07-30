@@ -19,7 +19,6 @@
             <TextView
                 style="@style/Add.DateHint"
                 android:id="@+id/add_quantity_time_hint"
-                android:textSize="@dimen/font_normal"
                 android:text="@string/add.quantity.time"/>
 
             <TextView
@@ -29,17 +28,33 @@
                 android:text="@string/add.quantity.time"/>
         </FrameLayout>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            style="@style/Add.EditText"
-            android:id="@+id/add_quantity_title"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:inputType="text"
-            android:hint="@string/add.quantity.title"
-            app:met_floatingLabel="highlight"
-            app:met_textColorHint="@color/secondary_text"
-            app:met_baseColor="@color/primary_text"
-            app:met_maxCharacters="20"
-            app:met_primaryColor="@color/cyan"/>
+            >
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                style="@style/Add.EditText"
+                android:id="@+id/add_quantity_title"
+                android:paddingRight="@dimen/icon_larger"
+                android:inputType="text"
+                android:hint="@string/add.quantity.title"
+                app:met_floatingLabel="highlight"
+                app:met_textColorHint="@color/secondary_text"
+                app:met_baseColor="@color/primary_text"
+                app:met_maxCharacters="20"
+                app:met_primaryColor="@color/cyan"/>
+
+            <ImageButton
+                android:id="@+id/add_template"
+                android:layout_width="@dimen/icon_larger"
+                android:layout_height="@dimen/icon_larger"
+                android:background="@null"
+                android:src="@drawable/ic_arrow_down"
+                android:scaleType="centerInside"
+                android:layout_gravity="end"/>
+        </FrameLayout>
 
         <com.rengwuxian.materialedittext.MaterialEditText
             style="@style/Add.EditText"

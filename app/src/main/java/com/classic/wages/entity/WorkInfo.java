@@ -11,8 +11,8 @@ import com.classic.wages.utils.Util;
  */
 public class WorkInfo extends BasicInfo {
 
-    private long   startingTime;
-    private long   endTime;
+    private long startingTime;
+    private long endTime;
 
     /** 工作结束时间 */
     public long getEndTime() {

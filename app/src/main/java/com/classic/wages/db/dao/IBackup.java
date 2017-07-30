@@ -2,11 +2,7 @@ package com.classic.wages.db.dao;
 
 import java.io.File;
 
-/**
- * Created by classic on 2017/1/12.
- */
-
-public interface IBackup {
+interface IBackup {
 
     interface Listener {
         /**
@@ -16,7 +12,7 @@ public interface IBackup {
 
         /**
          * 出错
-         * @param throwable
+         * @param throwable 异常信息
          */
         void onError(Throwable throwable);
 
