@@ -1,6 +1,5 @@
 package com.classic.wages.ui.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +12,6 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
-import com.classic.android.permissions.AfterPermissionGranted;
-import com.classic.android.permissions.EasyPermissions;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
@@ -40,7 +37,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -58,8 +54,6 @@ import cn.qy.util.activity.R;
  * 创建时间：16/10/15 下午5:54
  */
 public class SettingFragment extends AppBaseFragment implements MaterialSpinner.OnItemSelectedListener<String>{
-    private static final int REQUEST_CODE_FEEDBACK  = 201;
-    private static final String FEEDBACK_PERMISSION = Manifest.permission.RECORD_AUDIO;
     private static final int FILE_CHOOSER_CODE      = 1001;
 
     @BindView(R.id.setting_rules_spinner) MaterialSpinner mRulesSpinner;
@@ -93,7 +87,6 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mRulesSpinner.setSelectedIndex(mRulesType);
         refreshUIByRules(mRulesType);
-//        PgyUtil.setDialogStyle("#2196F3", "#FFFFFF");
     }
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
@@ -116,7 +109,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
 
     @OnClick(R.id.setting_backup) public void onBackup() {
         final File file = new File(SDCardUtil.getFileDirPath(), createBackupFileName());
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
@@ -233,16 +226,13 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     }
 
     @OnClick(R.id.setting_update) public void onUpdateClick(){
-//        PgyUtil.checkUpdate(mActivity, true);
         Beta.checkUpgrade(true,false);
     }
     @OnClick(R.id.setting_share) public void onShareClick(){
         shareText(mActivity, getString(R.string.share_title),
                 getString(R.string.share_subject), getString(R.string.share_content));
     }
-    @OnClick(R.id.setting_feedback) public void onFeedbackClick(){
-        checkRecordAudioPermissions();
-    }
+
     @OnClick(R.id.setting_author) public void onAuthorClick(){
         if (null == mAuthorDialog) {
             mAuthorDialog = new AuthorDialog(mActivity);
@@ -285,30 +275,6 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         super.onPause();
         if(null != mAuthorDialog && mAuthorDialog.isShowing()){
             mAuthorDialog.dismiss();
-        }
-    }
-
-    @AfterPermissionGranted(REQUEST_CODE_FEEDBACK)
-    private void checkRecordAudioPermissions(){
-        if (EasyPermissions.hasPermissions(mAppContext, FEEDBACK_PERMISSION)) {
-//            PgyUtil.feedback(mActivity);
-        } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.permissions_feedback_describe),
-                    REQUEST_CODE_FEEDBACK, FEEDBACK_PERMISSION);
-        }
-    }
-
-    @Override public void onPermissionsGranted(int requestCode, List<String> perms) {
-        super.onPermissionsGranted(requestCode, perms);
-        if(requestCode == REQUEST_CODE_FEEDBACK){
-//            PgyUtil.feedback(mActivity);
-        }
-    }
-
-    @Override public void onPermissionsDenied(int requestCode, List<String> perms) {
-        super.onPermissionsDenied(requestCode, perms);
-        if(requestCode == REQUEST_CODE_FEEDBACK){
-//            PgyUtil.feedback(mActivity);
         }
     }
 

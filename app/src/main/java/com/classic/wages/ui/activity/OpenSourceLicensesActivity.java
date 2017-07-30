@@ -133,9 +133,6 @@ import cn.qy.util.activity.R;
         LICENSE_ARRAY.add(new LicenseItem("Butter Knife", "Jake Wharton", LICENSE_TYPE_APACHE,
                                           "https://avatars1.githubusercontent.com/u/66577?v=3&s=466",
                                           "https://github.com/JakeWharton/butterknife"));
-//        LICENSE_ARRAY.add(new LicenseItem("Picasso", "Square", LICENSE_TYPE_APACHE,
-//                                          "https://github.com/qyxxjd/WagesRecords/blob/master/images/Square.png?raw=true",
-//                                          "https://github.com/square/picasso"));
         LICENSE_ARRAY.add(new LicenseItem("SQLBrite", "Square", LICENSE_TYPE_APACHE,
                                           "https://github.com/qyxxjd/WagesRecords/blob/master/images/Square.png?raw=true",
                                           "https://github.com/square/sqlbrite"));
@@ -145,12 +142,9 @@ import cn.qy.util.activity.R;
         LICENSE_ARRAY.add(new LicenseItem("EasyPermissions", "Google", LICENSE_TYPE_APACHE,
                                           "https://avatars3.githubusercontent.com/u/7378196?v=3&s=200",
                                           "https://github.com/googlesamples/easypermissions"));
-        LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Technologies", "BSD/MIT/Apache2.0",
+        LICENSE_ARRAY.add(new LicenseItem("Glide", "Bump Tech", "BSD/MIT/Apache2.0",
                                           "https://github.com/qyxxjd/WagesRecords/blob/master/images/Glide.png?raw=true",
                                           "https://github.com/bumptech/glide"));
-        LICENSE_ARRAY.add(new LicenseItem("NavigationTabBar", "Devlight", LICENSE_TYPE_APACHE,
-                                          "https://avatars2.githubusercontent.com/u/18118313?v=3&s=200",
-                                          "https://github.com/DevLight-Mobile-Agency/NavigationTabBar"));
         LICENSE_ARRAY.add(new LicenseItem("CircleImageView", "Henning Dodenhof", LICENSE_TYPE_APACHE,
                                           "https://avatars3.githubusercontent.com/u/1824223?v=3&s=466",
                                           "https://github.com/hdodenhof/CircleImageView"));

@@ -9,12 +9,11 @@ import java.util.List;
  * @author 续写经典
  * @date 2013/12/5
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class Consts {
     private Consts() {}
 
     public static final String DIR_NAME           = "WagesRecords";
-    public static final String APK_NAME           = "last.apk";
-    public static final String AUTHORITIES_SUFFIX = ".provider";
 
     public static final int          MIN_YEAR = 2010;
     public static final int          MAX_YEAR = DateUtil.getYear() + 1;

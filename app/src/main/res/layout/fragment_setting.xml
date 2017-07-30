@@ -72,12 +72,6 @@
             <View style="@style/Main.Line" />
 
             <TextView style="@style/Setting.ItemMenu"
-                android:id="@+id/setting_feedback"
-                android:text="@string/setting.feedback"/>
-
-            <View style="@style/Main.Line" />
-
-            <TextView style="@style/Setting.ItemMenu"
                 android:id="@+id/setting_author"
                 android:text="@string/setting.author"/>
 
