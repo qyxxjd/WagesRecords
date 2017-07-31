@@ -31,22 +31,6 @@ public final class DateUtil {
         return getTimeByType(Calendar.MONTH);
     }
 
-//    public static int getDay() {
-//        return getTimeByType(Calendar.DAY_OF_MONTH);
-//    }
-//
-//    public static int getHours() {
-//        return getTimeByType(Calendar.HOUR_OF_DAY);
-//    }
-//
-//    public static int getMinutes() {
-//        return getTimeByType(Calendar.MINUTE);
-//    }
-//
-//    public static int getSeconds() {
-//        return getTimeByType(Calendar.SECOND);
-//    }
-
     private static int getTimeByType(int type) {
         return Calendar.getInstance().get(type);
     }

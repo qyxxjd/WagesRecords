@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.classic.android.rx.RxUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.BasicInfo;
@@ -19,12 +20,12 @@ import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.pop.TemplatePopupWindow;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import io.reactivex.functions.Consumer;
 
 /**
  * 应用名称: WagesRecords
@@ -113,19 +115,29 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     }
 
     private void loadTemplate() {
-        // TODO
-        // 1. 查询已添加的物品列表
-        // 2. 按添加次数倒叙排列
-        // 3. togglePopWindow()
+        mQuantityInfoDao.queryTemplate()
+                .compose(RxUtil.<List<QuantityInfo>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                .subscribe(new Consumer<List<QuantityInfo>>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull List<QuantityInfo> quantityInfos) throws Exception {
+                        mTemplateList = quantityInfos;
+                        togglePopWindow();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception {
+                        LogUtil.e(throwable.getMessage());
+                    }
+                });
 
         // Test code
-        mTemplateList = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            QuantityInfo info = new QuantityInfo(System.currentTimeMillis(),
-                    "有什么好用的Android Studio的插件值得推荐？" + (i+1), 1, 2);
-            mTemplateList.add(info);
-        }
-        togglePopWindow();
+//        mTemplateList = new ArrayList<>();
+//        for (int i = 0; i < 21; i++) {
+//            QuantityInfo info = new QuantityInfo(System.currentTimeMillis(),
+//                    "有什么好用的Android Studio的插件值得推荐？" + (i+1), 1, 2);
+//            mTemplateList.add(info);
+//        }
+//        togglePopWindow();
     }
 
     private TemplatePopupWindow mTemplatePopupWindow;

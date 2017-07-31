@@ -170,6 +170,12 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
                         });
     }
 
+    public Observable<List<QuantityInfo>> queryTemplate() {
+        final String sql = "SELECT * FROM " + QuantityInfoTable.TABLE_NAME + " GROUP BY " +
+                QuantityInfoTable.COLUMN_TITLE;
+        return queryListBySql(sql);
+    }
+
     private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(QuantityInfoTable.TABLE_NAME);
         if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
