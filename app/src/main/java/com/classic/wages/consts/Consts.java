@@ -13,13 +13,17 @@ import java.util.List;
 public class Consts {
     private Consts() {}
 
-    public static final String DIR_NAME           = "WagesRecords";
+    public static final String DIR_NAME = "WagesRecords";
+
+    public static final String ALL = "全部";
 
     public static final int          MIN_YEAR = 2010;
     public static final int          MAX_YEAR = DateUtil.getYear() + 1;
     public static final List<String> YEARS    = new ArrayList<>();
     public static final List<String> MONTHS   = new ArrayList<>();
     static {
+        YEARS.add(ALL);
+        MONTHS.add(ALL);
         for (int i = MIN_YEAR; i <= MAX_YEAR; i++) {
             YEARS.add(String.valueOf(i));
         }

@@ -111,13 +111,12 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
 
     @Override public void initView(View parentView, Bundle savedInstanceState) {
         super.initView(parentView, savedInstanceState);
-//        mFabOffset = Util.dp2px(mAppContext, 144);
         mYearsSpinner.setItems(Consts.YEARS);
         mMonthsSpinner.setItems(Consts.MONTHS);
         mYearsSpinner.setOnItemSelectedListener(mYearSelectedListener);
         mMonthsSpinner.setOnItemSelectedListener(mMonthSelectedListener);
-        mYearsSpinner.setSelectedIndex(DateUtil.getYear() - Consts.MIN_YEAR);
-        mMonthsSpinner.setSelectedIndex(DateUtil.getMonth());
+        mYearsSpinner.setSelectedIndex(DateUtil.getYear() - Consts.MIN_YEAR + 1);
+        mMonthsSpinner.setSelectedIndex(DateUtil.getMonth() + 1);
         mFilterYear = mYearsSpinner.getText().toString();
         mFilterMonth = mMonthsSpinner.getText().toString();
 
@@ -251,18 +250,16 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
             = new MaterialSpinner.OnItemSelectedListener<String>() {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-            mFilterYear = item;
+            mFilterYear = checkDate(item);
             queryData(mQueryType, mRulesType);
-            //mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
     private final MaterialSpinner.OnItemSelectedListener<String> mMonthSelectedListener
             = new MaterialSpinner.OnItemSelectedListener<String>() {
         @Override
         public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-            mFilterMonth = item;
+            mFilterMonth = checkDate(item);
             queryData(mQueryType, mRulesType);
-            //mListLogic.onDataQuery(mFilterYear, mFilterMonth);
         }
     };
 
@@ -328,5 +325,9 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
     @OnClick(R.id.add_end_time) void onEndTimeClick(){
         isChooseStartTime = false;
         showDatePicker(null==mCurrentEndTime ? new Date() : new Date(mCurrentEndTime));
+    }
+
+    private String checkDate(String date) {
+        return date.equals(Consts.ALL) ? null : date;
     }
 }

@@ -98,7 +98,7 @@
     <string name="share.title">应用分享</string>
     <string name="share.subject">@string/app_name</string>
     <!-- TODO 修改 URL -->
-    <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：https://www.pgyer.com/recordswages</string>
+    <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：http://a.app.qq.com/o/simple.jsp?pkgname=cn.qy.util.activity</string>
 
     <string name="select.backup.file.hint">选择备份文件</string>
     <string name="not.found.file.manager.hint">没有找到文件管理器</string>

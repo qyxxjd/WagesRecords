@@ -72,8 +72,6 @@ dependencies {
     annotationProcessor rootProject.ext.dagger2Compiler
     annotationProcessor rootProject.ext.glideCompiler
 
-//    compile rootProject.ext.umeng
-//    compile rootProject.ext.pgyer
     compile rootProject.ext.bugly
 
 }

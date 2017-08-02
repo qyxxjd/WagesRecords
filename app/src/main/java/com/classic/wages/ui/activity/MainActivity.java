@@ -54,8 +54,6 @@ public class MainActivity extends AppBaseActivity {
         mDoubleClickExitHelper = new DoubleClickExitHelper(mActivity);
         checkStoragePermissions();
         initTabBar(savedInstanceState);
-//        PgyUtil.register(mAppContext);
-//        PgyUtil.checkUpdate(mActivity, false);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_STORAGE) private void checkStoragePermissions() {
@@ -143,11 +141,6 @@ public class MainActivity extends AppBaseActivity {
             mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
         }
     }
-
-//    @Override protected void onStop() {
-//        super.onStop();
-//        PgyUtil.destroy();
-//    }
 
     @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mDoubleClickExitHelper.onKeyDown(keyCode, event);
