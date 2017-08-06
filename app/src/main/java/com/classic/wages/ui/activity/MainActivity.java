@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 import com.classic.android.BasicProject;
 import com.classic.android.permissions.AfterPermissionGranted;
@@ -43,6 +45,7 @@ public class MainActivity extends AppBaseActivity {
     private ListFragment          mListFragment;
     private SettingFragment       mSettingFragment;
     private DoubleClickExitHelper mDoubleClickExitHelper;
+    private volatile boolean      isBottomNavigationViewHide;
 
     @Override public int getLayoutResId() {
         return R.layout.activity_main;
@@ -157,5 +160,21 @@ public class MainActivity extends AppBaseActivity {
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onHide() {
+        if (!isBottomNavigationViewHide) {
+            isBottomNavigationViewHide = true;
+            mBottomNavigationView.animate()
+                                 .translationY(mBottomNavigationView.getHeight())
+                                 .setInterpolator(new AccelerateInterpolator(2));
+        }
+    }
+
+    public void onShow() {
+        if (isBottomNavigationViewHide) {
+            isBottomNavigationViewHide = false;
+            mBottomNavigationView.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+        }
     }
 }

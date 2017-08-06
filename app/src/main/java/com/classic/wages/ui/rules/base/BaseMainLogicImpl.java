@@ -3,13 +3,25 @@ package com.classic.wages.ui.rules.base;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
+import com.classic.android.rx.RxUtil;
+import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.ui.rules.IMainLogic;
+import com.classic.wages.utils.DataUtil;
+import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.LogUtil;
+import com.classic.wages.utils.MoneyUtil;
+import com.classic.wages.utils.Util;
 
 import java.lang.ref.WeakReference;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 /**
  * 应用名称: WagesRecords
@@ -20,6 +32,9 @@ import io.reactivex.Observable;
  * 创建时间：16/10/23 下午1:33
  */
 public abstract class BaseMainLogicImpl<T> implements IMainLogic {
+
+    private long    mMonthStartTime;
+    private long    mMonthEndTime;
     private IDao<T> mDao;
 
     protected abstract float getTotalWages(List<T> list);
@@ -29,7 +44,9 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
     }
 
     @Override public void calculationCurrentMonthWages(TextView tv) {
-        calculation(mDao.queryCurrentMonth(), tv);
+
+        calculationMonthTime();
+        calculation(mDao.query(mMonthStartTime, mMonthEndTime), tv);
     }
 
     @Override public void calculationCurrentYearWages(TextView tv) {
@@ -42,21 +59,43 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
 
     private void calculation(Observable<List<T>> observable, TextView tv){
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
-        // TODO: 2017/7/11
-        // observable.flatMap(new Func1<List<T>, Observable<Float>>() {
-        //                 @Override public Observable<Float> call(List<T> list) {
-        //                     return Observable.just(DataUtil.isEmpty(list) ?
-        //                                            0f : getTotalWages(list));
-        //                 }
-        //             })
-        //           .compose(RxUtil.<Float>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-        //           .subscribe(new Action1<Float>() {
-        //               @Override public void call(Float wages) {
-        //                   if(weakReference.get() != null){
-        //                       weakReference.get().setText(MoneyUtil.replace(wages, Consts.DEFAULT_SCALE));
-        //                   }
-        //               }
-        //           }, RxUtil.ERROR_ACTION);
+
+        observable.flatMap(new Function<List<T>, ObservableSource<Float>>() {
+            @Override public ObservableSource<Float> apply(@io.reactivex.annotations.NonNull List<T> list)
+                    throws Exception {
+                return Observable.just(DataUtil.isEmpty(list) ? 0f : getTotalWages(list));
+            }
+        }).compose(RxUtil.<Float>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Float>() {
+            Disposable mDisposable;
+            @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override public void onNext(@io.reactivex.annotations.NonNull Float wages) {
+                if (weakReference.get() != null) {
+                    weakReference.get().setText(MoneyUtil.replace(wages, Consts.DEFAULT_SCALE));
+                }
+            }
+
+            @Override public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                Util.clear(mDisposable);
+                LogUtil.e(e.getMessage());
+            }
+
+            @Override public void onComplete() {
+                Util.clear(mDisposable);
+            }
+        });
+    }
+
+    /**
+     * 计算月工资计算周期的开始、结束时间
+     */
+    private void calculationMonthTime() {
+        Calendar calendar = DateUtil.getTimeInMillis(DateUtil.getYear(), DateUtil.getMonth());
+        mMonthStartTime = calendar.getTimeInMillis();
+        calendar.add(Calendar.MONTH, 1);
+        mMonthEndTime = calendar.getTimeInMillis();
     }
 
 }

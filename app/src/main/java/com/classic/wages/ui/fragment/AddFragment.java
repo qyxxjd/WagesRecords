@@ -175,14 +175,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
     }
 
     private void showDatePicker(Date date) {
-        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
-        // mTimePickerView.setCyclic(false);
-        // mTimePickerView.setCancelable(false);
-        // mTimePickerView.setOnTimeSelectListener(this);
-        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        // mTimePickerView.setTime(date);
-
-        mTimePickerView = createTimePickerView(mActivity, this, date.getTime());
+        mTimePickerView = createPickerView(mActivity, this, date.getTime());
         mTimePickerView.show();
     }
 

@@ -20,7 +20,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import io.reactivex.functions.Function;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.db.dao
  *
- * 文件描述：TODO
+ * 文件描述：计件工资数据查询实现类
  * 创 建 人：续写经典
  * 创建时间：16/10/27 下午7:20
  */
@@ -265,93 +264,41 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
         return list;
     }
 
-    @Override public void backup(final File file, final Listener listener) {
+    @Override public boolean backup(final File file) throws Exception {
         if(null == file || !file.exists()) {
-            if (null != listener) {
-                listener.onError(new NullPointerException("not found backup file"));
-            }
-            return;
+            throw new NullPointerException("not found backup file");
         }
         @SuppressWarnings("StringBufferReplaceableByString")
         Cursor cursor = mDatabase.query(new StringBuilder("SELECT * FROM ")
                 .append(QuantityInfoTable.TABLE_NAME)
                 .toString());
         if (null == cursor) {
-            if (null != listener) {
-                listener.onComplete();
-            }
-            return;
+            return false;
         }
         final List<QuantityInfo> backupData = convert(cursor);
-        if(DataUtil.isEmpty(backupData)) return;
+        if(DataUtil.isEmpty(backupData)) return false;
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file, true);
-            long count = 1;
             for (QuantityInfo item : backupData) {
                 fileWriter.write(QuantityInfoDao.this.toString(item));
-                if (null != listener) {
-                    listener.onProgress(count, backupData.size());
-                }
-                count++;
-            }
-            if (null != listener) {
-                listener.onComplete();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            if (null != listener) {
-                listener.onError(e);
             }
         } finally {
             CloseUtil.close(fileWriter);
             CloseUtil.close(cursor);
         }
-        //queryAll().compose(RxUtil.<List<QuantityInfo>>applySchedulers(RxUtil.IO_TRANSFORMER))
-        //          .subscribe(new Action1<List<QuantityInfo>>() {
-        //              @Override public void call(List<QuantityInfo> list) {
-        //                  FileWriter fileWriter = null;
-        //                  try {
-        //                      fileWriter = new FileWriter(file, true);
-        //                      long count = 1;
-        //                      for (QuantityInfo item : list) {
-        //                          fileWriter.write(QuantityInfoDao.this.toString(item));
-        //                          if (null != listener) {
-        //                              listener.onProgress(count, list.size());
-        //                          }
-        //                          count++;
-        //                      }
-        //                      if (null != listener) {
-        //                          listener.onComplete();
-        //                      }
-        //                  } catch (IOException e) {
-        //                      e.printStackTrace();
-        //                      if (null != listener) {
-        //                          listener.onError(e);
-        //                      }
-        //                  } finally {
-        //                      CloseUtil.close(fileWriter);
-        //                  }
-        //              }
-        //          }, new Action1<Throwable>() {
-        //              @Override public void call(Throwable throwable) {
-        //                  if (null != listener) {
-        //                      listener.onError(throwable);
-        //                  }
-        //              }
-        //          });
+        LogUtil.d("计件工资，备份条数：" + backupData.size());
+        return true;
     }
 
-    @Override public void restore(final File file, final Listener listener) {
+    @Override public boolean restore(final File file) throws Exception {
         if(null == file || !file.exists()) {
-            if (null != listener) {
-                listener.onError(new NullPointerException("not found backup file"));
-            }
-            return;
+            throw new NullPointerException("not found backup file");
         }
         BriteDatabase.Transaction transaction = mDatabase.newTransaction();
         InputStreamReader inputStreamReader = null;
         BufferedReader bufferedReader = null;
+        int count = 0;
         try {
             inputStreamReader = new InputStreamReader(new FileInputStream(file),
                     Consts.CHARTSET);
@@ -367,91 +314,21 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
                         info.setId(temp.getId());
                         update(info);
                     }
+                    ++count;
                 }
             }
-            if (null != listener) {
-                listener.onComplete();
-            }
             transaction.markSuccessful();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (null != listener) {
-                listener.onError(new Throwable(e));
-            }
         } finally {
             transaction.end();
             CloseUtil.close(bufferedReader);
             CloseUtil.close(inputStreamReader);
         }
-        //Observable.create(new Observable.OnSubscribe<List<QuantityInfo>>() {
-        //              @Override public void call(Subscriber<? super List<QuantityInfo>> subscriber) {
-        //                  List<QuantityInfo> infos = new ArrayList<>();
-        //                  InputStreamReader inputreader = null;
-        //                  BufferedReader buffreader = null;
-        //                  try {
-        //                      inputreader = new InputStreamReader(new FileInputStream(file),
-        //                              Consts.CHARTSET);
-        //                      buffreader = new BufferedReader(inputreader);
-        //                      String line;
-        //                      while ((line = buffreader.readLine()) != null) {
-        //                          QuantityInfo info = toQuantityInfo(line);
-        //                          if(null != info) {
-        //                              infos.add(info);
-        //                          }
-        //                      }
-        //                  } catch (IOException e) {
-        //                      e.printStackTrace();
-        //                      if (null != listener) {
-        //                          listener.onError(new Throwable(e));
-        //                      }
-        //                  } finally {
-        //                      CloseUtil.close(buffreader);
-        //                      CloseUtil.close(inputreader);
-        //                  }
-        //                  subscriber.onNext(infos);
-        //              }
-        //          })
-        //          .compose(RxUtil.<List<QuantityInfo>>applySchedulers(RxUtil.IO_TRANSFORMER))
-        //          .subscribe(new Action1<List<QuantityInfo>>() {
-        //              @Override public void call(List<QuantityInfo> list) {
-        //                  if (!DataUtil.isEmpty(list)) {
-        //                      final int size = list.size();
-        //                      for (int i = 0; i < size; i++) {
-        //                          if(null != listener) {
-        //                              listener.onProgress(i+1, size);
-        //                          }
-        //                          QuantityInfo info = list.get(i);
-        //                          QuantityInfo temp = query(info.getCreateTime());
-        //                          if(null == temp) {
-        //                              insert(info);
-        //                          } else if (temp.getLastUpdateTime() < info
-        //                                  .getLastUpdateTime()) {
-        //                              info.setId(temp.getId());
-        //                              update(info);
-        //                          }
-        //                      }
-        //                  }
-        //                  if (null != listener) {
-        //                      listener.onComplete();
-        //                  }
-        //              }
-        //          }, new Action1<Throwable>() {
-        //              @Override public void call(Throwable throwable) {
-        //                  if (null != listener) {
-        //                      listener.onError(throwable);
-        //                  }
-        //              }
-        //          });
+        LogUtil.d("计件工资，恢复条数：" + count);
+        return true;
     }
 
     private static final int CORRECT_LENGTH = 15;
 
-    /*
-    long id, long createTime, int week, float multiple,
-                        float subsidy, float bonus, float deductions, String formatTime,
-                        String remark, long lastUpdateTime, long workTime, String title,
-                        float quantity, float unitPrice
-     */
     private QuantityInfo toQuantityInfo(String content) {
         if (TextUtils.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
             return null;

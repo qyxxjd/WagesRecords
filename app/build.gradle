@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -20,17 +18,36 @@ android {
 
         resConfigs "zh"
 
-        manifestPlaceholders = [PGYER_APPID   : properties.getProperty("PGYER_APPID"),
-                                UMENG_APPKEY  : properties.getProperty("UMENG_APPKEY"),
-                                UMENG_CHANNEL : "pgyer",
+        manifestPlaceholders = [BUGLY_CHANNEL : "bugly",
                                 APPLICATION_ID: rootProject.ext.android.applicationId
         ]
     }
 
     buildTypes {
+        debug {
+            // applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+
         release {
-            minifyEnabled false
+            // 混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            def today = new Date()
+            applicationVariants.all { variant ->
+                if (variant.buildType.getName().equals("release")) {
+                    println "Change output apk name"
+                    variant.outputs.each { output ->
+                        def fileName = "WagesRecords_${defaultConfig.versionName}_" + today.format('yyyyMMdd') + ".apk"
+                        output.outputFile = new File(output.outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 

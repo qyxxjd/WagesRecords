@@ -8,7 +8,7 @@ import java.util.List;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.monthly
  *
- * 文件描述：TODO
+ * 文件描述：月工资计算工具类
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午12:39
  */

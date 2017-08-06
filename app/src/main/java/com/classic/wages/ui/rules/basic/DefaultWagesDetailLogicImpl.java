@@ -13,7 +13,7 @@ import java.util.List;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.basic
  *
- * 文件描述：TODO
+ * 文件描述：默认工资详情实现类
  * 创 建 人：续写经典
  * 创建时间：16/11/4 下午6:19
  */

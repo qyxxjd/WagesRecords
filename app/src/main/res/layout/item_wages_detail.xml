@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/layout_height_small"
-    android:padding="@dimen/margin_normal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height_small"
+                android:padding="@dimen/margin_normal">
 
-    <TextView style="@style/WagesDetailItem"
-        android:id="@+id/item_wages_detail_label"
-        android:layout_gravity="center_vertical"
-        tools:text="工作时长"/>
-
-    <TextView style="@style/WagesDetailItem"
+    <TextView
         android:id="@+id/item_wages_detail_value"
-        android:layout_gravity="end|center_vertical"
+        style="@style/WagesDetailItem"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         tools:text="118.89H"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/item_wages_detail_label"
+        style="@style/WagesDetailItem"
+        android:layout_width="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_toLeftOf="@id/item_wages_detail_value"
+        android:maxLines="1"
+        tools:text="工作时长"
+        tools:ignore="RtlHardcoded"/>
+
+</RelativeLayout>

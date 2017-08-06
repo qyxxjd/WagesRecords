@@ -19,10 +19,11 @@ import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.rules.IListLogic;
 import com.classic.wages.ui.widget.CircularDrawable;
 import com.classic.wages.utils.DataUtil;
-import com.classic.wages.utils.LogUtil;
+import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.Util;
 
+import java.util.Calendar;
 import java.util.List;
 
 import cn.qy.util.activity.R;
@@ -47,6 +48,8 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     private       IDao<T> mDao;
     private       int     mRules;
     private       Adapter mAdapter;
+    private       long    mMonthStartTime;
+    private       long    mMonthEndTime;
 
     protected abstract int getItemLayout();
 
@@ -74,6 +77,13 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(String year, String month) {
+        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
+            // 年份、月份都不为空，按照自定义工资计算周期进行查询
+            calculationMonthTime(Integer.valueOf(year), Integer.valueOf(month));
+            onDataQuery(mMonthStartTime, mMonthEndTime);
+            return;
+        }
+        // 普通查询
         Observable<List<T>> observable = mDao.query(year, formatMonth(month));
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
@@ -82,7 +92,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(long startTime, long endTime) {
-        LogUtil.d("onDataQuery:" + startTime + "," + endTime);
+        // LogUtil.d("onDataQuery:" + startTime + "," + endTime);
         Observable<List<T>> observable = mDao.query(startTime, endTime);
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
@@ -148,5 +158,19 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
             return null;
         }
         return month.length() == 1 ? ("0" + month) : month;
+    }
+
+    /**
+     * 计算月工资计算周期的开始、结束时间
+     */
+    private void calculationMonthTime(int year, int month) {
+        // Calendar 对应的月份从0开始，需要减一
+        Calendar calendar = DateUtil.getTimeInMillis(year, month - 1);
+        mMonthStartTime = calendar.getTimeInMillis();
+        // LogUtil.d("计算出来的工资计算周期 <-- " + DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, mMonthStartTime));
+        calendar.add(Calendar.MONTH, 1);
+        mMonthEndTime = calendar.getTimeInMillis();
+        // LogUtil.d("计算出来的工资计算周期 --> " + DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, mMonthEndTime));
+
     }
 }

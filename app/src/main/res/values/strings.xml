@@ -33,6 +33,10 @@
     <string name="network.error">网络异常,请检查网络连接</string>
 
     <string name="setting.rules">计算规则</string>
+    <string name="setting.cycle">计算周期</string>
+    <string name="setting.cycle.title">工资计算周期选择</string>
+    <string name="setting.cycle.format">%s日</string>
+    <string name="setting.cycle.desc">从每月的某日到次月的前一天</string>
     <string name="setting.rules.detail">规则说明</string>
 
     <string name="setting.update">检查更新</string>
@@ -97,7 +101,6 @@
     <string name="author.wx">微信:630404403</string>
     <string name="share.title">应用分享</string>
     <string name="share.subject">@string/app_name</string>
-    <!-- TODO 修改 URL -->
     <string name="share.content">本软件提供工作时间、工资便捷计算、查询、存储,使用完全免费。下载地址：http://a.app.qq.com/o/simple.jsp?pkgname=cn.qy.util.activity</string>
 
     <string name="select.backup.file.hint">选择备份文件</string>

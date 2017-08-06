@@ -8,14 +8,19 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.PopupWindow;
-import cn.qy.util.activity.R;
+
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonAdapter;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.LineGridView;
+import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.MoneyUtil;
+
 import java.util.List;
+
+import cn.qy.util.activity.R;
 
 /**
  * @author 续写经典
@@ -24,10 +29,17 @@ import java.util.List;
 public class WagesDetailPopupWindow extends PopupWindow {
 
     public WagesDetailPopupWindow(@NonNull final Activity activity, @NonNull List<String> items) {
+        this(activity, items, null);
+    }
+
+
+    public WagesDetailPopupWindow(@NonNull final Activity activity, @NonNull List<String> items, List<String> groups) {
         final LayoutInflater inflater = (LayoutInflater) activity.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         final View view = inflater.inflate(R.layout.pop_wages_detail, null);
-        final LineGridView gridView = (LineGridView) view.findViewById(R.id.pop_wages_detail_gv);
+        final LineGridView detailGrid = (LineGridView) view.findViewById(R.id.pop_wages_detail_gv);
+        final ListView groupGrid = (ListView) view.findViewById(R.id.pop_wages_group_lv);
+        final View divider = view.findViewById(R.id.pop_wages_divider);
         this.setContentView(view);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -35,7 +47,17 @@ public class WagesDetailPopupWindow extends PopupWindow {
         this.setOutsideTouchable(true);
         this.update();
         this.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
-        gridView.setAdapter(new Adapter(activity, items));
+        detailGrid.setAdapter(new Adapter(activity, items));
+        final boolean visibility = !DataUtil.isEmpty(groups);
+        setVisibility(groupGrid, visibility);
+        setVisibility(divider, visibility);
+        if (visibility) {
+            groupGrid.setAdapter(new Adapter(activity, groups));
+        }
+    }
+
+    private void setVisibility(View view, boolean visibility) {
+        view.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     public void show(View parent) {
@@ -54,9 +76,14 @@ public class WagesDetailPopupWindow extends PopupWindow {
 
         @Override public void onUpdate(BaseAdapterHelper helper, String item, int position) {
             final String[] items = item.split(Consts.WAGES_DETAIL_SEPARATOR);
+            String value;
+            try {
+                value = MoneyUtil.replace(items[1], Consts.DEFAULT_SCALE);
+            } catch (NumberFormatException e) {
+                value = items[1];
+            }
             helper.setText(R.id.item_wages_detail_label, items[0])
-                  .setText(R.id.item_wages_detail_value, MoneyUtil.replace(items[1],
-                          Consts.DEFAULT_SCALE));
+                  .setText(R.id.item_wages_detail_value, value);
         }
     }
 }

@@ -9,6 +9,7 @@ import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.ui.rules.base.BaseListLogicImpl;
 import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.Util;
 
 import cn.qy.util.activity.R;
@@ -37,7 +38,7 @@ public class QuantityListLogicImpl extends BaseListLogicImpl<QuantityInfo> {
               .setText(R.id.quantity_item_date,
                        DateUtil.formatDate(DateUtil.FORMAT_DATE, item.getWorkTime()))
               .setTextColorRes(R.id.quantity_item_date, color)
-              .setText(R.id.quantity_item_quantity, String.valueOf(item.getQuantity()))
+              .setText(R.id.quantity_item_quantity, MoneyUtil.replace(item.getQuantity()))
               .setTextColorRes(R.id.quantity_item_quantity, color)
               .setText(R.id.quantity_item_title, item.getTitle())
               .setTextColorRes(R.id.quantity_item_title, color)

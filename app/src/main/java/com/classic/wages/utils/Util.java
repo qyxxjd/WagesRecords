@@ -3,10 +3,10 @@ package com.classic.wages.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -18,10 +18,14 @@ import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.WeakHashMap;
 
 import cn.qy.util.activity.R;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -149,27 +153,11 @@ import io.reactivex.functions.Consumer;
         return DRAWABLE_MAP.get(color);
     }
 
-    public static Drawable getDrawable(@NonNull Context ctx, @DrawableRes int resId) {
-        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        //    return ctx.getResources().getDrawable(resId);
-        //}
-        //return ctx.getDrawable(resId);
-        return ctx.getResources().getDrawable(resId);
-    }
-
     public static int getColor(@NonNull Context ctx, @ColorRes int colorId) {
-        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        //    return ctx.getResources().getColor(colorId);
-        //}
-        //return ctx.getColor(colorId);
         return ctx.getResources().getColor(colorId);
     }
 
     public static String getString(@NonNull Context ctx, @StringRes int resId, Object... params) {
-        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-        //    return ctx.getResources().getString(resId, params);
-        //}
-        //return ctx.getString(resId, params);
         return ctx.getResources().getString(resId, params);
     }
 
@@ -251,6 +239,16 @@ import io.reactivex.functions.Consumer;
         }
     }
 
+    public static void shareText(@NonNull Context context, @NonNull String title, @NonNull String subject,
+                                 @NonNull String content) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intent, title));
+    }
+
     /**
      * 打开目录
      *
@@ -271,5 +269,42 @@ import io.reactivex.functions.Consumer;
         }
     }
 
+    /**
+     * 清理Disposable，释放资源
+     *
+     * @param disposables
+     */
+    public static void clear(Disposable... disposables) {
+        if (null == disposables) {
+            return;
+        }
+        for (Disposable disposable : disposables) {
+            if (null != disposable) {
+                disposable.dispose();
+            }
+        }
+    }
 
+    public static String getVersionName(@NonNull Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
+            if (null != info) {
+                return info.versionName;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String createBackupFileName() {
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        //noinspection StringBufferReplaceableByString
+        return new StringBuilder(Consts.BACKUP_PREFIX)
+                .append("_")
+                .append(sdf.format(new Date(System.currentTimeMillis())))
+                .append(Consts.BACKUP_SUFFIX)
+                .toString();
+    }
 }

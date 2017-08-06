@@ -1,19 +1,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="none">
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
-    <LinearLayout style="@style/Setting.Layout"
+    <LinearLayout
+        style="@style/Setting.Layout"
         android:padding="@dimen/margin_large">
 
-        <LinearLayout style="@style/Setting.Layout"
-            android:background="@drawable/white_radius_bg" >
+        <LinearLayout
+            style="@style/Setting.Layout"
+            android:background="@drawable/white_radius_bg">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView style="@style/Setting.ItemMenu"
+                <TextView
+                    style="@style/Setting.ItemMenu"
                     android:layout_gravity="center_vertical"
                     android:text="@string/setting.rules"/>
 
@@ -28,57 +32,88 @@
 
             </FrameLayout>
 
-            <View style="@style/Main.Line" />
+            <View style="@style/Main.Line"/>
 
-            <TextView style="@style/Setting.ItemMenu"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height_small">
+
+                <TextView
+                    style="@style/Setting.ItemMenu"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/setting.cycle"/>
+
+                <TextView
+                    android:id="@+id/setting_cycle_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/secondary_text"
+                    android:layout_gravity="end"
+                    android:paddingRight="@dimen/icon_small"
+                    tools:ignore="RtlHardcoded,RtlSymmetry"/>
+            </FrameLayout>
+
+            <View style="@style/Main.Line"/>
+
+            <TextView
                 android:id="@+id/setting_rules_detail"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.rules.detail"/>
 
         </LinearLayout>
 
-        <include layout="@layout/setting_rules_content" />
+        <include layout="@layout/setting_rules_content"/>
 
-        <LinearLayout style="@style/Setting.Layout"
+        <LinearLayout
+            style="@style/Setting.Layout"
             android:layout_marginTop="@dimen/margin_large"
-            android:background="@drawable/white_radius_bg" >
+            android:background="@drawable/white_radius_bg">
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_backup"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.backup"/>
 
-            <View style="@style/Main.Line" />
+            <View style="@style/Main.Line"/>
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_restore"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.restore"/>
 
         </LinearLayout>
 
-        <LinearLayout style="@style/Setting.Layout"
-            android:layout_marginTop="@dimen/margin_large"
+        <LinearLayout
+            style="@style/Setting.Layout"
             android:layout_marginBottom="@dimen/bottom_bar_height"
-            android:background="@drawable/white_radius_bg" >
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@drawable/white_radius_bg">
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_update"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.update"/>
 
-            <View style="@style/Main.Line" />
+            <View style="@style/Main.Line"/>
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_share"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.share"/>
 
-            <View style="@style/Main.Line" />
+            <View style="@style/Main.Line"/>
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_author"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.author"/>
 
-            <View style="@style/Main.Line" />
+            <View style="@style/Main.Line"/>
 
-            <TextView style="@style/Setting.ItemMenu"
+            <TextView
                 android:id="@+id/setting_licenses"
+                style="@style/Setting.ItemMenu"
                 android:text="@string/setting.licenses"/>
 
         </LinearLayout>

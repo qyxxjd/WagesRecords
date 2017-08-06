@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white" >
+    android:background="@color/white"
+    android:orientation="vertical">
 
-  <com.classic.wages.ui.widget.LineGridView
-      android:id="@+id/pop_wages_detail_gv"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:numColumns="2"
-      android:listSelector="@color/transparent"
-      android:cacheColorHint="@color/transparent"
-      android:stretchMode="columnWidth"
-      android:scrollbars="none" />
+    <com.classic.wages.ui.widget.LineGridView
+        android:id="@+id/pop_wages_detail_gv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:listSelector="@color/transparent"
+        android:numColumns="2"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"/>
 
-</FrameLayout>
+    <View
+        style="@style/Divider"
+        android:id="@+id/pop_wages_divider"/>
+
+    <ListView
+        style="@style/ListView"
+        android:id="@+id/pop_wages_group_lv"/>
+
+</LinearLayout>

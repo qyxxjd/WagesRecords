@@ -17,7 +17,7 @@ import cn.qy.util.activity.R;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.base
  *
- * 文件描述：TODO
+ * 文件描述：天固定加班 设置页面实现类
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午8:38
  */

@@ -129,15 +129,6 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
                         LogUtil.e(throwable.getMessage());
                     }
                 });
-
-        // Test code
-//        mTemplateList = new ArrayList<>();
-//        for (int i = 0; i < 21; i++) {
-//            QuantityInfo info = new QuantityInfo(System.currentTimeMillis(),
-//                    "有什么好用的Android Studio的插件值得推荐？" + (i+1), 1, 2);
-//            mTemplateList.add(info);
-//        }
-//        togglePopWindow();
     }
 
     private TemplatePopupWindow mTemplatePopupWindow;
@@ -219,15 +210,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     }
 
     private void showDatePicker(Date date) {
-        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.ALL);
-        // mTimePickerView.setCyclic(false);
-        // mTimePickerView.setCancelable(false);
-        // mTimePickerView.setOnTimeSelectListener(this);
-        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        // mTimePickerView.setTime(date);
-        // mTimePickerView.show();
-
-        mTimePickerView = createTimePickerView(mActivity, this, date.getTime());
+        mTimePickerView = createPickerView(mActivity, this, date.getTime());
         mTimePickerView.show();
     }
 

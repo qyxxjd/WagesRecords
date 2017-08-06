@@ -54,6 +54,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
 
+
 import static com.classic.wages.ui.activity.AddActivity.TYPE_ADD;
 
 /**
@@ -129,10 +130,12 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
                     mFabOffset = mFab.getHeight() + mFab.getBottom();
                 }
                 mFab.animate().translationY(mFabOffset).setInterpolator(new AccelerateInterpolator(2));
+                ((MainActivity)mActivity).onHide();
             }
 
             @Override public void onShow() {
                 mFab.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                ((MainActivity)mActivity).onShow();
             }
         });
         //mQueryType = WagesApplication.getPreferencesUtil().getIntValue(Consts.SP_QUERY_TYPE,
@@ -171,6 +174,7 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
                         //        type);
                         mQueryType = type;
                         refreshQueryTypeLayout(mQueryType);
+                        queryData(mQueryType, mRulesType);
                     }
                 });
                 final Toolbar toolbar = ((MainActivity)mActivity).getToolbar();
@@ -270,7 +274,7 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
         } else {
             mCurrentEndTime = date.getTime();
         }
-        //ToastUtil.showToast(mAppContext, DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, date.getTime()));
+        // ToastUtil.showToast(mAppContext, DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, date.getTime()));
         refreshDateLayout();
         queryData(mQueryType, mRulesType);
     }
@@ -302,18 +306,12 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
             mListLogic.onDataQuery(mCurrentStartTime, time);
         } else if (queryType == QueryType.QUERY_TYPE_MONTH) {
             mListLogic.onDataQuery(mFilterYear, mFilterMonth);
+            // ToastUtil.showToast(mAppContext, "month:" + mFilterMonth);
         }
+        ((MainActivity)mActivity).onShow();
     }
 
     private void showDatePicker(Date date) {
-        // mTimePickerView = new TimePickerView(mActivity, TimePickerView.Type.YEAR_MONTH_DAY);
-        // mTimePickerView.setCyclic(false);
-        // mTimePickerView.setCancelable(false);
-        // mTimePickerView.setOnTimeSelectListener(this);
-        // mTimePickerView.setRange(Consts.MIN_YEAR, Consts.MAX_YEAR);
-        // mTimePickerView.setTime(date);
-        // mTimePickerView.show();
-
         mTimePickerView = createPickerView(mActivity, this, date.getTime(), false);
         mTimePickerView.show();
     }

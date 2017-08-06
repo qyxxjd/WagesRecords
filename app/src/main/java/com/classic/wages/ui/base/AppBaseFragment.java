@@ -25,14 +25,14 @@ public abstract class AppBaseFragment extends RxFragment implements ICalculation
 
     @Override public void onRecalculation() { }
 
-    protected TimePickerView createTimePickerView(Activity activity, TimePickerView.OnTimeSelectListener listener,
-                                                  long time) {
+    protected TimePickerView createPickerView(Activity activity, TimePickerView.OnTimeSelectListener listener,
+                                              long time) {
         return createPickerView(activity, listener, time, true);
     }
 
     protected TimePickerView createPickerView(Activity activity, TimePickerView.OnTimeSelectListener listener,
                                               long time, boolean useTime) {
-        boolean[] type = useTime ? new boolean[]{true, true, true, true, true, true} :
+        boolean[] type = useTime ? new boolean[]{true, true, true, true, true, false} :
                 new boolean[]{true, true, true, false, false, false};
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

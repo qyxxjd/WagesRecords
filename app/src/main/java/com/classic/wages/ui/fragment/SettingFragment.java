@@ -3,21 +3,23 @@ package com.classic.wages.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
+import com.classic.android.rx.RxUtil;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.db.dao.WorkInfoDao;
+import com.classic.wages.ui.activity.MainActivity;
 import com.classic.wages.ui.activity.OpenSourceLicensesActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.ui.dialog.AuthorDialog;
@@ -35,15 +37,17 @@ import com.tencent.bugly.beta.Beta;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.qy.util.activity.R;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 应用名称: WagesRecords
@@ -58,6 +62,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
 
     @BindView(R.id.setting_rules_spinner) MaterialSpinner mRulesSpinner;
     @BindView(R.id.setting_rules_content) View            mRulesContentView;
+    @BindView(R.id.setting_cycle_value)   TextView        mCycleValue;
 
     @Inject WorkInfoDao     mWorkInfoDao;
     @Inject MonthlyInfoDao  mMonthlyInfoDao;
@@ -65,7 +70,6 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
 
     private int           mRulesType;
     private AuthorDialog  mAuthorDialog;
-    private ISettingLogic mSettingLogic;
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
@@ -87,6 +91,35 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         mRulesType = Util.getPreferencesInt(Consts.SP_RULES_TYPE, ICalculationRules.RULES_DEFAULT);
         mRulesSpinner.setSelectedIndex(mRulesType);
         refreshUIByRules(mRulesType);
+        resetCycleValue(null);
+    }
+
+    private void resetCycleValue(String value) {
+        if (TextUtils.isEmpty(value)) {
+            value = Util.getPreferencesString(Consts.SP_CYCLE_VALUE, Consts.DEFAULT_CYCLE);
+        } else {
+            Util.putPreferencesString(Consts.SP_CYCLE_VALUE, value);
+            // 通知其它页面刷新数据
+            ((MainActivity)mActivity).notifyRecalculation();
+        }
+        mCycleValue.setText(getString(R.string.setting_cycle_format, value));
+    }
+
+    @OnClick(R.id.setting_cycle_value) public void onCycleClick() {
+        new MaterialDialog.Builder(mActivity)
+                .title(R.string.setting_cycle_title)
+                .titleColorRes(R.color.primary_text)
+                .items(Consts.DAYS)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+                        resetCycleValue(charSequence.toString());
+                    }
+                })
+                .backgroundColorRes(R.color.white)
+                .content(R.string.setting_cycle_desc)
+                .contentColorRes(R.color.secondary_text)
+                .show();
     }
 
     @OnClick(R.id.setting_rules_detail) public void onRulesDetailClick(){
@@ -100,15 +133,16 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .show();
     }
     private String getRulesDetailTitle(){
+        //noinspection StringBufferReplaceableByString
         return new StringBuilder()
                 .append(mAppContext.getResources().getString(R.string.setting_rules_detail))
                 .append("  v")
-                .append(getVersionName(mAppContext))
+                .append(Util.getVersionName(mAppContext))
                 .toString();
     }
 
     @OnClick(R.id.setting_backup) public void onBackup() {
-        final File file = new File(SDCardUtil.getFileDirPath(), createBackupFileName());
+        final File file = new File(SDCardUtil.getFileDirPath(), Util.createBackupFileName());
         if (!file.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
@@ -126,40 +160,37 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .contentColorRes(R.color.secondary_text)
                 .progress(true, 0)
                 .show();
-        // TODO: 2017/7/11
-        // Observable.create(new Observable.OnSubscribe<Boolean>() {
-        //     @Override public void call(final Subscriber<? super Boolean> subscriber) {
-        //         final IBackup.Listener listener = new IBackup.Listener() {
-        //             @Override public void onComplete() { }
-        //
-        //             @Override public void onError(Throwable throwable) {
-        //                 subscriber.onError(throwable);
-        //             }
-        //
-        //             @Override public void onProgress(long currentCount, long totalCount) { }
-        //         };
-        //         mMonthlyInfoDao.backup(file, listener);
-        //         mQuantityInfoDao.backup(file, listener);
-        //         mWorkInfoDao.backup(file, listener);
-        //         SystemClock.sleep(1000);
-        //         subscriber.onNext(true);
-        //     }
-        // }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-        //           .subscribe(new Action1<Boolean>() {
-        //     @Override public void call(Boolean aBoolean) {
-        //         dialog.dismiss();
-        //         ToastUtil.showLongToast(mAppContext,
-        //                 getString(R.string.data_backup_success, file.getAbsolutePath()));
-        //         //打开文件夹
-        //         //Util.showDirectory(mActivity, file.getParentFile().getAbsolutePath(), MIME.FILE,
-        //         //        Util.getString(mAppContext, R.string.setting_backup_directory));
-        //     }
-        // }, new Action1<Throwable>() {
-        //     @Override public void call(Throwable throwable) {
-        //         dialog.dismiss();
-        //         ToastUtil.showToast(mAppContext, R.string.data_backup_failure);
-        //     }
-        // });
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override public void subscribe(@io.reactivex.annotations.NonNull final ObservableEmitter<Boolean> emitter)
+                    throws Exception {
+                boolean isMonthlySuccess = mMonthlyInfoDao.backup(file);
+                boolean isQuantitySuccess = mQuantityInfoDao.backup(file);
+                boolean isWorkInfoSuccess = mWorkInfoDao.backup(file);
+                SystemClock.sleep(1000);
+                emitter.onNext(isMonthlySuccess && isQuantitySuccess && isWorkInfoSuccess);
+                emitter.onComplete();
+            }
+        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Boolean>() {
+            Disposable mDisposable;
+            @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override public void onNext(@io.reactivex.annotations.NonNull Boolean aBoolean) {
+                ToastUtil.showLongToast(mAppContext, getString(R.string.data_backup_success, file.getAbsolutePath()));
+            }
+
+            @Override public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                dialog.dismiss();
+                ToastUtil.showToast(mAppContext, R.string.data_backup_failure);
+                Util.clear(mDisposable);
+            }
+
+            @Override public void onComplete() {
+                dialog.dismiss();
+                Util.clear(mDisposable);
+            }
+        });
     }
 
     private void restore(@NonNull String path) {
@@ -173,36 +204,38 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 .contentColorRes(R.color.secondary_text)
                 .progress(true, 0)
                 .show();
-        // TODO: 2017/7/11  
-        // Observable.create(new Observable.OnSubscribe<Boolean>() {
-        //     @Override public void call(final Subscriber<? super Boolean> subscriber) {
-        //         final IBackup.Listener listener = new IBackup.Listener() {
-        //             @Override public void onComplete() { }
-        //
-        //             @Override public void onError(Throwable throwable) {
-        //                 subscriber.onError(throwable);
-        //             }
-        //
-        //             @Override public void onProgress(long currentCount, long totalCount) { }
-        //         };
-        //         mMonthlyInfoDao.restore(file, listener);
-        //         mQuantityInfoDao.restore(file, listener);
-        //         mWorkInfoDao.restore(file, listener);
-        //         SystemClock.sleep(1000);
-        //         subscriber.onNext(true);
-        //     }
-        // }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
-        //           .subscribe(new Action1<Boolean>() {
-        //               @Override public void call(Boolean aBoolean) {
-        //                   dialog.dismiss();
-        //                   ToastUtil.showToast(mAppContext, R.string.data_restore_success);
-        //               }
-        //           }, new Action1<Throwable>() {
-        //               @Override public void call(Throwable throwable) {
-        //                   dialog.dismiss();
-        //                   ToastUtil.showToast(mAppContext, R.string.data_restore_failure);
-        //               }
-        //           });
+
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override public void subscribe(@io.reactivex.annotations.NonNull ObservableEmitter<Boolean> emitter)
+                    throws Exception {
+                boolean isMonthlySuccess = mMonthlyInfoDao.restore(file);
+                boolean isQuantitySuccess = mQuantityInfoDao.restore(file);
+                boolean isWorkInfoSuccess = mWorkInfoDao.restore(file);
+                SystemClock.sleep(1000);
+                emitter.onNext(isMonthlySuccess && isQuantitySuccess && isWorkInfoSuccess);
+                emitter.onComplete();
+            }
+        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Boolean>() {
+            Disposable mDisposable;
+            @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override public void onNext(@io.reactivex.annotations.NonNull Boolean aBoolean) {
+                ToastUtil.showToast(mAppContext, R.string.data_restore_success);
+            }
+
+            @Override public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                dialog.dismiss();
+                ToastUtil.showToast(mAppContext, R.string.data_restore_failure);
+                Util.clear(mDisposable);
+            }
+
+            @Override public void onComplete() {
+                dialog.dismiss();
+                Util.clear(mDisposable);
+            }
+        });
     }
 
     @OnClick(R.id.setting_restore) public void onRestore() {
@@ -228,9 +261,10 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @OnClick(R.id.setting_update) public void onUpdateClick(){
         Beta.checkUpgrade(true,false);
     }
-    @OnClick(R.id.setting_share) public void onShareClick(){
-        shareText(mActivity, getString(R.string.share_title),
-                getString(R.string.share_subject), getString(R.string.share_content));
+
+    @OnClick(R.id.setting_share) public void onShareClick() {
+        Util.shareText(mActivity, getString(R.string.share_title), getString(R.string.share_subject),
+                       getString(R.string.share_content));
     }
 
     @OnClick(R.id.setting_author) public void onAuthorClick(){
@@ -251,24 +285,28 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     }
 
     private void refreshUIByRules(int rules){
+        ISettingLogic settingLogic;
         switch (rules) {
             case ICalculationRules.RULES_FIXED_DAY:
-                mSettingLogic = new FixedDaySettingLogicImpl(mActivity, mRulesContentView);
+                settingLogic = new FixedDaySettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_FIXED_MONTH:
-                mSettingLogic = new FixedMonthSettingLogicImpl(mActivity, mRulesContentView);
+                settingLogic = new FixedMonthSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_PIZZAHUT:
-                mSettingLogic = new PizzaHutSettingLogicImpl(mActivity, mRulesContentView);
+                settingLogic = new PizzaHutSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             case ICalculationRules.RULES_DEFAULT:
-                mSettingLogic = new DefaultSettingLogicImpl(mActivity, mRulesContentView);
+                settingLogic = new DefaultSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             default:
                 mRulesContentView.setVisibility(View.GONE);
                 return;
         }
-        mSettingLogic.setupRulesContent();
+        //noinspection ConstantConditions
+        if (null != settingLogic) {
+            settingLogic.setupRulesContent();
+        }
     }
 
     @Override public void onPause() {
@@ -276,38 +314,5 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
         if(null != mAuthorDialog && mAuthorDialog.isShowing()){
             mAuthorDialog.dismiss();
         }
-    }
-
-    private void shareText(@NonNull Context context, @NonNull String title, @NonNull String subject,
-                           @NonNull String content) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, content);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, title));
-    }
-
-    private String getVersionName(@NonNull Context context) {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo info = packageManager.getPackageInfo(context.getPackageName(), 0);
-            if (null != info) {
-                return info.versionName;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private String createBackupFileName() {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
-        //noinspection StringBufferReplaceableByString
-        return new StringBuilder(Consts.BACKUP_PREFIX)
-                .append("_")
-                .append(sdf.format(new Date(System.currentTimeMillis())))
-                .append(Consts.BACKUP_SUFFIX)
-                .toString();
     }
 }
