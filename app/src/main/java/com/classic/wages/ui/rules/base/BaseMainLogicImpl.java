@@ -33,9 +33,9 @@ import io.reactivex.functions.Function;
  */
 public abstract class BaseMainLogicImpl<T> implements IMainLogic {
 
-    private long    mMonthStartTime;
-    private long    mMonthEndTime;
-    private IDao<T> mDao;
+    protected long    mMonthStartTime;
+    protected long    mMonthEndTime;
+    protected IDao<T> mDao;
 
     protected abstract float getTotalWages(List<T> list);
 
@@ -57,7 +57,7 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
         calculation(mDao.queryAll(), tv);
     }
 
-    private void calculation(Observable<List<T>> observable, TextView tv){
+    protected void calculation(Observable<List<T>> observable, TextView tv){
         if (null == observable) {
             return;
         }

@@ -1,9 +1,12 @@
 package com.classic.wages.ui.rules.monthly;
 
 import android.support.annotation.NonNull;
+import android.widget.TextView;
+
 import com.classic.wages.db.dao.MonthlyInfoDao;
 import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.rules.base.BaseMainLogicImpl;
+
 import java.util.List;
 
 /**
@@ -18,6 +21,10 @@ public class MonthlyMainLogicImpl extends BaseMainLogicImpl<MonthlyInfo> {
 
     public MonthlyMainLogicImpl(@NonNull MonthlyInfoDao dao) {
         super(dao);
+    }
+
+    @Override public void calculationCurrentMonthWages(TextView tv) {
+        calculation(mDao.queryCurrentMonth(), tv);
     }
 
     @Override protected float getTotalWages(List<MonthlyInfo> list) {
