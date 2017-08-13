@@ -98,7 +98,7 @@ public class MainActivity extends AppBaseActivity {
         initBugly();
     }
 
-    private void initBugly() {
+    @SuppressWarnings("SpellCheckingInspection") private void initBugly() {
         // 升级检查周期设置, 60s内SDK不重复向后台请求策略, 默认为0s
         Beta.upgradeCheckPeriod = 60 * 1000;
         // 设置通知栏大图标

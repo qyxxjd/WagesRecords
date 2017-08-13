@@ -45,12 +45,12 @@
 
                 <TextView
                     android:id="@+id/setting_cycle_value"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|right"
                     android:textColor="@color/secondary_text"
-                    android:layout_gravity="end"
                     android:paddingRight="@dimen/icon_small"
+                    tools:text="28日"
                     tools:ignore="RtlHardcoded,RtlSymmetry"/>
             </FrameLayout>
 

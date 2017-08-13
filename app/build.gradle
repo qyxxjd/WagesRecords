@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
@@ -23,32 +25,52 @@ android {
         ]
     }
 
+//    signingConfigs{
+//        v2 {
+//            storeFile file(properties.getProperty("STORE_FILE"))
+//            storePassword properties.getProperty("STORE_PASSWORD")
+//            keyAlias properties.getProperty("KEY_ALIAS")
+//            keyPassword properties.getProperty("KEY_PASSWORD")
+//            v2SigningEnabled true
+//        }
+//
+//        v1 {
+//            storeFile file(properties.getProperty("STORE_FILE"))
+//            storePassword properties.getProperty("STORE_PASSWORD")
+//            keyAlias properties.getProperty("KEY_ALIAS")
+//            keyPassword properties.getProperty("KEY_PASSWORD")
+//            // 只使用旧版签名，禁用V2版签名模式
+//            v2SigningEnabled false
+//        }
+//    }
+
     buildTypes {
         debug {
             // applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
 
-        release {
-            // 混淆
-            minifyEnabled true
-            // Zipalign优化
-            zipAlignEnabled true
-            // 移除无用的resource文件
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            def today = new Date()
-            applicationVariants.all { variant ->
-                if (variant.buildType.getName().equals("release")) {
-                    println "Change output apk name"
-                    variant.outputs.each { output ->
-                        def fileName = "WagesRecords_${defaultConfig.versionName}_" + today.format('yyyyMMdd') + ".apk"
-                        output.outputFile = new File(output.outputFile.parent, fileName)
-                    }
-                }
-            }
-        }
+//        release {
+//            signingConfig signingConfigs.v1
+//            // 混淆
+//            minifyEnabled false
+//            // Zipalign优化
+//            zipAlignEnabled false
+//            // 移除无用的resource文件
+//            shrinkResources false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//
+//            def today = new Date()
+//            applicationVariants.all { variant ->
+//                if (variant.buildType.getName().equals("release")) {
+//                    println "Change output apk name"
+//                    variant.outputs.each { output ->
+//                        def fileName = "WagesRecords_${defaultConfig.versionName}_" + today.format('yyyyMMddHHmmss') + ".apk"
+//                        output.outputFile = new File(output.outputFile.parent, fileName)
+//                    }
+//                }
+//            }
+//        }
     }
 
     lintOptions {

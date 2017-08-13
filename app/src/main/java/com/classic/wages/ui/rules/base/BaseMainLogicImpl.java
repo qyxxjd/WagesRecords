@@ -58,6 +58,9 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
     }
 
     private void calculation(Observable<List<T>> observable, TextView tv){
+        if (null == observable) {
+            return;
+        }
         final WeakReference<TextView> weakReference = new WeakReference<>(tv);
 
         observable.flatMap(new Function<List<T>, ObservableSource<Float>>() {

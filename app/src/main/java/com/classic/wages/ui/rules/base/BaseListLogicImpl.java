@@ -77,6 +77,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(String year, String month) {
+        // ToastUtil.showToast(mAppContext, "onDataQuery:" + year + "," + month);
         if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
             // 年份、月份都不为空，按照自定义工资计算周期进行查询
             calculationMonthTime(Integer.valueOf(year), Integer.valueOf(month));
@@ -92,7 +93,8 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     @Override public void onDataQuery(long startTime, long endTime) {
-        // LogUtil.d("onDataQuery:" + startTime + "," + endTime);
+        // ToastUtil.showToast(mAppContext, "onDataQuery:" + DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, startTime) +
+        //                                  "," + DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, endTime));
         Observable<List<T>> observable = mDao.query(startTime, endTime);
         if (null != observable) {
             observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
