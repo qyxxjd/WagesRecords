@@ -167,6 +167,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     @Override public void onAdd() {
         if (checkParams()) {
             final String title = mTitle.getText().toString().trim();
+            // TODO Fix NumberFormatException Invalid float: ""
             final float count = Float.valueOf(mCount.getText().toString().trim());
             final float unitPrice = Float.valueOf(mUnitPrice.getText().toString().trim());
             final QuantityInfo info = new QuantityInfo(mCurrentTime, title, count, unitPrice);
