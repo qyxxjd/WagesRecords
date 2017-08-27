@@ -10,7 +10,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.EditText;
 
@@ -18,6 +17,7 @@ import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +38,7 @@ import io.reactivex.functions.Consumer;
     public static final Consumer<Throwable> ERROR_ACTION = new Consumer<Throwable>() {
         @Override public void accept(@io.reactivex.annotations.NonNull Throwable throwable)
                 throws Exception {
-            if (null != throwable && !TextUtils.isEmpty(throwable.getMessage())) {
+            if (null != throwable && !Util.isEmpty(throwable.getMessage())) {
                 throwable.printStackTrace();
             }
         }
@@ -139,9 +139,13 @@ import io.reactivex.functions.Consumer;
         return MoneyUtil.newInstance(ms).divide(Consts.HOUR_2_MS, scale).create().floatValue();
     }
 
+    public static float minute2hour(int minute) {
+        return MoneyUtil.newInstance(minute).divide(60, Consts.DEFAULT_SCALE).create().floatValue();
+    }
+
     public static float getNumber(@NonNull EditText editText) {
         final String number = editText.getText().toString();
-        return TextUtils.isEmpty(number) ? 0f : Float.valueOf(number);
+        return Util.isEmpty(number) ? 0f : Float.valueOf(number);
     }
 
     public static CircularDrawable getCircularDrawable(int color, float radius) {
@@ -205,7 +209,7 @@ import io.reactivex.functions.Consumer;
                 editText.setFocusable(true);
                 editText.setFocusableInTouchMode(true);
                 editText.requestFocus();
-                if (!TextUtils.isEmpty(editText.getText().toString())) {
+                if (!Util.isEmpty(editText.getText().toString())) {
                     editText.setSelection(editText.getText().toString().length());
                 }
             }
@@ -306,5 +310,38 @@ import io.reactivex.functions.Consumer;
                 .append(sdf.format(new Date(System.currentTimeMillis())))
                 .append(Consts.BACKUP_SUFFIX)
                 .toString();
+    }
+
+    public static boolean isEmpty(String str) {
+        return str == null || str.equals("") || str.trim().length() == 0;
+    }
+
+    public static String getNightSubsidyTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        return hour + ":" + (minute < 10 ? "0" + minute : minute);
+    }
+
+    /**
+     * 计算晚班补贴的小时数
+     *
+     * @param time 下班时间
+     * @return 小时
+     */
+    public static float getNightHours(long time) {
+        try {
+            String timeString = DateUtil.formatDate(DateUtil.FORMAT_DATE, time) + " " +
+                                Util.getPreferencesString(Consts.SP_NIGHT_SUBSIDY_TIME,
+                                                          Consts.DEFAULT_NIGHT_SUBSIDY_TIME) + ":00";
+            Date date = new SimpleDateFormat(DateUtil.FORMAT_DATE_TIME, Locale.CHINA).parse(timeString);
+            if (time > date.getTime()) {
+                return Util.ms2hour(time - date.getTime());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0f;
     }
 }

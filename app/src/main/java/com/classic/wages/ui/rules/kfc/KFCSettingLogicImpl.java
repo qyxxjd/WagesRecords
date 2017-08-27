@@ -1,4 +1,4 @@
-package com.classic.wages.ui.rules.pizzahut;
+package com.classic.wages.ui.rules.kfc;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -22,24 +22,20 @@ import cn.qy.util.activity.R;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.base
  *
- * 文件描述：必胜客设置页面实现类
+ * 文件描述：肯德基兼职设置页面实现类
  * 创 建 人：续写经典
  * 创建时间：16/10/29 下午8:38
  */
-public class PizzaHutSettingLogicImpl extends BaseSettingLogicImpl {
+public class KFCSettingLogicImpl extends BaseSettingLogicImpl {
 
     private String mHourlyWage;
-    private String mRestHourlyWage;
     private String mNightSubsidy;
 
-    public PizzaHutSettingLogicImpl(@NonNull Activity activity,
-                                    @NonNull View rulesContentView) {
+    public KFCSettingLogicImpl(@NonNull Activity activity,
+                               @NonNull View rulesContentView) {
         super(activity, rulesContentView);
         mHourlyWage = MoneyUtil.replace(Util.getPreferencesString(
-                                        Consts.SP_PIZZA_HUT_HOURLY_WAGE,
-                                        Consts.DEFAULT_HOURLY_WAGE));
-        mRestHourlyWage = MoneyUtil.replace(Util.getPreferencesString(
-                                        Consts.SP_PIZZA_HUT_REST_HOURLY_WAGE,
+                                        Consts.SP_HOURLY_WAGE,
                                         Consts.DEFAULT_HOURLY_WAGE));
         mNightSubsidy = MoneyUtil.replace(Util.getPreferencesString(
                                         Consts.SP_NIGHT_SUBSIDY,
@@ -49,15 +45,13 @@ public class PizzaHutSettingLogicImpl extends BaseSettingLogicImpl {
     @Override public void setupRulesContent() {
         if(!checkWeakReference()) return;
         mItem1Layout.setVisibility(View.VISIBLE);
-        mItem2Layout.setVisibility(View.VISIBLE);
+        mItem2Layout.setVisibility(View.GONE);
         mItem3Layout.setVisibility(View.VISIBLE);
         mItem4Layout.setVisibility(View.VISIBLE);
         mItem1Label.setText(R.string.setting_hourly_wage_label);
-        mItem2Label.setText(R.string.setting_rest_hourly_wage_label);
         mItem3Label.setText(R.string.setting_night_subsidy_label);
         mItem4Label.setText(R.string.setting_night_subsidy_time_label);
         mItem1Value.setText(formatHourlyWage(mHourlyWage));
-        mItem2Value.setText(formatHourlyWage(mRestHourlyWage));
         mItem3Value.setText(formatHourlyWage(mNightSubsidy));
         mItem4Value.setText(formatNightSubsidyTime(Util.getPreferencesString(Consts.SP_NIGHT_SUBSIDY_TIME,
                                                                              Consts.DEFAULT_NIGHT_SUBSIDY_TIME)));
@@ -74,23 +68,7 @@ public class PizzaHutSettingLogicImpl extends BaseSettingLogicImpl {
                         if(!checkWeakReference()){ return; }
                         mHourlyWage = MoneyUtil.replace(input.toString());
                         mItem1Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_PIZZA_HUT_HOURLY_WAGE, input.toString());
-                        ToastUtil.showToast(mAppContext, R.string.setup_success);
-                        notifyRecalculation();
-                    }
-                });
-    }
-    private void setupRestHourlyWage(){ //设置带薪休息时薪
-        if(!checkWeakReference()){ return; }
-        displayInputDialog(R.string.setup_rest_hourly_wage,
-                Util.getString(mAppContext, R.string.setting_rest_hourly_wage_label), mRestHourlyWage,
-                new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        if(!checkWeakReference()){ return; }
-                        mRestHourlyWage = MoneyUtil.replace(input.toString());
-                        mItem2Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_PIZZA_HUT_REST_HOURLY_WAGE, input.toString());
+                        Util.putPreferencesString(Consts.SP_HOURLY_WAGE, input.toString());
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -115,10 +93,6 @@ public class PizzaHutSettingLogicImpl extends BaseSettingLogicImpl {
 
     @Override protected void onItem1LayoutClick() {
         setupHourlyWage();
-    }
-
-    @Override protected void onItem2LayoutClick() {
-        setupRestHourlyWage();
     }
 
     @Override protected void onItem3LayoutClick() {

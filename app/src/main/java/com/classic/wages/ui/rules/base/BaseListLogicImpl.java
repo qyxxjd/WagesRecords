@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -78,7 +77,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
 
     @Override public void onDataQuery(String year, String month) {
         // ToastUtil.showToast(mAppContext, "onDataQuery:" + year + "," + month);
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) && !Util.isEmpty(month)) {
             // 年份、月份都不为空，按照自定义工资计算周期进行查询
             calculationMonthTime(Integer.valueOf(year), Integer.valueOf(month));
             onDataQuery(mMonthStartTime, mMonthEndTime);
@@ -156,7 +155,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
     }
 
     private String formatMonth(String month) {
-        if (TextUtils.isEmpty(month)) {
+        if (Util.isEmpty(month)) {
             return null;
         }
         return month.length() == 1 ? ("0" + month) : month;

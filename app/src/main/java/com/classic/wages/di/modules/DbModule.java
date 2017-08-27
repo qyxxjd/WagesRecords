@@ -50,7 +50,7 @@ import io.reactivex.schedulers.Schedulers;
         return new DbHelper(mApplication);
     }
 
-    @SuppressWarnings("CheckResult") @Provides @Singleton SqlBrite provideSqlBrite() {
+    @SuppressWarnings({"CheckResult", "SpellCheckingInspection"}) @Provides @Singleton SqlBrite provideSqlBrite() {
         final SqlBrite.Builder builder = new SqlBrite.Builder();
         if (BuildConfig.DEBUG) {
             builder.logger(new SqlBrite.Logger() {

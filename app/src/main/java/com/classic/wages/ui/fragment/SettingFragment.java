@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +27,7 @@ import com.classic.wages.ui.rules.ISettingLogic;
 import com.classic.wages.ui.rules.basic.DefaultSettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedDaySettingLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthSettingLogicImpl;
+import com.classic.wages.ui.rules.kfc.KFCSettingLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutSettingLogicImpl;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.UriUtil;
@@ -95,7 +95,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     }
 
     private void resetCycleValue(String value) {
-        if (TextUtils.isEmpty(value)) {
+        if (Util.isEmpty(value)) {
             value = Util.getPreferencesString(Consts.SP_CYCLE_VALUE, Consts.DEFAULT_CYCLE);
         } else {
             Util.putPreferencesString(Consts.SP_CYCLE_VALUE, value);
@@ -247,7 +247,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
     @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == Activity.RESULT_OK && requestCode == FILE_CHOOSER_CODE) {
             String path = UriUtil.toAbsolutePath(mAppContext, data.getData());
-            if(!TextUtils.isEmpty(path) && path.endsWith(Consts.BACKUP_SUFFIX)) {
+            if(!Util.isEmpty(path) && path.endsWith(Consts.BACKUP_SUFFIX)) {
                 //ToastUtil.showToast(mAppContext, "select file："+path);
                 restore(path);
             } else {
@@ -298,6 +298,9 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 break;
             case ICalculationRules.RULES_DEFAULT:
                 settingLogic = new DefaultSettingLogicImpl(mActivity, mRulesContentView);
+                break;
+            case ICalculationRules.RULES_KFC:
+                settingLogic = new KFCSettingLogicImpl(mActivity, mRulesContentView);
                 break;
             default:
                 mRulesContentView.setVisibility(View.GONE);

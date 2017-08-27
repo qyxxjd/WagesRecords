@@ -23,8 +23,10 @@ public interface ICalculationRules {
     int RULES_QUANTITY    = 0x04;
     /** 计算规则：按天加班 */
     int RULES_FIXED_DAY   = 0x05;
+    /** 计算规则：肯德基兼职 */
+    int RULES_KFC         = 0x06;
 
-    @IntDef({RULES_DEFAULT, RULES_FIXED_MONTH, RULES_PIZZAHUT, RULES_MONTHLY, RULES_QUANTITY, RULES_FIXED_DAY})
+    @IntDef({RULES_DEFAULT, RULES_FIXED_MONTH, RULES_PIZZAHUT, RULES_MONTHLY, RULES_QUANTITY, RULES_FIXED_DAY, RULES_KFC})
     @interface Rules{}
 
     /**

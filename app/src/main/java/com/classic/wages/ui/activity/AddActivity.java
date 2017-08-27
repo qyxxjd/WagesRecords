@@ -13,6 +13,7 @@ import com.classic.android.base.BaseFragment;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.base.AppBaseActivity;
 import com.classic.wages.ui.fragment.AddFragment;
+import com.classic.wages.ui.fragment.AddKFCFragment;
 import com.classic.wages.ui.fragment.AddMonthlyFragment;
 import com.classic.wages.ui.fragment.AddQuantityFragment;
 import com.classic.wages.ui.rules.ICalculationRules;
@@ -110,6 +111,9 @@ public class AddActivity extends AppBaseActivity implements Toolbar.OnMenuItemCl
                 break;
             case ICalculationRules.RULES_QUANTITY:
                 fragment = AddQuantityFragment.newInstance(mType, mBasicInfo);
+                break;
+            case ICalculationRules.RULES_KFC:
+                fragment = AddKFCFragment.newInstance(mType, mBasicInfo);
                 break;
             case ICalculationRules.RULES_DEFAULT:
             case ICalculationRules.RULES_FIXED_DAY:

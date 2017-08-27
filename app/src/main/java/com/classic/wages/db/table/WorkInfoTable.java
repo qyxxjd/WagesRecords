@@ -7,9 +7,11 @@ import java.util.ArrayList;
  * @date 2013/11/26
  */
 public class WorkInfoTable implements IBasicColumn {
+    @SuppressWarnings("SpellCheckingInspection")
     public static final String TABLE_NAME           = "t_workinfo";
     public static final String COLUMN_STARTING_TIME = "startingTime";
     public static final String COLUMN_END_TIME      = "endTime";
+    public static final String COLUMN_REST_TIME     = "restTime";
 
     public static String createTableSql() {
         final StringBuilder sb = new StringBuilder("create table if not exists ");
@@ -26,6 +28,8 @@ public class WorkInfoTable implements IBasicColumn {
           .append(COLUMN_CREATE_TIME)
           .append(" integer not null, ")
           .append(COLUMN_LAST_UPDATE_TIME)
+          .append(" integer default 0, ")
+          .append(COLUMN_REST_TIME)
           .append(" integer default 0, ")
           .append(COLUMN_WEEK)
           .append(" integer, ")
@@ -46,11 +50,6 @@ public class WorkInfoTable implements IBasicColumn {
 
     public static ArrayList<String> getUpdateSql3(){
         ArrayList<String> sqlArray = new ArrayList<>();
-        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_SUBSIDY+" float");
-        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_BONUS+" float");
-        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_DEDUCTIONS+" float");
-        //sqlArray.add("ALTER TABLE "+TABLE_NAME+" ADD COLUMN "+COLUMN_REMARK+" text");
-
         sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_SUBSIDY, " float"));
         sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_BONUS, " float"));
         sqlArray.add(SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_DEDUCTIONS, " float"));
@@ -60,5 +59,9 @@ public class WorkInfoTable implements IBasicColumn {
 
     public static String getUpdateSql4(){
         return SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_LAST_UPDATE_TIME, " integer default 0");
+    }
+
+    public static String getUpdateSql5() {
+        return SqlUtil.getAddColumnSql(TABLE_NAME, COLUMN_REST_TIME, " integer default 0");
     }
 }

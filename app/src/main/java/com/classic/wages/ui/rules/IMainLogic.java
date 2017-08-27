@@ -18,6 +18,11 @@ public interface IMainLogic {
     void calculationCurrentMonthWages(TextView tv);
 
     /**
+     * 计算上月份工资
+     */
+    void calculationLastMonthWages(TextView tv);
+
+    /**
      * 计算当前年份工资
      */
     void calculationCurrentYearWages(TextView tv);

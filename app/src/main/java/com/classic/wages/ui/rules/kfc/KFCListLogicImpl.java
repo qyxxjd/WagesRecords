@@ -1,4 +1,4 @@
-package com.classic.wages.ui.rules.pizzahut;
+package com.classic.wages.ui.rules.kfc;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,22 +18,19 @@ import cn.qy.util.activity.R;
  * 应用名称: WagesRecords
  * 包 名 称: com.classic.wages.ui.rules.impl
  *
- * 文件描述：列表-默认规则
+ * 文件描述：列表-肯德基兼职
  * 创 建 人：续写经典
  * 创建时间：16/10/15 下午5:59
  */
-public class PizzaHutListLogicImpl extends BaseListLogicImpl<WorkInfo> {
+public class KFCListLogicImpl extends BaseListLogicImpl<WorkInfo> {
 
     private final float mHourlyWage;
-    private final float mRestHourlyWage;
     private final float mNightSubsidy;
 
-    public PizzaHutListLogicImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao) {
-        super(context, dao, ICalculationRules.RULES_PIZZAHUT);
+    public KFCListLogicImpl(@NonNull Context context, @NonNull IDao<WorkInfo> dao) {
+        super(context, dao, ICalculationRules.RULES_KFC);
         mHourlyWage = Util.getPreferencesFloat(
-                Consts.SP_PIZZA_HUT_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
-        mRestHourlyWage = Util.getPreferencesFloat(
-                Consts.SP_PIZZA_HUT_REST_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
+                Consts.SP_HOURLY_WAGE, Consts.DEFAULT_HOURLY_WAGE);
         mNightSubsidy = Util.getPreferencesFloat(
                 Consts.SP_NIGHT_SUBSIDY, Consts.DEFAULT_NIGHT_SUBSIDY);
     }
@@ -52,11 +49,9 @@ public class PizzaHutListLogicImpl extends BaseListLogicImpl<WorkInfo> {
                        item.getStartingTime(), item.getEndTime()))
               .setTextColorRes(R.id.list_item_time, color)
               .setText(R.id.list_item_wages,
-                       formatWages(PizzaHutUtils.getDayWages(item,
-                               mHourlyWage, mRestHourlyWage, mNightSubsidy).totalWages))
+                       formatWages(KFCUtil.getDayWages(item, mHourlyWage, mNightSubsidy).totalWages))
               .setTextColorRes(R.id.list_item_wages, color)
-              .setText(R.id.list_item_hours, Util.formatHours(Util.ms2hour(
-                      item.getEndTime() - item.getStartingTime())))
+              .setText(R.id.list_item_hours, Util.formatHours(KFCUtil.getDayHours(item)))
               .setTextColorRes(R.id.list_item_hours, color);
         helper.getView(R.id.list_item_week)
               .setBackground(getCircularDrawable(color));

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME    = "RecordsWages.db";
-    private static final int    DB_VERSION = 4;
+    private static final int    DB_VERSION = 5;
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -31,6 +31,9 @@ public class DbHelper extends SQLiteOpenHelper {
                     break;
                 case 4:
                     update4(db);
+                    break;
+                case 5:
+                    update5(db);
                     break;
                 default:
                     break;
@@ -66,5 +69,14 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(MonthlyInfoTable.getUpdateSql4());
         db.execSQL(QuantityInfoTable.getUpdateSql4());
         db.execSQL(WorkInfoTable.getUpdateSql4());
+    }
+
+    /**
+     * 新增肯德基兼职工资计算
+     *
+     * @param db
+     */
+    private void update5(SQLiteDatabase db) {
+        db.execSQL(WorkInfoTable.getUpdateSql5());
     }
 }

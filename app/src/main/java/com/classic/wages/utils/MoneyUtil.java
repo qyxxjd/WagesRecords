@@ -1,7 +1,7 @@
 package com.classic.wages.utils;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
+
 import java.math.BigDecimal;
 
 /**
@@ -56,7 +56,7 @@ import java.math.BigDecimal;
      * 去掉小数点后无效的0
      */
     public static String replace(String number) {
-        if (TextUtils.isEmpty(number)) { return "0"; }
+        if (Util.isEmpty(number)) { return "0"; }
         if (number.indexOf(".") > 0) {
             number = number.replaceAll("0+?$", ""); //去掉后面无用的零
             number = number.replaceAll("[.]$", ""); //如小数点后面全是零则去掉小数点
@@ -68,7 +68,7 @@ import java.math.BigDecimal;
      * 去掉小数点后无效的0
      */
     public static String replace(String number, int scale) {
-        if (TextUtils.isEmpty(number)) { return "0"; }
+        if (Util.isEmpty(number)) { return "0"; }
         number = newInstance(number).round(scale).create().toString();
         if (number.indexOf(".") > 0) {
             number = number.replaceAll("0+?$", ""); //去掉后面无用的零

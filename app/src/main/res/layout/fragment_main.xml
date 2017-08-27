@@ -1,44 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/bottom_bar_height"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="@dimen/bottom_bar_height"
+              android:orientation="vertical">
 
-    <FrameLayout style="@style/Main.Layout">
+    <LinearLayout
+        style="@style/Main.Layout"
+        android:orientation="horizontal">
 
-        <TextView style="@style/Main.Label"
-            android:text="@string/main.month.label" />
+        <FrameLayout
+            style="@style/Main.HorizontalLayout"
+            android:padding="@dimen/margin_large">
 
-        <TextView style="@style/Main.Value"
-            android:id="@+id/main_month_wages"
-            android:textColor="@color/main_month_wages" />
+            <TextView
+                style="@style/Main.Label"
+                android:text="@string/main.month.label"/>
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/main_month_wages"
+                style="@style/Main.Value"
+                android:textColor="@color/main_month_wages"
+                android:textSize="@dimen/main_normal_font"/>
 
-    <View style="@style/Main.Line" />
+        </FrameLayout>
 
-    <FrameLayout style="@style/Main.Layout">
+        <View style="@style/Main.VerticalLine"/>
 
-        <TextView style="@style/Main.Label"
-            android:text="@string/main.year.label" />
+        <FrameLayout
+            style="@style/Main.HorizontalLayout"
+            android:padding="@dimen/margin_large">
 
-        <TextView style="@style/Main.Value"
+            <TextView
+                style="@style/Main.Label"
+                android:text="@string/main.last.month.label"/>
+
+            <TextView
+                android:id="@+id/main_last_month_wages"
+                style="@style/Main.Value"
+                android:textColor="@color/main_month_wages"
+                android:textSize="@dimen/main_normal_font"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View style="@style/Main.Line"/>
+
+    <FrameLayout
+        style="@style/Main.Layout"
+        android:padding="@dimen/margin_large">
+
+        <TextView
+            style="@style/Main.Label"
+            android:text="@string/main.year.label"/>
+
+        <TextView
             android:id="@+id/main_year_wages"
-            android:textColor="@color/main_year_wages" />
+            style="@style/Main.Value"
+            android:textColor="@color/main_year_wages"/>
 
     </FrameLayout>
 
-    <View style="@style/Main.Line" />
+    <View style="@style/Main.Line"/>
 
-    <FrameLayout style="@style/Main.Layout">
+    <FrameLayout
+        style="@style/Main.Layout"
+        android:padding="@dimen/margin_large">
 
-        <TextView style="@style/Main.Label"
-            android:text="@string/main.total.label" />
+        <TextView
+            style="@style/Main.Label"
+            android:text="@string/main.total.label"/>
 
-        <TextView style="@style/Main.Value"
+        <TextView
             android:id="@+id/main_total_wages"
-            android:textColor="@color/main_total_wages" />
+            style="@style/Main.Value"
+            android:textColor="@color/main_total_wages"/>
 
     </FrameLayout>
 

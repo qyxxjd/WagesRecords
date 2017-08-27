@@ -3,7 +3,6 @@ package com.classic.wages.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.utils.DateUtil;
+import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -128,7 +128,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
         info.setBonus(Util.getNumber(mBonus));
         info.setSubsidy(Util.getNumber(mSubsidy));
         info.setDeductions(Util.getNumber(mDeductions));
-        if(!TextUtils.isEmpty(mRemark.getText().toString())){
+        if(!Util.isEmpty(mRemark.getText().toString())){
             info.setRemark(mRemark.getText().toString().trim());
         }
     }
@@ -166,7 +166,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
         if(info.getSubsidy() > ZERO){
             Util.setText(mSubsidy, info.getSubsidy());
         }
-        if(!TextUtils.isEmpty(info.getRemark())){
+        if(!Util.isEmpty(info.getRemark())){
             Util.setText(mRemark, info.getRemark());
         }
     }
@@ -176,7 +176,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
             ToastUtil.showToast(mAppContext, R.string.add_monthly_time_empty);
             return false;
         }
-        if(TextUtils.isEmpty(mMonthlyWage.getText().toString())){
+        if(Util.isEmpty(mMonthlyWage.getText().toString())){
             ToastUtil.showToast(mAppContext, R.string.add_monthly_wage_empty);
             return false;
         }

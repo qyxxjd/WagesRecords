@@ -46,6 +46,7 @@ public class FixedDaySettingLogicImpl extends BaseSettingLogicImpl {
         mItem1Layout.setVisibility(View.VISIBLE);
         mItem2Layout.setVisibility(View.VISIBLE);
         mItem3Layout.setVisibility(View.VISIBLE);
+        mItem4Layout.setVisibility(View.GONE);
         mItem1Label.setText(R.string.setting_hourly_wage_label);
         mItem2Label.setText(R.string.setting_fixed_hours_label);
         mItem3Label.setText(R.string.setting_overtime_hourly_wage_label);

@@ -37,6 +37,8 @@ import com.classic.wages.ui.rules.fixed.FixedDayListLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedDayWagesDetailLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthListLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthWagesDetailLogicImpl;
+import com.classic.wages.ui.rules.kfc.KFCListLogicImpl;
+import com.classic.wages.ui.rules.kfc.KFCWagesDetailLogicImpl;
 import com.classic.wages.ui.rules.monthly.MonthlyListLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutListLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutWagesDetailLogicImpl;
@@ -218,6 +220,10 @@ public class ListFragment extends AppBaseFragment implements TimePickerView.OnTi
             case ICalculationRules.RULES_QUANTITY:
                 mListLogic = new QuantityListLogicImpl(mActivity, mQuantityInfoDao);
                 mWagesDetailLogic = new QuantityWagesDetailLogicImpl();
+                break;
+            case ICalculationRules.RULES_KFC:
+                mListLogic = new KFCListLogicImpl(mActivity, mWorkInfoDao);
+                mWagesDetailLogic = new KFCWagesDetailLogicImpl();
                 break;
             case ICalculationRules.RULES_DEFAULT:
             default:

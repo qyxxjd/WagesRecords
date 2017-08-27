@@ -68,7 +68,7 @@ public final class DateUtil {
      * 获取N天前、N天后的 日期
      *
      * @param nowDate   当前日期;
-     * @param dayAddNum 正数：N天前，负数：N天后;
+     * @param dayAddNum 正数：N天后，负数：N天前;
      */
     public static Date getAddDay(Date nowDate, int dayAddNum) {
         Calendar calendar = new GregorianCalendar();
@@ -85,6 +85,13 @@ public final class DateUtil {
      */
     public static Date getAddDay(long nowDate, int dayAddNum) {
         return getAddDay(new Date(nowDate), dayAddNum);
+    }
+
+    public static long getAddMonth(long nowTime, int monthAddNum) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTimeInMillis(nowTime);
+        calendar.add(Calendar.MONTH, monthAddNum);
+        return calendar.getTimeInMillis();
     }
 
     /**

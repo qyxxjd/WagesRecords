@@ -14,6 +14,8 @@
     <dimen name="font_normal">16sp</dimen>
     <dimen name="font_very_small">10sp</dimen>
 
+    <dimen name="main_normal_font">32sp</dimen>
+
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">40dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
@@ -47,4 +49,6 @@
 
     <dimen name="item_content_left_margin">64dp</dimen>
     <dimen name="query_layout_height">80dp</dimen>
+
+    <dimen name="rest_time_unit_width">60dp</dimen>
 </resources>

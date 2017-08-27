@@ -49,6 +49,11 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
         calculation(mDao.query(mMonthStartTime, mMonthEndTime), tv);
     }
 
+    @Override public void calculationLastMonthWages(TextView tv) {
+        calculationMonthTime();
+        calculation(mDao.query(DateUtil.getAddMonth(mMonthStartTime, -1), DateUtil.getAddMonth(mMonthEndTime, -1)), tv);
+    }
+
     @Override public void calculationCurrentYearWages(TextView tv) {
         calculation(mDao.queryCurrentYear(), tv);
     }

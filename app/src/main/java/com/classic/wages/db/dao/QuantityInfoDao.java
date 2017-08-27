@@ -3,7 +3,6 @@ package com.classic.wages.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.table.MonthlyInfoTable;
@@ -13,6 +12,7 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
+import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
 
@@ -177,20 +177,20 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
 
     private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(QuantityInfoTable.TABLE_NAME);
-        if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) || !Util.isEmpty(month)) {
             sb.append(" WHERE ");
         }
-        if (!TextUtils.isEmpty(year)) {
+        if (!Util.isEmpty(year)) {
             sb.append(" strftime('%Y',")
               .append(QuantityInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
               .append(year)
               .append("' ");
         }
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) && !Util.isEmpty(month)) {
             sb.append(" AND ");
         }
-        if (!TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(month)) {
             sb.append(" strftime('%m',")
               .append(QuantityInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
@@ -330,7 +330,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
     private static final int CORRECT_LENGTH = 15;
 
     private QuantityInfo toQuantityInfo(String content) {
-        if (TextUtils.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
+        if (Util.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
             return null;
         }
         final String[] data = content.split(Consts.BACKUP_SEPARATOR);
@@ -366,7 +366,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
                                   .append(Consts.BACKUP_SEPARATOR)
                                   .append(item.getFormatTime())
                                   .append(Consts.BACKUP_SEPARATOR)
-                                  .append(TextUtils.isEmpty(item.getRemark())
+                                  .append(Util.isEmpty(item.getRemark())
                                           ? Consts.EMPTY_CONTENT
                                           : item.getRemark())
                                   .append(Consts.BACKUP_SEPARATOR)

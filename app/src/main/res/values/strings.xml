@@ -27,6 +27,7 @@
     <string name="wages.detail">工资详情</string>
 
     <string name="main.month.label">本月收入</string>
+    <string name="main.last.month.label">上月收入</string>
     <string name="main.year.label">本年收入</string>
     <string name="main.total.label">总收入</string>
 
@@ -52,6 +53,7 @@
     <string name="setting.hourly.wage.label">当前时薪</string>
     <string name="setting.rest.hourly.wage.label">带薪休息</string>
     <string name="setting.night.subsidy.label">晚班补贴</string>
+    <string name="setting.night.subsidy.time.label">晚班补贴时间</string>
     <string name="setting.fixed.hours.label">固定时长</string>
     <string name="setting.overtime.hourly.wage.label">加班时薪</string>
 
@@ -63,6 +65,7 @@
     <string name="setup.overtime.hourly.wage">设置加班时薪</string>
     <string name="hourly.wage.suffix">%s元/小时</string>
     <string name="hours.suffix">%s小时</string>
+    <string name="format.night.subsidy.time">%s 以后</string>
 
     <string name="add.monthly.time">工作时间</string>
     <string name="add.monthly.wage">月工资</string>
@@ -87,6 +90,8 @@
     <string name="add.holiday.custom">自定义</string>
     <string name="add.holiday.custom.hint">自定义倍数</string>
     <string name="add.holiday.custom.empty">请输入自定义倍数</string>
+    <string name="add.kfc.rest.time.hint">休息时间</string>
+    <string name="add.kfc.rest.time.unit">分钟</string>
     <string name="add.subsidy.hint">补贴(可选)</string>
     <string name="add.bonus.hint">奖金(可选)</string>
     <string name="add.deductions.hint">扣款(可选)</string>

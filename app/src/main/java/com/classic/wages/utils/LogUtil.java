@@ -1,7 +1,5 @@
 package com.classic.wages.utils;
 
-import android.text.TextUtils;
-
 import com.elvishew.xlog.XLog;
 
 import cn.qy.util.activity.BuildConfig;
@@ -20,13 +18,13 @@ public final class LogUtil {
     }
 
     public static void d(String content) {
-        if (BuildConfig.DEBUG && !TextUtils.isEmpty(content)) {
+        if (BuildConfig.DEBUG && !Util.isEmpty(content)) {
             XLog.d(content);
         }
     }
 
     public static void e(String content) {
-        if (BuildConfig.DEBUG && !TextUtils.isEmpty(content)) {
+        if (BuildConfig.DEBUG && !Util.isEmpty(content)) {
             XLog.e(content);
         }
     }

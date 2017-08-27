@@ -38,6 +38,7 @@ public class DefaultSettingLogicImpl extends BaseSettingLogicImpl {
         mItem1Layout.setVisibility(View.VISIBLE);
         mItem2Layout.setVisibility(View.GONE);
         mItem3Layout.setVisibility(View.GONE);
+        mItem4Layout.setVisibility(View.GONE);
         mItem1Label.setText(R.string.setting_hourly_wage_label);
         mItem1Value.setText(formatHourlyWage(mHourlyWage));
     }

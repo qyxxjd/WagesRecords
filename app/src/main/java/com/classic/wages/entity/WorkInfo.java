@@ -13,6 +13,7 @@ public class WorkInfo extends BasicInfo {
 
     private long startingTime;
     private long endTime;
+    private int restTime; // 5.2.1新增: 肯德基兼职-休息时间, 单位：分钟
 
     /** 工作结束时间 */
     public long getEndTime() {
@@ -36,6 +37,16 @@ public class WorkInfo extends BasicInfo {
         setFormatTime(DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, startingTime));
     }
 
+    /** 肯德基兼职-休息时间 */
+    public int getRestTime() {
+        return restTime;
+    }
+
+    /** 肯德基兼职-休息时间 */
+    public void setRestTime(int restTime) {
+        this.restTime = restTime;
+    }
+
     public WorkInfo(long startingTime, long endTime) {
         this(startingTime, endTime, 0F);
     }
@@ -50,9 +61,10 @@ public class WorkInfo extends BasicInfo {
     public WorkInfo(long id, long createTime, int week,
                     float multiple, float subsidy, float bonus,
                     float deductions, String formatTime, String remark, long lastUpdateTime,
-                    long startingTime, long endTime) {
+                    long startingTime, long endTime, int restTime) {
         this.startingTime = startingTime;
         this.endTime = endTime;
+        this.restTime = restTime;
         setId(id);
         setCreateTime(createTime);
         setWeek(week);

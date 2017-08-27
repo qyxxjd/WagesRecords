@@ -37,7 +37,7 @@ public class Consts {
     }
 
     public static final List<String> RULES_LIST =
-            Arrays.asList("默认规则", "按月加班", "必胜客兼职", "月工资", "计件", "按天加班");
+            Arrays.asList("默认规则", "按月加班", "必胜客兼职", "月工资", "计件", "按天加班", "肯德基兼职");
 
     public static final String[] FORMAT_WEEKS  = { "日", "一", "二", "三", "四", "五", "六" };
     public static final int      HOUR_2_MS     = 3600000;
@@ -88,18 +88,24 @@ public class Consts {
     public static final String SP_PIZZA_HUT_HOURLY_WAGE      = "pizzaHutHourlyWage";
     // 带薪休息的时薪
     public static final String SP_PIZZA_HUT_REST_HOURLY_WAGE = "pizzaHutRestHourlyWage";
+
+    /**
+     * 必胜客、肯德基兼职通用字段
+     */
     // 晚班补贴
-    public static final String SP_PIZZA_HUT_NIGHT_SUBSIDY    = "pizzaHutNightSubsidy";
+    public static final String SP_NIGHT_SUBSIDY = "pizzaHutNightSubsidy"; // 为了兼容老版本，值未做修改
+    // 晚班补贴时间
+    public static final String SP_NIGHT_SUBSIDY_TIME = "nightSubsidyTime";
+    public static final String DEFAULT_NIGHT_SUBSIDY_TIME = "22:00";
 
     public static final String WAGES_DETAIL_SEPARATOR = "----";
     public static final String BACKUP_SEPARATOR       = WAGES_DETAIL_SEPARATOR;
     public static final String BACKUP_PREFIX          = DIR_NAME;
     public static final String BACKUP_SUFFIX          = ".backup";
 
-    public static final String EMPTY_CONTENT          = "empty";
-    public static final String LINE_FEED              = "\n";
-    public static final String CHARTSET               = "UTF-8";
+    public static final String EMPTY_CONTENT = "empty";
+    public static final String LINE_FEED     = "\n";
+    public static final String CHARTSET      = "UTF-8";
 
-    public static final String SP_QUERY_TYPE     = "queryType";
 
 }

@@ -3,7 +3,6 @@ package com.classic.wages.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -157,7 +156,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         }
     }
 
-    private void updateWorkInfo(@NonNull WorkInfo info){
+    void updateWorkInfo(@NonNull WorkInfo info){
         if (mHolidayDouble.isChecked()) {
             info.setMultiple(2f);
         } else if (mHolidayThree.isChecked()) {
@@ -169,7 +168,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         info.setBonus(Util.getNumber(mBonus));
         info.setSubsidy(Util.getNumber(mSubsidy));
         info.setDeductions(Util.getNumber(mDeductions));
-        if(!TextUtils.isEmpty(mRemark.getText().toString())){
+        if(!Util.isEmpty(mRemark.getText().toString())){
             info.setRemark(mRemark.getText().toString().trim());
         }
     }
@@ -192,7 +191,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         }
     }
 
-    private void setValues(@NonNull WorkInfo workInfo){
+    void setValues(@NonNull WorkInfo workInfo){
         mCurrentStartTime = workInfo.getStartingTime();
         mCurrentEndTime = workInfo.getEndTime();
         mStartTime.setText(DateUtil.formatDate(FORMAT, mCurrentStartTime));
@@ -209,7 +208,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         if(workInfo.getSubsidy() > ZERO){
             Util.setText(mSubsidy, workInfo.getSubsidy());
         }
-        if(!TextUtils.isEmpty(workInfo.getRemark())){
+        if(!Util.isEmpty(workInfo.getRemark())){
             Util.setText(mRemark, workInfo.getRemark());
         }
 
@@ -238,7 +237,7 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
             return false;
         }
         if (mHolidayCustom.isChecked() &&
-                TextUtils.isEmpty(mHolidayCustomValue.getText().toString().trim())) {
+                Util.isEmpty(mHolidayCustomValue.getText().toString().trim())) {
             ToastUtil.showToast(mAppContext, R.string.add_holiday_custom_empty);
             return false;
         }

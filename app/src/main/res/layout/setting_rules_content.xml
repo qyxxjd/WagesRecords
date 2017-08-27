@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Setting.Layout"
-    android:id="@+id/setting_rules_content"
-    android:layout_marginTop="@dimen/margin_large"
-    android:background="@drawable/white_radius_bg"
-    android:visibility="gone">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/setting_rules_content"
+              style="@style/Setting.Layout"
+              android:layout_marginTop="@dimen/margin_large"
+              android:background="@drawable/white_radius_bg"
+              android:visibility="gone">
 
     <FrameLayout
         android:id="@+id/setting_rules_item1_layout"
@@ -14,13 +14,14 @@
         android:visibility="gone">
 
         <TextView
-            style="@style/Setting.ItemLabel"
             android:id="@+id/setting_rules_item1_label"
+            style="@style/Setting.ItemLabel"
             tools:text="@string/setting.hourly.wage.label"
             />
 
-        <TextView style="@style/Setting.ItemValue"
+        <TextView
             android:id="@+id/setting_rules_item1_value"
+            style="@style/Setting.ItemValue"
             tools:text="11元/小时"
             />
     </FrameLayout>
@@ -32,17 +33,18 @@
         android:visibility="gone">
 
         <TextView
-            style="@style/Setting.ItemLabel"
             android:id="@+id/setting_rules_item2_label"
+            style="@style/Setting.ItemLabel"
             tools:text="@string/setting.hourly.wage.label"
             />
 
-        <TextView style="@style/Setting.ItemValue"
+        <TextView
             android:id="@+id/setting_rules_item2_value"
+            style="@style/Setting.ItemValue"
             tools:text="11元/小时"
             />
 
-        <View style="@style/Main.Line" />
+        <View style="@style/Main.Line"/>
     </FrameLayout>
 
     <FrameLayout
@@ -52,16 +54,38 @@
         android:visibility="gone">
 
         <TextView
-            style="@style/Setting.ItemLabel"
             android:id="@+id/setting_rules_item3_label"
+            style="@style/Setting.ItemLabel"
             tools:text="@string/setting.hourly.wage.label"
             />
 
-        <TextView style="@style/Setting.ItemValue"
+        <TextView
             android:id="@+id/setting_rules_item3_value"
+            style="@style/Setting.ItemValue"
             tools:text="11元/小时"
             />
 
-        <View style="@style/Main.Line" />
+        <View style="@style/Main.Line"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/setting_rules_item4_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_height_small"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/setting_rules_item4_label"
+            style="@style/Setting.ItemLabel"
+            tools:text="@string/setting.hourly.wage.label"
+            />
+
+        <TextView
+            android:id="@+id/setting_rules_item4_value"
+            style="@style/Setting.ItemValue"
+            tools:text="11元/小时"
+            />
+
+        <View style="@style/Main.Line"/>
     </FrameLayout>
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -167,9 +166,10 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     @Override public void onAdd() {
         if (checkParams()) {
             final String title = mTitle.getText().toString().trim();
-            // TODO Fix NumberFormatException Invalid float: ""
-            final float count = Float.valueOf(mCount.getText().toString().trim());
-            final float unitPrice = Float.valueOf(mUnitPrice.getText().toString().trim());
+            final float count = Util.isEmpty(mCount.getText().toString()) ? 0 :
+                    Float.valueOf(mCount.getText().toString().trim());
+            final float unitPrice = Util.isEmpty(mUnitPrice.getText().toString()) ? 0 :
+                    Float.valueOf(mUnitPrice.getText().toString().trim());
             final QuantityInfo info = new QuantityInfo(mCurrentTime, title, count, unitPrice);
             updateInfo(info);
             if(mQuantityInfoDao.insert(info) > 0L){
@@ -205,7 +205,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
         info.setBonus(Util.getNumber(mBonus));
         info.setSubsidy(Util.getNumber(mSubsidy));
         info.setDeductions(Util.getNumber(mDeductions));
-        if(!TextUtils.isEmpty(mRemark.getText().toString())){
+        if(!Util.isEmpty(mRemark.getText().toString())){
             info.setRemark(mRemark.getText().toString().trim());
         }
     }
@@ -245,7 +245,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
         if(info.getSubsidy() > ZERO){
             Util.setText(mSubsidy, info.getSubsidy());
         }
-        if(!TextUtils.isEmpty(info.getRemark())){
+        if(!Util.isEmpty(info.getRemark())){
             Util.setText(mRemark, info.getRemark());
         }
         Util.setFocus(mCount);
@@ -256,15 +256,15 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
             ToastUtil.showToast(mAppContext, R.string.add_quantity_time_empty);
             return false;
         }
-        if(TextUtils.isEmpty(mTitle.getText().toString())){
+        if(Util.isEmpty(mTitle.getText().toString())){
             ToastUtil.showToast(mAppContext, R.string.add_quantity_title_empty);
             return false;
         }
-        if(TextUtils.isEmpty(mCount.getText().toString())){
+        if(Util.isEmpty(mCount.getText().toString())){
             ToastUtil.showToast(mAppContext, R.string.add_quantity_count_empty);
             return false;
         }
-        if(TextUtils.isEmpty(mUnitPrice.getText().toString())){
+        if(Util.isEmpty(mUnitPrice.getText().toString())){
             ToastUtil.showToast(mAppContext, R.string.add_quantity_unit_price_empty);
             return false;
         }

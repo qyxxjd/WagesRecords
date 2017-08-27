@@ -1,7 +1,9 @@
 package com.classic.wages.ui.rules.monthly;
 
 import android.support.annotation.NonNull;
+
 import com.classic.wages.entity.MonthlyInfo;
+
 import java.util.List;
 
 /**

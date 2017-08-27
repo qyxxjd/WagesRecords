@@ -3,7 +3,6 @@ package com.classic.wages.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.table.MonthlyInfoTable;
@@ -12,6 +11,7 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
+import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
 
@@ -94,39 +94,33 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
     }
 
     @Override public Observable<List<MonthlyInfo>> query(long startTime, long endTime) {
-        //final StringBuilder sb = new StringBuilder("SELECT * FROM ")
-        //        .append(MonthlyInfoTable.TABLE_NAME)
-        //        .append(" WHERE ")
-        //        .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-        //        .append(" between ")
-        //        .append(startTime)
-        //        .append(" AND ")
-        //        .append(endTime)
-        //        .append(" ORDER BY ")
-        //        .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
-        //        .append(" DESC ");
-        //return queryListBySql(sb.toString());
-
-        //no impl
-        return null;
+        final StringBuilder sb = new StringBuilder("SELECT * FROM ")
+               .append(MonthlyInfoTable.TABLE_NAME)
+               .append(" WHERE ")
+               .append(MonthlyInfoTable.COLUMN_MONTHLY_TIME)
+               .append(" between ")
+               .append(startTime)
+               .append(" AND ")
+               .append(endTime);
+        return queryListBySql(sb.toString());
     }
 
     private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(MonthlyInfoTable.TABLE_NAME);
-        if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) || !Util.isEmpty(month)) {
             sb.append(" WHERE ");
         }
-        if (!TextUtils.isEmpty(year)) {
+        if (!Util.isEmpty(year)) {
             sb.append(" strftime('%Y',")
               .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
               .append(year)
               .append("' ");
         }
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) && !Util.isEmpty(month)) {
             sb.append(" AND ");
         }
-        if (!TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(month)) {
             sb.append(" strftime('%m',")
               .append(MonthlyInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
@@ -241,7 +235,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
                 cursor.getString(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_REMARK)),
                 cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_LAST_UPDATE_TIME)),
                 cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_TIME)),
-                cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_WAGE)));
+                cursor.getFloat(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_MONTHLY_WAGE)));
     }
 
     @Override public boolean backup(final File file) throws Exception{
@@ -307,7 +301,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
     private static final int CORRECT_LENGTH = 13;
 
     private MonthlyInfo toMonthlyInfo(String content) {
-        if (TextUtils.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
+        if (Util.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
             return null;
         }
         final String[] data = content.split(Consts.BACKUP_SEPARATOR);
@@ -343,7 +337,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
                                   .append(Consts.BACKUP_SEPARATOR)
                                   .append(item.getFormatTime())
                                   .append(Consts.BACKUP_SEPARATOR)
-                                  .append(TextUtils.isEmpty(item.getRemark())
+                                  .append(Util.isEmpty(item.getRemark())
                                           ? Consts.EMPTY_CONTENT
                                           : item.getRemark())
                                   .append(Consts.BACKUP_SEPARATOR)

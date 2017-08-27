@@ -3,7 +3,6 @@ package com.classic.wages.db.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.table.MonthlyInfoTable;
@@ -13,6 +12,7 @@ import com.classic.wages.ui.rules.ICalculationRules;
 import com.classic.wages.utils.CloseUtil;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.LogUtil;
+import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
 
@@ -93,7 +93,8 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
                 cursor.getString(cursor.getColumnIndex(WorkInfoTable.COLUMN_REMARK)),
                 cursor.getLong(cursor.getColumnIndex(MonthlyInfoTable.COLUMN_LAST_UPDATE_TIME)),
                 cursor.getLong(cursor.getColumnIndex(WorkInfoTable.COLUMN_STARTING_TIME)),
-                cursor.getLong(cursor.getColumnIndex(WorkInfoTable.COLUMN_END_TIME)));
+                cursor.getLong(cursor.getColumnIndex(WorkInfoTable.COLUMN_END_TIME)),
+                cursor.getInt(cursor.getColumnIndex(WorkInfoTable.COLUMN_REST_TIME)));
     }
 
     @Override public Observable<List<WorkInfo>> query(String year, String month) {
@@ -162,20 +163,20 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
 
     private String getSql(String year, String month) {
         final StringBuilder sb = new StringBuilder("SELECT * FROM ").append(WorkInfoTable.TABLE_NAME);
-        if (!TextUtils.isEmpty(year) || !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) || !Util.isEmpty(month)) {
             sb.append(" WHERE ");
         }
-        if (!TextUtils.isEmpty(year)) {
+        if (!Util.isEmpty(year)) {
             sb.append(" strftime('%Y',")
               .append(WorkInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
               .append(year)
               .append("' ");
         }
-        if (!TextUtils.isEmpty(year) && !TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(year) && !Util.isEmpty(month)) {
             sb.append(" AND ");
         }
-        if (!TextUtils.isEmpty(month)) {
+        if (!Util.isEmpty(month)) {
             sb.append(" strftime('%m',")
               .append(WorkInfoTable.COLUMN_FORMAT_TIME)
               .append(")='")
@@ -200,6 +201,7 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
         ContentValues values = new ContentValues();
         values.put(WorkInfoTable.COLUMN_STARTING_TIME, workInfo.getStartingTime());
         values.put(WorkInfoTable.COLUMN_END_TIME, workInfo.getEndTime());
+        values.put(WorkInfoTable.COLUMN_REST_TIME, workInfo.getRestTime());
         values.put(WorkInfoTable.COLUMN_WEEK, workInfo.getWeek());
         values.put(WorkInfoTable.COLUMN_MULTIPLE, workInfo.getMultiple());
         values.put(WorkInfoTable.COLUMN_FORMAT_TIME, workInfo.getFormatTime());
@@ -309,20 +311,22 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
     private static final int CORRECT_LENGTH = 13;
 
     private WorkInfo toWorkInfo(String content) {
-        if (TextUtils.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
+        if (Util.isEmpty(content) || content.indexOf(Consts.BACKUP_SEPARATOR) <= 0) {
             return null;
         }
         final String[] data = content.split(Consts.BACKUP_SEPARATOR);
         final int rulesType = Integer.parseInt(data[0]);
-        return data.length == CORRECT_LENGTH && rulesType == ICalculationRules.RULES_DEFAULT
-               ? new WorkInfo(Long.parseLong(data[1]), Long.parseLong(data[2]),
+        if (rulesType != ICalculationRules.RULES_DEFAULT || data.length < CORRECT_LENGTH) {
+            return null;
+        }
+        int restTime = data.length > 13 ? Integer.parseInt(data[13]) : 0;
+        return new WorkInfo(Long.parseLong(data[1]), Long.parseLong(data[2]),
                               Integer.parseInt(data[3]), Float.parseFloat(data[4]),
                               Float.parseFloat(data[5]), Float.parseFloat(data[6]),
                               Float.parseFloat(data[7]), data[8],
                               (Consts.EMPTY_CONTENT.equals(data[9]) ? "" : data[9]),
                               Long.parseLong(data[10]), Long.parseLong(data[11]),
-                              Long.parseLong(data[12]))
-               : null;
+                              Long.parseLong(data[12]), restTime);
     }
 
     private String toString(WorkInfo item) {
@@ -345,7 +349,7 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
                                   .append(Consts.BACKUP_SEPARATOR)
                                   .append(item.getFormatTime())
                                   .append(Consts.BACKUP_SEPARATOR)
-                                  .append(TextUtils.isEmpty(item.getRemark())
+                                  .append(Util.isEmpty(item.getRemark())
                                           ? Consts.EMPTY_CONTENT
                                           : item.getRemark())
                                   .append(Consts.BACKUP_SEPARATOR)
@@ -354,6 +358,8 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
                                   .append(item.getStartingTime())
                                   .append(Consts.BACKUP_SEPARATOR)
                                   .append(item.getEndTime())
+                                  .append(Consts.BACKUP_SEPARATOR)
+                                  .append(item.getRestTime())
                                   .append(Consts.LINE_FEED)
                                   .toString();
     }

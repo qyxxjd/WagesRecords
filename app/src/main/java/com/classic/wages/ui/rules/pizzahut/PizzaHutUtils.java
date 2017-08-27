@@ -4,14 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.classic.wages.entity.WorkInfo;
 import com.classic.wages.utils.DataUtil;
-import com.classic.wages.utils.DateUtil;
 import com.classic.wages.utils.Util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * 应用名称: WagesRecords
@@ -36,7 +31,7 @@ final class PizzaHutUtils {
         PizzaHutWagesDetailEntity entity = new PizzaHutWagesDetailEntity();
         //总工作时长
         final float dayHours = Util.ms2hour(info.getEndTime() - info.getStartingTime());
-        entity.totalNightHours = getNightHours(info);
+        entity.totalNightHours = Util.getNightHours(info.getEndTime());
         entity.totalNormalHours = dayHours;
 
         if (dayHours >= 8f) {
@@ -68,21 +63,6 @@ final class PizzaHutUtils {
         entity.totalWages = entity.totalNormalWages + entity.totalRestWages + entity.totalNightWages
                 + entity.totalBonus + entity.totalSubsidy - entity.totalDeductions;
         return entity;
-    }
-
-    //晚上10点后的小时数
-    private static float getNightHours(WorkInfo info) {
-        try {
-            long time = info.getEndTime();
-            Date date = new SimpleDateFormat(DateUtil.FORMAT_DATE_TIME, Locale.CHINA).parse(
-                    DateUtil.formatDate(DateUtil.FORMAT_DATE, time) + " 22:00:00");
-            if (time > date.getTime()) {
-                return Util.ms2hour(time - date.getTime());
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0f;
     }
 
     static PizzaHutWagesDetailEntity getTotalWages(List<WorkInfo> list, float hourlyWage,

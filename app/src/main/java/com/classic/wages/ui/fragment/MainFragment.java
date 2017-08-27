@@ -6,8 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import cn.qy.util.activity.R;
+
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.MonthlyInfoDao;
@@ -19,11 +18,16 @@ import com.classic.wages.ui.rules.IMainLogic;
 import com.classic.wages.ui.rules.basic.DefaultMainLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedDayMainLogicImpl;
 import com.classic.wages.ui.rules.fixed.FixedMonthMainLogicImpl;
+import com.classic.wages.ui.rules.kfc.KFCMainLogicImpl;
 import com.classic.wages.ui.rules.monthly.MonthlyMainLogicImpl;
 import com.classic.wages.ui.rules.pizzahut.PizzaHutMainLogicImpl;
 import com.classic.wages.ui.rules.quantity.QuantityMainLogicImpl;
 import com.classic.wages.utils.Util;
+
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import cn.qy.util.activity.R;
 
 /**
  * 文件描述：首页
@@ -32,9 +36,10 @@ import javax.inject.Inject;
  */
 public class MainFragment extends AppBaseFragment {
 
-    @BindView(R.id.main_month_wages) TextView mMonthWages;
-    @BindView(R.id.main_year_wages)  TextView mYearWages;
-    @BindView(R.id.main_total_wages) TextView mTotalWages;
+    @BindView(R.id.main_last_month_wages) TextView mLastMonthWages;
+    @BindView(R.id.main_month_wages)      TextView mMonthWages;
+    @BindView(R.id.main_year_wages)       TextView mYearWages;
+    @BindView(R.id.main_total_wages)      TextView mTotalWages;
 
     @Inject WorkInfoDao     mWorkInfoDao;
     @Inject MonthlyInfoDao  mMonthlyInfoDao;
@@ -79,11 +84,15 @@ public class MainFragment extends AppBaseFragment {
             case ICalculationRules.RULES_QUANTITY:
                 mMainLogic = new QuantityMainLogicImpl(mQuantityInfoDao);
                 break;
+            case ICalculationRules.RULES_KFC:
+                mMainLogic = new KFCMainLogicImpl(mWorkInfoDao);
+                break;
             case ICalculationRules.RULES_DEFAULT:
             default:
                 mMainLogic = new DefaultMainLogicImpl(mWorkInfoDao);
                 break;
         }
+        mMainLogic.calculationLastMonthWages(mLastMonthWages);
         mMainLogic.calculationCurrentMonthWages(mMonthWages);
         mMainLogic.calculationCurrentYearWages(mYearWages);
         mMainLogic.calculationTotalWages(mTotalWages);
