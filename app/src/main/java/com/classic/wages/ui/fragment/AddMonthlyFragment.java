@@ -14,7 +14,6 @@ import com.classic.wages.entity.MonthlyInfo;
 import com.classic.wages.ui.activity.AddActivity;
 import com.classic.wages.ui.base.AppBaseFragment;
 import com.classic.wages.utils.DateUtil;
-import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.ToastUtil;
 import com.classic.wages.utils.Util;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -96,7 +95,7 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
 
     @Override public void onAdd() {
         if (checkParams()) {
-            final float monthlyWage = Float.valueOf(mMonthlyWage.getText().toString().trim());
+            final float monthlyWage = Util.valueOf(mMonthlyWage.getText().toString());
             final MonthlyInfo info = new MonthlyInfo(mCurrentTime, monthlyWage);
             updateInfo(info);
             if(mMonthlyInfoDao.insert(info) > 0L){

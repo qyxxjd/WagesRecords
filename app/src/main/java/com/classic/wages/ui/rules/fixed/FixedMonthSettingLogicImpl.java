@@ -75,9 +75,10 @@ public class FixedMonthSettingLogicImpl extends BaseSettingLogicImpl {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
-                        mHourlyWage = MoneyUtil.replace(input.toString());
-                        mItem1Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_HOURLY_WAGE, input.toString());
+                        final String value = String.valueOf(Util.valueOf(input.toString()));
+                        mHourlyWage = MoneyUtil.replace(value);
+                        mItem1Value.setText(formatHourlyWage(value));
+                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_HOURLY_WAGE, value);
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -91,9 +92,10 @@ public class FixedMonthSettingLogicImpl extends BaseSettingLogicImpl {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
-                        mFixedHours = MoneyUtil.replace(input.toString());
-                        mItem2Value.setText(formatHours(input.toString()));
-                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_FIXED_HOURS, input.toString());
+                        final String value = String.valueOf(Util.valueOf(input.toString()));
+                        mFixedHours = MoneyUtil.replace(value);
+                        mItem2Value.setText(formatHours(value));
+                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_FIXED_HOURS, value);
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -108,9 +110,10 @@ public class FixedMonthSettingLogicImpl extends BaseSettingLogicImpl {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
-                        mOvertimeHourlyWage = MoneyUtil.replace(input.toString());
-                        mItem3Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, input.toString());
+                        final String value = String.valueOf(Util.valueOf(input.toString()));
+                        mOvertimeHourlyWage = MoneyUtil.replace(value);
+                        mItem3Value.setText(formatHourlyWage(value));
+                        Util.putPreferencesString(Consts.SP_FIXED_MONTH_OVERTIME_HOURLY_WAGE, value);
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }

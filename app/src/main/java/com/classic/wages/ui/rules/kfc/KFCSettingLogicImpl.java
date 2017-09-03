@@ -66,9 +66,10 @@ public class KFCSettingLogicImpl extends BaseSettingLogicImpl {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
-                        mHourlyWage = MoneyUtil.replace(input.toString());
-                        mItem1Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_HOURLY_WAGE, input.toString());
+                        final String value = String.valueOf(Util.valueOf(input.toString()));
+                        mHourlyWage = MoneyUtil.replace(value);
+                        mItem1Value.setText(formatHourlyWage(value));
+                        Util.putPreferencesString(Consts.SP_HOURLY_WAGE, value);
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }
@@ -82,9 +83,10 @@ public class KFCSettingLogicImpl extends BaseSettingLogicImpl {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!checkWeakReference()){ return; }
-                        mNightSubsidy = MoneyUtil.replace(input.toString());
-                        mItem3Value.setText(formatHourlyWage(input.toString()));
-                        Util.putPreferencesString(Consts.SP_NIGHT_SUBSIDY, input.toString());
+                        final String value = String.valueOf(Util.valueOf(input.toString()));
+                        mNightSubsidy = MoneyUtil.replace(value);
+                        mItem3Value.setText(formatHourlyWage(value));
+                        Util.putPreferencesString(Consts.SP_NIGHT_SUBSIDY, value);
                         ToastUtil.showToast(mAppContext, R.string.setup_success);
                         notifyRecalculation();
                     }

@@ -166,10 +166,8 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
     @Override public void onAdd() {
         if (checkParams()) {
             final String title = mTitle.getText().toString().trim();
-            final float count = Util.isEmpty(mCount.getText().toString()) ? 0 :
-                    Float.valueOf(mCount.getText().toString().trim());
-            final float unitPrice = Util.isEmpty(mUnitPrice.getText().toString()) ? 0 :
-                    Float.valueOf(mUnitPrice.getText().toString().trim());
+            final float count = Util.valueOf(mCount.getText().toString());
+            final float unitPrice = Util.valueOf(mUnitPrice.getText().toString());
             final QuantityInfo info = new QuantityInfo(mCurrentTime, title, count, unitPrice);
             updateInfo(info);
             if(mQuantityInfoDao.insert(info) > 0L){
