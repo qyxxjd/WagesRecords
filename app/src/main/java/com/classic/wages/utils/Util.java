@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.ui.widget.CircularDrawable;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -343,5 +344,15 @@ import io.reactivex.functions.Consumer;
             e.printStackTrace();
         }
         return 0f;
+    }
+
+    public static float valueOf(String text) {
+        try {
+            return Util.isEmpty(text) ? 0 : Float.valueOf(text.trim());
+        } catch (Exception e) {
+            // 主动上报异常
+            CrashReport.postCatchedException(e);
+            return 0F;
+        }
     }
 }
