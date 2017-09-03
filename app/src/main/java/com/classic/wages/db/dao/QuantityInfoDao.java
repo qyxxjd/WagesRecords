@@ -15,6 +15,7 @@ import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -283,6 +284,9 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
             for (QuantityInfo item : backupData) {
                 fileWriter.write(QuantityInfoDao.this.toString(item));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             CloseUtil.close(fileWriter);
             CloseUtil.close(cursor);
@@ -318,6 +322,9 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
                 }
             }
             transaction.markSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             transaction.end();
             CloseUtil.close(bufferedReader);
@@ -334,7 +341,7 @@ public class QuantityInfoDao implements IDao<QuantityInfo>, IBackup {
             return null;
         }
         final String[] data = content.split(Consts.BACKUP_SEPARATOR);
-        return data.length == CORRECT_LENGTH &&
+        return data.length >= CORRECT_LENGTH &&
                        Integer.parseInt(data[0]) == ICalculationRules.RULES_QUANTITY
                ? new QuantityInfo(Long.parseLong(data[1]), Long.parseLong(data[2]),
                                   Integer.parseInt(data[3]), Float.parseFloat(data[4]),

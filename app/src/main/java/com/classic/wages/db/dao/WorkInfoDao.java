@@ -15,6 +15,7 @@ import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -264,6 +265,9 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
             for (WorkInfo item : backupData) {
                 fileWriter.write(WorkInfoDao.this.toString(item));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             CloseUtil.close(fileWriter);
             CloseUtil.close(cursor);
@@ -299,6 +303,9 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
                 }
             }
             transaction.markSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             transaction.end();
             CloseUtil.close(bufferedReader);

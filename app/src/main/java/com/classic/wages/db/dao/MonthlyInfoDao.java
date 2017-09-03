@@ -14,6 +14,7 @@ import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.Util;
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.SqlBrite;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -254,6 +255,9 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
             for (MonthlyInfo item : backupData) {
                 fileWriter.write(MonthlyInfoDao.this.toString(item));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             CloseUtil.close(fileWriter);
             CloseUtil.close(cursor);
@@ -289,6 +293,9 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
                 }
             }
             transaction.markSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
         } finally {
             transaction.end();
             CloseUtil.close(bufferedReader);
@@ -305,7 +312,7 @@ public class MonthlyInfoDao implements IDao<MonthlyInfo>, IBackup {
             return null;
         }
         final String[] data = content.split(Consts.BACKUP_SEPARATOR);
-        return data.length == CORRECT_LENGTH &&
+        return data.length >= CORRECT_LENGTH &&
                        Integer.parseInt(data[0]) == ICalculationRules.RULES_MONTHLY
                ? new MonthlyInfo(Long.parseLong(data[1]), Long.parseLong(data[2]),
                                  Integer.parseInt(data[3]), Float.parseFloat(data[4]),
