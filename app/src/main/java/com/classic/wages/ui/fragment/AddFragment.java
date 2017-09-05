@@ -162,6 +162,14 @@ public class AddFragment extends AppBaseFragment implements AddActivity.Listener
         } else if (mHolidayThree.isChecked()) {
             info.setMultiple(3f);
         } else if (mHolidayCustom.isChecked()) {
+            /**
+             * TODO 
+             * Fix:
+             * 1.java.lang.NumberFormatException
+             *   Invalid float: ""
+             * 
+             * 2. 全局搜索：Float.valueOf ，处理异常
+             */
             final float multiple = Float.valueOf(mHolidayCustomValue.getText().toString());
             info.setMultiple(multiple);
         }
