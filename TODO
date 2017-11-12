@@ -1,14 +1,53 @@
+2017-10-19
+1. 工资列表页面偶尔不显示数据
+2. 计件工资一天内的重复数据进行合并，设置页面添加合并开关
+3. 添加数据页面默认把当前时间设置到View,减少操作
+
+2017-09-25
+数据备份完成后，调用系统分享功能（文件名改下，用户容易看懂，恢复数据方便）
+
+2017-09-18
+列表页面-月工资详情按钮点击没反应（魅族MX5）
+
+2017-09-17
+添加工资页面添加一键添加最后一次工资信息
+单独添加月工资详情页面
+
 2017-08-18
 添加肯德基兼职模式
   1. 肯德基没有带薪休息  
   2. 肯德基从22：30以后享受晚班补贴, 以每小时 N 元进行补贴
   3. 能够直接从工作时间中减去休息的时间
 
-2017-08-16
-首页工资信息动态可配置（本月、上月、本年、总收入）
-
 2017-07-20
 计件工资添加页面，支持添加多条数据
 
 
 ------------------------------
+
+fix:
+
+ Caused by:
+ java.lang.NumberFormatException:Invalid long: "NaN"
+ java.lang.Long.invalidLong(Long.java:124)
+ java.lang.Long.parse(Long.java:363)
+ java.lang.Long.parseLong(Long.java:353)
+ java.lang.Long.parseLong(Long.java:321)
+ java.math.BigDecimal.<init>(BigDecimal.java:344)
+ java.math.BigDecimal.<init>(BigDecimal.java:425)
+ com.classic.wages.utils.MoneyUtil.objectToBigDecimal(MoneyUtil.java:41)
+ com.classic.wages.utils.MoneyUtil.newInstance(MoneyUtil.java:89)
+ com.classic.wages.utils.MoneyUtil.replace(MoneyUtil.java:72)
+ com.classic.wages.utils.MoneyUtil.replace(MoneyUtil.java:84)
+ com.classic.wages.ui.rules.base.BaseMainLogicImpl$1.onNext(BaseMainLogicImpl.java:84)
+ com.classic.wages.ui.rules.base.BaseMainLogicImpl$1.onNext(BaseMainLogicImpl.java:76)
+ io.reactivex.internal.operators.observable.ObservableObserveOn$ObserveOnObserver.drainNormal(ObservableObserveOn.java:200)
+ io.reactivex.internal.operators.observable.ObservableObserveOn$ObserveOnObserver.run(ObservableObserveOn.java:252)
+ io.reactivex.android.schedulers.HandlerScheduler$ScheduledRunnable.run(HandlerScheduler.java:109)
+ android.os.Handler.handleCallback(Handler.java:815)
+ android.os.Handler.dispatchMessage(Handler.java:104)
+ android.os.Looper.loop(Looper.java:207)
+ android.app.ActivityThread.main(ActivityThread.java:5856)
+ java.lang.reflect.Method.invoke(Native Method)
+ com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1026)
+ com.android.internal.os.ZygoteInit.main(ZygoteInit.java:887)

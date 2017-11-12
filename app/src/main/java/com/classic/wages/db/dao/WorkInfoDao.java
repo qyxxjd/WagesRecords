@@ -36,6 +36,7 @@ public class WorkInfoDao implements IDao<WorkInfo>, IBackup {
     }
 
     @Override public long insert(@NonNull WorkInfo workInfo) {
+        // TODO 捕获异常、版本信息，并上报bugly
         return mDatabase.insert(WorkInfoTable.TABLE_NAME, convert(workInfo, false));
     }
 

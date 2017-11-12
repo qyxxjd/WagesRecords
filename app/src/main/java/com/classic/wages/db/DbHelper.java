@@ -24,17 +24,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
+            // TODO 跨版本升级测试
             db.beginTransaction();
             switch (newVersion) {
                 case 3:
                     update3(db);
-                    break;
                 case 4:
                     update4(db);
-                    break;
                 case 5:
                     update5(db);
-                    break;
                 default:
                     break;
             }
