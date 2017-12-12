@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.db.dao.QuantityInfoDao;
 import com.classic.wages.entity.BasicInfo;
@@ -115,7 +115,7 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
 
     private void loadTemplate() {
         mQuantityInfoDao.queryTemplate()
-                .compose(RxUtil.<List<QuantityInfo>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                .compose(RxTransformer.<List<QuantityInfo>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                 .subscribe(new Consumer<List<QuantityInfo>>() {
                     @Override
                     public void accept(@io.reactivex.annotations.NonNull List<QuantityInfo> quantityInfos) throws Exception {
@@ -223,6 +223,9 @@ public class AddQuantityFragment extends AppBaseFragment implements AddActivity.
                 return;
             }
             setValues(mQuantityInfo);
+        } else {
+            mWorkTime.setText(DateUtil.formatDate(FORMAT, System.currentTimeMillis()));
+            mWorkTimeHint.setVisibility(View.VISIBLE);
         }
     }
 

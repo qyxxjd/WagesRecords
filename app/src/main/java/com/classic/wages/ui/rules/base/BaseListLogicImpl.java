@@ -10,7 +10,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.adapter.BaseAdapterHelper;
 import com.classic.adapter.CommonRecyclerAdapter;
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.entity.BasicInfo;
@@ -86,7 +86,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         // 普通查询
         Observable<List<T>> observable = mDao.query(year, formatMonth(month));
         if (null != observable) {
-            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+            observable.compose(RxTransformer.<List<T>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                       .subscribe(getAdapter(), Util.ERROR_ACTION);
         }
     }
@@ -96,7 +96,7 @@ public abstract class BaseListLogicImpl<T extends BasicInfo> implements IListLog
         //                                  "," + DateUtil.formatDate(DateUtil.FORMAT_DATE_TIME, endTime));
         Observable<List<T>> observable = mDao.query(startTime, endTime);
         if (null != observable) {
-            observable.compose(RxUtil.<List<T>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+            observable.compose(RxTransformer.<List<T>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                       .subscribe(getAdapter(), Util.ERROR_ACTION);
         }
     }

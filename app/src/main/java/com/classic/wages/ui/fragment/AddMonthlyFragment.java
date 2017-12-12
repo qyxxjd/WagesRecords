@@ -147,6 +147,9 @@ public class AddMonthlyFragment extends AppBaseFragment implements AddActivity.L
                 return;
             }
             setValues(mMonthlyInfo);
+        } else {
+            mMonthlyTime.setText(DateUtil.formatDate(FORMAT, System.currentTimeMillis()));
+            mMonthlyTimeHint.setVisibility(View.VISIBLE);
         }
     }
 

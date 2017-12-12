@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.classic.android.consts.MIME;
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.android.utils.SDCardUtil;
 import com.classic.wages.app.WagesApplication;
 import com.classic.wages.consts.Consts;
@@ -170,7 +170,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 emitter.onNext(isMonthlySuccess && isQuantitySuccess && isWorkInfoSuccess);
                 emitter.onComplete();
             }
-        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Boolean>() {
+        }).compose(RxTransformer.<Boolean>applySchedulers(RxTransformer.Observable.IO_ON_UI)).subscribe(new Observer<Boolean>() {
             Disposable mDisposable;
             @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
                 mDisposable = d;
@@ -178,6 +178,10 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
 
             @Override public void onNext(@io.reactivex.annotations.NonNull Boolean aBoolean) {
                 ToastUtil.showLongToast(mAppContext, getString(R.string.data_backup_success, file.getAbsolutePath()));
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("*/txt");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, file);
+                startActivity(Intent.createChooser(sharingIntent, "share file with"));
             }
 
             @Override public void onError(@io.reactivex.annotations.NonNull Throwable e) {
@@ -215,7 +219,7 @@ public class SettingFragment extends AppBaseFragment implements MaterialSpinner.
                 emitter.onNext(isMonthlySuccess && isQuantitySuccess && isWorkInfoSuccess);
                 emitter.onComplete();
             }
-        }).compose(RxUtil.<Boolean>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Boolean>() {
+        }).compose(RxTransformer.<Boolean>applySchedulers(RxTransformer.Observable.IO_ON_UI)).subscribe(new Observer<Boolean>() {
             Disposable mDisposable;
             @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
                 mDisposable = d;

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.wages.entity.BasicInfo;
 import com.classic.wages.ui.pop.WagesDetailPopupWindow;
 import com.classic.wages.ui.rules.IWagesDetailLogic;
@@ -36,7 +36,7 @@ public abstract class BaseWagesDetailLogicImpl<T extends BasicInfo> implements I
         mWeakReference = new WeakReference<>(activity);
 
         Observable.just(convert(list))
-                  .compose(RxUtil.<List<String>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+                  .compose(RxTransformer.<List<String>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                   .subscribe(new Observer<List<String>>() {
                       Disposable mDisposable;
                       @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {

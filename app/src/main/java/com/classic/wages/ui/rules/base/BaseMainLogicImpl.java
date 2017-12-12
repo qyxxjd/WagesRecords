@@ -3,13 +3,12 @@ package com.classic.wages.ui.rules.base;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.wages.consts.Consts;
 import com.classic.wages.db.dao.IDao;
 import com.classic.wages.ui.rules.IMainLogic;
 import com.classic.wages.utils.DataUtil;
 import com.classic.wages.utils.DateUtil;
-import com.classic.wages.utils.LogUtil;
 import com.classic.wages.utils.MoneyUtil;
 import com.classic.wages.utils.Util;
 
@@ -73,7 +72,7 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
                     throws Exception {
                 return Observable.just(DataUtil.isEmpty(list) ? 0f : getTotalWages(list));
             }
-        }).compose(RxUtil.<Float>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER)).subscribe(new Observer<Float>() {
+        }).compose(RxTransformer.<Float>applySchedulers(RxTransformer.Observable.IO_ON_UI)).subscribe(new Observer<Float>() {
             Disposable mDisposable;
             @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
                 mDisposable = d;
@@ -87,7 +86,6 @@ public abstract class BaseMainLogicImpl<T> implements IMainLogic {
 
             @Override public void onError(@io.reactivex.annotations.NonNull Throwable e) {
                 Util.clear(mDisposable);
-                LogUtil.e(e.getMessage());
             }
 
             @Override public void onComplete() {

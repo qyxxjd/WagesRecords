@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.classic.android.rx.RxUtil;
+import com.classic.android.rx.RxTransformer;
 import com.classic.wages.entity.QuantityInfo;
 import com.classic.wages.ui.pop.WagesDetailPopupWindow;
 import com.classic.wages.ui.rules.base.BaseWagesDetailLogicImpl;
@@ -49,7 +49,7 @@ public class QuantityWagesDetailLogicImpl extends BaseWagesDetailLogicImpl<Quant
                 e.onNext(data);
                 e.onComplete();
             }
-        }).compose(RxUtil.<List<List<String>>>applySchedulers(RxUtil.IO_ON_UI_TRANSFORMER))
+        }).compose(RxTransformer.<List<List<String>>>applySchedulers(RxTransformer.Observable.IO_ON_UI))
                 .subscribe(new Observer<List<List<String>>>() {
                     Disposable mDisposable;
                     @Override public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {

@@ -146,7 +146,12 @@ import io.reactivex.functions.Consumer;
 
     public static float getNumber(@NonNull EditText editText) {
         final String number = editText.getText().toString();
-        return Util.isEmpty(number) ? 0f : Float.valueOf(number);
+        try {
+            return Util.isEmpty(number) ? 0f : Float.valueOf(number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0f;
     }
 
     public static CircularDrawable getCircularDrawable(int color, float radius) {
